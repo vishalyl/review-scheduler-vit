@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Users, UserPlus, School, Calendar, Clock, Plus, UserX } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -56,24 +55,24 @@ export default function ClassroomManagementPage() {
     const fetchClassroomData = async () => {
       try {
         setLoading(true);
-        
+
         // Fetch classroom details first
         const classroomResponse = await fetch(`/api/classrooms/${classroomId}/data`);
-        
+
         if (!classroomResponse.ok) {
           const errorData = await classroomResponse.json();
           throw new Error(errorData.message || 'Failed to fetch classroom data');
         }
-        
+
         const classroomData = await classroomResponse.json();
         console.log('Received classroom data:', classroomData);
-        
+
         setClassroom(classroomData.classroom);
         setStudents(classroomData.students || []);
-        
+
         // Fetch teams separately using the dedicated endpoint
         const teamsResponse = await fetch(`/api/classrooms/${classroomId}/teams`);
-        
+
         if (teamsResponse.ok) {
           const teamsData = await teamsResponse.json();
           console.log('Received teams data:', teamsData);
@@ -150,7 +149,7 @@ export default function ClassroomManagementPage() {
                 onClick={() => router.back()}
                 className="p-2 rounded-lg bg-[#1a1a1a] hover:bg-[#252525] transition-colors"
               >
-                <ArrowLeft size={18} />
+                <span className="text-lg">←</span>
               </button>
               <div>
                 <h1 className="text-xl font-medium">{classroom.name}</h1>
@@ -160,15 +159,13 @@ export default function ClassroomManagementPage() {
 
             <div className="flex flex-wrap gap-3 mb-6">
               <div className="bg-[#1a1a1a] text-[#a0a0a0] px-4 py-2 rounded-lg flex items-center gap-2 text-sm border border-[#252525]">
-                <Users size={16} />
-                <span>{students.length} students</span>
+                <span>👥 {students.length} students</span>
               </div>
               <div className="bg-[#1a1a1a] text-[#a0a0a0] px-4 py-2 rounded-lg flex items-center gap-2 text-sm border border-[#252525]">
-                <School size={16} />
-                <span>{teams.length} teams</span>
+                <span>🏫 {teams.length} teams</span>
               </div>
               <div className="bg-[#1a1a1a] text-[#a0a0a0] px-4 py-2 rounded-lg flex items-center gap-2 text-sm border border-[#252525]">
-                <Calendar size={16} />
+                <span>📅</span>
                 <span>
                   {Object.keys(classroom.review_deadlines || {}).length > 0
                     ? `${Object.keys(classroom.review_deadlines).length} deadlines`
@@ -198,21 +195,19 @@ export default function ClassroomManagementPage() {
             <div className="border-b border-[#1e1e1e] mb-6">
               <div className="flex gap-6">
                 <button
-                  className={`pb-3 px-1 ${
-                    activeTab === 'students'
-                      ? 'text-white border-b-2 border-[#5c46f5] font-medium'
-                      : 'text-[#a0a0a0] hover:text-white transition-colors'
-                  }`}
+                  className={`pb-3 px-1 ${activeTab === 'students'
+                    ? 'text-white border-b-2 border-[#5c46f5] font-medium'
+                    : 'text-[#a0a0a0] hover:text-white transition-colors'
+                    }`}
                   onClick={() => setActiveTab('students')}
                 >
                   Students
                 </button>
                 <button
-                  className={`pb-3 px-1 ${
-                    activeTab === 'teams'
-                      ? 'text-white border-b-2 border-[#5c46f5] font-medium'
-                      : 'text-[#a0a0a0] hover:text-white transition-colors'
-                  }`}
+                  className={`pb-3 px-1 ${activeTab === 'teams'
+                    ? 'text-white border-b-2 border-[#5c46f5] font-medium'
+                    : 'text-[#a0a0a0] hover:text-white transition-colors'
+                    }`}
                   onClick={() => setActiveTab('teams')}
                 >
                   Teams
@@ -232,7 +227,7 @@ export default function ClassroomManagementPage() {
 
                 {!students || students.length === 0 ? (
                   <div className="p-6 text-center text-[#a0a0a0]">
-                    <UserX size={24} className="mx-auto mb-3 text-[#505050]" />
+                    <div className="text-4xl mb-3">👤</div>
                     <p className="text-sm">No students have joined this classroom yet</p>
                     <p className="text-xs mt-2">Share the invitation code with your students</p>
                   </div>
@@ -287,7 +282,7 @@ export default function ClassroomManagementPage() {
 
                 {!teams || teams.length === 0 ? (
                   <div className="p-6 text-center text-[#a0a0a0]">
-                    <Users size={24} className="mx-auto mb-3 text-[#505050]" />
+                    <div className="text-4xl mb-3">👥</div>
                     <p className="text-sm">No teams have been created in this classroom yet</p>
                     <p className="text-xs mt-2">Students can create teams after joining</p>
                   </div>
@@ -325,11 +320,10 @@ export default function ClassroomManagementPage() {
                                       {member.roll_number || '-'}
                                     </td>
                                     <td className="px-4 py-2">
-                                      <span className={`px-2 py-1 rounded text-xs ${
-                                        member.role === 'leader' 
-                                          ? 'bg-[#1a1a1a] text-[#5c46f5] border border-[#252525]' 
-                                          : 'bg-[#1a1a1a] text-[#a0a0a0] border border-[#252525]'
-                                      }`}>
+                                      <span className={`px-2 py-1 rounded text-xs ${member.role === 'leader'
+                                        ? 'bg-[#1a1a1a] text-[#5c46f5] border border-[#252525]'
+                                        : 'bg-[#1a1a1a] text-[#a0a0a0] border border-[#252525]'
+                                        }`}>
                                         {member.role || 'member'}
                                       </span>
                                     </td>

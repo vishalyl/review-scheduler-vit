@@ -219,13 +219,17 @@ export async function GET(
       // Update students with team info
       for (const student of formattedStudents) {
         const membership = teamMemberships.find(tm => tm.student_id === student.id && tm.team);
-        if (membership) {
-          student.team = {
-            id: membership.team.id,
-            name: membership.team.name,
-            project_title: membership.team.project_title,
-            role: membership.role
-          };
+        if (membership && membership.team) {
+          // Handle team as it could be an object or array from Supabase
+          const teamData: any = Array.isArray(membership.team) ? membership.team[0] : membership.team;
+          if (teamData) {
+            student.team = {
+              id: teamData.id,
+              name: teamData.name,
+              project_title: teamData.project_title,
+              role: membership.role
+            };
+          }
         }
       }
     }

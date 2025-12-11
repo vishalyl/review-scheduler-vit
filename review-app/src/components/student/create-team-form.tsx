@@ -25,7 +25,7 @@ export default function CreateTeamForm({ classroomId, onSuccess, onCancel }: Cre
   const [teamId, setTeamId] = useState<number | null>(null);
   const [invitationCode, setInvitationCode] = useState<string | null>(null);
   const supabase = createClientComponentClient();
-  
+
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     defaultValues: {
       name: '',
@@ -41,7 +41,7 @@ export default function CreateTeamForm({ classroomId, onSuccess, onCancel }: Cre
     try {
       // Get current user
       const { data: { user: currentUser } } = await supabase.auth.getUser();
-      
+
       if (!currentUser) {
         throw new Error('User not found');
       }
@@ -80,8 +80,7 @@ export default function CreateTeamForm({ classroomId, onSuccess, onCancel }: Cre
           name: data.name,
           project_title: data.projectTitle,
           max_members: data.maxMembers,
-          classroom_id: classroomId,
-          members: [] // Initialize with empty array
+          classroom_id: classroomId
         })
         .select()
         .single();
@@ -117,7 +116,7 @@ export default function CreateTeamForm({ classroomId, onSuccess, onCancel }: Cre
       setTeamId(team.id);
       setInvitationCode(teamWithCode.invitation_code);
       setSuccess(true);
-      
+
       setTimeout(() => {
         if (onSuccess) onSuccess(team.id);
       }, 3000);
@@ -138,7 +137,7 @@ export default function CreateTeamForm({ classroomId, onSuccess, onCancel }: Cre
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-xl font-medium">Create New Team</h3>
         {onCancel && (
-          <button 
+          <button
             onClick={onCancel}
             className="text-[#a0a0a0] hover:text-white transition-colors duration-200"
           >
@@ -154,13 +153,13 @@ export default function CreateTeamForm({ classroomId, onSuccess, onCancel }: Cre
           </div>
           <h4 className="text-lg font-medium mb-2">Team created successfully!</h4>
           <p className="text-[#a0a0a0] text-center mb-6">Your team has been created and you've been added as the team leader</p>
-          
+
           {invitationCode && (
             <div className="w-full bg-[#1a1a1a] border border-[#252525] rounded-lg p-4 mb-6">
               <p className="text-sm text-[#a0a0a0] mb-2">Share this code with your teammates:</p>
               <div className="flex items-center justify-between">
                 <p className="text-xl font-mono font-bold tracking-wider text-blue-400">{invitationCode}</p>
-                <button 
+                <button
                   className="text-blue-400 hover:text-blue-300 text-sm transition-colors duration-200"
                   onClick={() => {
                     navigator.clipboard.writeText(invitationCode);
@@ -172,7 +171,7 @@ export default function CreateTeamForm({ classroomId, onSuccess, onCancel }: Cre
               </div>
             </div>
           )}
-          
+
           <button
             onClick={() => {
               if (onSuccess && teamId) onSuccess(teamId);
@@ -195,7 +194,7 @@ export default function CreateTeamForm({ classroomId, onSuccess, onCancel }: Cre
                 className="w-full bg-[#1a1a1a] border border-[#252525] rounded-md px-4 py-2 text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter a name for your team"
                 disabled={isSubmitting}
-                {...register('name', { 
+                {...register('name', {
                   required: 'Team name is required',
                   maxLength: {
                     value: 50,
@@ -218,7 +217,7 @@ export default function CreateTeamForm({ classroomId, onSuccess, onCancel }: Cre
                 className="w-full bg-[#1a1a1a] border border-[#252525] rounded-md px-4 py-2 text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your project title (optional)"
                 disabled={isSubmitting}
-                {...register('projectTitle', { 
+                {...register('projectTitle', {
                   maxLength: {
                     value: 100,
                     message: 'Project title cannot exceed 100 characters'
@@ -239,7 +238,7 @@ export default function CreateTeamForm({ classroomId, onSuccess, onCancel }: Cre
                   id="maxMembers"
                   className="w-full bg-[#1a1a1a] border border-[#252525] rounded-md px-4 py-2 text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 appearance-none"
                   disabled={isSubmitting}
-                  {...register('maxMembers', { 
+                  {...register('maxMembers', {
                     required: 'Maximum members is required',
                     min: {
                       value: 1,

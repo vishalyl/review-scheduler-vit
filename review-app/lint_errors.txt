@@ -1,0 +1,336 @@
+
+> review-app@0.1.0 lint
+> next lint
+
+
+./src/app/(auth)/login/page.tsx
+1:8  Error: 'Link' is defined but never used.  @typescript-eslint/no-unused-vars
+4:10  Error: 'motion' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/(auth)/signup/page.tsx
+1:8  Error: 'Link' is defined but never used.  @typescript-eslint/no-unused-vars
+4:10  Error: 'motion' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/(auth)/verify/page.tsx
+48:23  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/(auth)/verify-email/page.tsx
+3:10  Error: 'useEffect' is defined but never used.  @typescript-eslint/no-unused-vars
+3:21  Error: 'useState' is defined but never used.  @typescript-eslint/no-unused-vars
+10:9  Error: 'router' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+29:13  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+35:50  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/app/actions/auth.ts
+46:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/auth/create-user/route.ts
+55:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/classrooms/create/route.ts
+84:45  Error: 'checkError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+139:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/classrooms/join/route.ts
+82:35  Error: 'classroomError' is never reassigned. Use 'const' instead.  prefer-const
+96:42  Error: 'altError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+117:46  Error: 'membershipError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+146:24  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+183:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/classrooms/[id]/data/route.ts
+231:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/classrooms/[id]/students/route.ts
+68:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/classrooms/[id]/teams/route.ts
+33:19  Error: 'classroom' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+177:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/faculty/get-faculty-name/route.ts
+39:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/faculty/slots/route.ts
+5:27  Error: 'request' is defined but never used.  @typescript-eslint/no-unused-vars
+37:43  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+49:43  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+88:53  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/faculty/submissions/route.ts
+5:27  Error: 'request' is defined but never used.  @typescript-eslint/no-unused-vars
+89:63  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/slots/available/[classroomId]/route.ts
+132:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/slots/book/route.ts
+77:43  Error: 'existingBookingError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+145:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/slots/publish/route.ts
+120:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/student/slots/route.ts
+5:27  Error: 'request' is defined but never used.  @typescript-eslint/no-unused-vars
+83:28  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+96:40  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+103:46  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+110:39  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+112:34  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+125:27  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+126:24  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+135:38  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+143:53  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+147:58  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/faculty/classroom/[id]/page.tsx
+5:28  Error: 'UserPlus' is defined but never used.  @typescript-eslint/no-unused-vars
+5:56  Error: 'Clock' is defined but never used.  @typescript-eslint/no-unused-vars
+5:63  Error: 'Plus' is defined but never used.  @typescript-eslint/no-unused-vars
+85:23  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/faculty/dashboard/page.tsx
+6:43  Error: 'Settings' is defined but never used.  @typescript-eslint/no-unused-vars
+18:36  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+19:48  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+22:50  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+23:50  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+24:66  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+25:10  Error: 'slotsLoading' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+31:62  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+36:10  Error: 'parsedSchedule' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+42:10  Error: 'highlightedSlot' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+42:27  Error: 'setHighlightedSlot' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+57:10  Error: 'slotsWithDates' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+67:9  Error: 'toggleSlotSelection' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+70:11  Error: 'slotKey' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+105:21  Error: 'allClassrooms' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+105:43  Error: 'allClassroomsError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+267:6  Warning: React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+285:16  Error: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+316:16  Error: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+330:9  Error: 'getDayFullName' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+381:13  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+831:37  Error: 'data' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+1035:29  Error: 'classroomId' is defined but never used.  @typescript-eslint/no-unused-vars
+1061:10  Error: 'getDayFullName' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/page.tsx
+8:8  Error: 'Image' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/student/classroom/[id]/page.tsx
+6:38  Error: 'FileText' is defined but never used.  @typescript-eslint/no-unused-vars
+6:55  Error: 'School' is defined but never used.  @typescript-eslint/no-unused-vars
+67:23  Error: 'membership' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+254:23  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+314:62  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+314:83  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+314:102  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/app/student/classroom/[id]/slots/page.tsx
+63:23  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+125:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+206:94  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+375:53  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/app/student/classroom/[id]/teams/page.tsx
+7:28  Error: 'UserPlus' is defined but never used.  @typescript-eslint/no-unused-vars
+7:68  Error: 'AlertCircle' is defined but never used.  @typescript-eslint/no-unused-vars
+95:23  Error: 'classroomStudent' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+236:23  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+306:63  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+306:84  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+306:103  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+371:31  Error: 'teamId' is defined but never used.  @typescript-eslint/no-unused-vars
+389:31  Error: 'teamId' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/student/dashboard/page.tsx
+5:10  Error: 'createClient' is defined but never used.  @typescript-eslint/no-unused-vars
+10:33  Error: 'FileText' is defined but never used.  @typescript-eslint/no-unused-vars
+16:8  Error: 'ClassroomCard' is defined but never used.  @typescript-eslint/no-unused-vars
+32:36  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+33:38  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+35:58  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+36:10  Error: 'availableSlots' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+36:56  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+37:10  Error: 'slotsLoading' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+49:10  Error: 'isNewUser' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+49:21  Error: 'setIsNewUser' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+56:5  Error: 'isOnboardingComplete' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+82:9  Error: 'bookSlot' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+108:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+233:43  Error: 'teamsError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+242:46  Error: 'studentsError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+319:49  Error: 'teamMembersError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+388:9  Error: 'getDayDate' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+414:6  Warning: React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+591:96  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+606:71  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+664:124  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+778:69  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/app/student/slots/page.tsx
+13:10  Error: 'loading' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+13:19  Error: 'setLoading' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/student/team/[id]/page.tsx
+6:37  Error: 'Clock' is defined but never used.  @typescript-eslint/no-unused-vars
+54:10  Error: 'bookedSlots' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+178:44  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+235:74  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+247:23  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+339:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+396:66  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+396:87  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+396:106  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/components/auth/login-form.tsx
+105:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/auth/signup-form.tsx
+108:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+130:15  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/components/faculty/classroom-details-modal.tsx
+6:51  Error: 'User2' is defined but never used.  @typescript-eslint/no-unused-vars
+41:16  Error: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/faculty/create-classroom-form.tsx
+118:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/faculty/date-based-slots.tsx
+4:20  Error: 'Clock' is defined but never used.  @typescript-eslint/no-unused-vars
+4:30  Error: 'CheckCircle' is defined but never used.  @typescript-eslint/no-unused-vars
+52:11  Error: 'dateString' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+98:84  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/components/faculty/date-selector-first.tsx
+4:32  Error: 'formatDateForInput' is defined but never used.  @typescript-eslint/no-unused-vars
+5:22  Error: 'CalendarIcon' is defined but never used.  @typescript-eslint/no-unused-vars
+5:63  Error: 'Check' is defined but never used.  @typescript-eslint/no-unused-vars
+21:10  Error: 'selectedDate' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+21:24  Error: 'setSelectedDate' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/faculty/review-slots-section-fixed.tsx
+6:20  Error: 'Clock' is defined but never used.  @typescript-eslint/no-unused-vars
+6:27  Error: 'Filter' is defined but never used.  @typescript-eslint/no-unused-vars
+38:21  Error: 'setSortOrder' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+70:9  Error: 'fetchClassrooms' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+114:60  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+152:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+165:6  Warning: React Hook useEffect has a missing dependency: 'fetchReviewSlots'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+216:6  Warning: React Hook useEffect has a missing dependency: 'applyFilters'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+274:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/faculty/review-slots-section.tsx
+6:20  Error: 'Clock' is defined but never used.  @typescript-eslint/no-unused-vars
+6:27  Error: 'Filter' is defined but never used.  @typescript-eslint/no-unused-vars
+39:21  Error: 'setSortOrder' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+71:9  Error: 'fetchClassrooms' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+124:60  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+178:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+191:6  Warning: React Hook useEffect has a missing dependency: 'fetchReviewSlots'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+242:6  Warning: React Hook useEffect has a missing dependency: 'applyFilters'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+306:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/faculty/slot-date-selector.tsx
+5:32  Error: 'formatDateForInput' is defined but never used.  @typescript-eslint/no-unused-vars
+10:18  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/onboarding/join-classroom-step.tsx
+18:10  Error: 'classroomId' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+71:48  Error: 'enrollmentError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+146:61  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/components/onboarding/join-team-step.tsx
+21:48  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+143:44  Error: 'memberCheckError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/onboarding/onboarding-context.tsx
+97:6  Warning: React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/onboarding/onboarding-controller.tsx
+8:8  Error: 'OnboardingProgress' is defined but never used.  @typescript-eslint/no-unused-vars
+15:36  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+50:6  Warning: React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+81:34  Error: 'classroomId' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/onboarding/onboarding-progress.tsx
+5:23  Error: 'AlertCircle' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/onboarding/schedule-review-step.tsx
+3:56  Error: 'ChevronRight' is defined but never used.  @typescript-eslint/no-unused-vars
+181:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+251:39  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/components/onboarding/welcome-screen.tsx
+3:20  Error: 'useEffect' is defined but never used.  @typescript-eslint/no-unused-vars
+5:24  Error: 'CheckCircle' is defined but never used.  @typescript-eslint/no-unused-vars
+17:9  Error: 'router' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+57:30  Error: 'step' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/shared/activity-feed.tsx
+12:12  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+14:11  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+213:14  Error: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/shared/classroom-details-modal.tsx
+4:18  Error: 'AnimatePresence' is defined but never used.  @typescript-eslint/no-unused-vars
+6:30  Error: 'School' is defined but never used.  @typescript-eslint/no-unused-vars
+6:51  Error: 'User2' is defined but never used.  @typescript-eslint/no-unused-vars
+21:10  Error: 'loading' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+21:19  Error: 'setLoading' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+22:10  Error: 'error' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+22:17  Error: 'setError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+48:16  Error: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/shared/student-layout.tsx
+12:9  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/student/classroom-card.tsx
+22:19  Error: '_' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/student/create-team-form.tsx
+61:42  Error: 'teamError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+124:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+156:92  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/components/student/enhanced-join-classroom-modal.tsx
+21:10  Error: 'classroomId' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+74:48  Error: 'enrollmentError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+169:65  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/components/student/enhanced-review-slots.tsx
+5:10  Error: 'motion' is defined but never used.  @typescript-eslint/no-unused-vars
+17:40  Error: 'isSameDay' is defined but never used.  @typescript-eslint/no-unused-vars
+72:48  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+115:105  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+142:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+153:6  Warning: React Hook useCallback has a missing dependency: 'fetchClassrooms'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+341:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+382:6  Warning: React Hook useEffect has a missing dependency: 'fetchUserTeams'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+407:57  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+581:25  Error: 'today' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/student/join-classroom-form.tsx
+4:18  Error: 'AnimatePresence' is defined but never used.  @typescript-eslint/no-unused-vars
+68:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/student/join-team-form.tsx
+76:42  Error: 'existingTeamError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+125:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/student/review-slots-section.tsx
+120:9  Error: Parsing error: ')' expected.
+
+./src/components/ui/calendar.tsx
+52:25  Error: 'props' is defined but never used.  @typescript-eslint/no-unused-vars
+53:26  Error: 'props' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/lib/supabase.ts
+53:20  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+90:9  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+142:12  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

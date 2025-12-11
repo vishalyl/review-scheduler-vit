@@ -40,7 +40,7 @@ export async function getUserRole(supabaseUserId: string) {
     .select('role')
     .eq('supabase_user_id', supabaseUserId)
     .single();
-    
+
   if (error) throw new Error('Failed to fetch user role');
   return data?.role;
 }
@@ -144,7 +144,6 @@ export async function createTeam(teamData: {
 }) {
   return supabase.from('teams').insert({
     name: teamData.name,
-    members: teamData.members,
     classroom_id: teamData.classroomId,
   });
 }

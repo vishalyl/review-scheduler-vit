@@ -45,7 +45,7 @@ export default function TeamPage() {
   const params = useParams();
   const router = useRouter();
   const teamId = params.id as string;
-  
+
   const [team, setTeam] = useState<Team | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -72,10 +72,10 @@ export default function TeamPage() {
     const fetchTeamData = async () => {
       try {
         setLoading(true);
-        
+
         // Get current user
         const { data: { user: currentUser } } = await supabase.auth.getUser();
-        
+
         if (!currentUser) {
           throw new Error('User not found');
         }
@@ -114,6 +114,8 @@ export default function TeamPage() {
             id,
             name,
             project_title,
+            project_description,
+            project_tags,
             invitation_code,
             max_members,
             classroom_id,
@@ -165,11 +167,11 @@ export default function TeamPage() {
             )
           `)
           .eq('team_id', teamId);
-          
+
         if (bookingsError) {
           console.error('Error fetching bookings:', bookingsError);
         }
-        
+
         // Get classroom names for the booked slots
         const bookedSlotsWithClassrooms: BookedSlot[] = [];
         if (bookings && bookings.length > 0) {
@@ -182,15 +184,15 @@ export default function TeamPage() {
                 .select('name')
                 .eq('id', slots.classroom_id)
                 .single();
-                
+
               const classroomName = classroomData ? classroomData.name : 'Unknown Classroom';
-              
+
               // Format the date
               const slotDate = slots.slot_date ? new Date(slots.slot_date) : null;
-              const formattedDate = slotDate ? 
-                new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).format(slotDate) : 
+              const formattedDate = slotDate ?
+                new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).format(slotDate) :
                 slots.day;
-              
+
               bookedSlotsWithClassrooms.push({
                 id: slots.id,
                 day: slots.day,
@@ -204,7 +206,7 @@ export default function TeamPage() {
             }
           }
         }
-        
+
         // Sort booked slots by date/time
         bookedSlotsWithClassrooms.sort((a, b) => {
           // First compare by date if available
@@ -218,16 +220,16 @@ export default function TeamPage() {
           // Then by start time
           return a.start_time.localeCompare(b.start_time);
         });
-        
+
         setBookedSlots(bookedSlotsWithClassrooms);
-        
+
         // Format team data
         const formattedTeam = {
           id: teamData.id,
           name: teamData.name,
           project_title: teamData.project_title || '',
-          project_description: null,
-          project_tags: [],
+          project_description: teamData.project_description || null,
+          project_tags: teamData.project_tags || [],
           invitation_code: teamData.invitation_code,
           max_members: teamData.max_members,
           classroom_id: teamData.classroom_id,
@@ -266,7 +268,7 @@ export default function TeamPage() {
 
       // Get current user
       const { data: { user: currentUser } } = await supabase.auth.getUser();
-      
+
       if (!currentUser) {
         throw new Error('User not found');
       }
@@ -287,7 +289,7 @@ export default function TeamPage() {
         // If there are other members, promote the next member to leader
         if (team.members.length > 1) {
           const nextLeader = team.members.find(member => member.id !== userData?.id);
-          
+
           if (nextLeader) {
             // Promote next member to leader
             const { error: promoteError } = await supabase
@@ -310,7 +312,7 @@ export default function TeamPage() {
           if (deleteTeamError) {
             throw deleteTeamError;
           }
-          
+
           if (team) {
             router.push(`/student/classroom/${team.classroom_id}`);
           } else {
@@ -376,8 +378,8 @@ export default function TeamPage() {
         <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-8 max-w-md">
           <h2 className="text-lg font-medium mb-3 text-red-400">Error</h2>
           <p className="text-[#a0a0a0] text-sm mb-6">{error}</p>
-          <Link 
-            href="/student/dashboard" 
+          <Link
+            href="/student/dashboard"
             className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-md inline-flex items-center gap-2 text-sm font-medium shadow-md shadow-blue-500/10"
           >
             <ChevronLeft size={16} />
@@ -394,8 +396,8 @@ export default function TeamPage() {
         <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-8 max-w-md">
           <h2 className="text-lg font-medium mb-3">Team Not Found</h2>
           <p className="text-[#a0a0a0] text-sm mb-6">The team you're looking for doesn't exist or you don't have access to it.</p>
-          <Link 
-            href="/student/dashboard" 
+          <Link
+            href="/student/dashboard"
             className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-md inline-flex items-center gap-2 text-sm font-medium shadow-md shadow-blue-500/10"
           >
             <ChevronLeft size={16} />
@@ -416,8 +418,8 @@ export default function TeamPage() {
             <h1 className="text-lg font-medium">Review Scheduler</h1>
           </Link>
           <div className="flex items-center gap-4">
-            <button 
-              onClick={() => {}}
+            <button
+              onClick={() => { }}
               className="w-8 h-8 rounded-full bg-[#1e1e1e] hover:bg-[#252525] flex items-center justify-center transition-colors duration-200 relative group"
             >
               <span className="absolute -bottom-8 right-0 bg-[#252525] text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">View Profile</span>
@@ -426,18 +428,18 @@ export default function TeamPage() {
           </div>
         </div>
       </header>
-      
+
       {/* Main content */}
       <main className="container mx-auto px-6 py-8">
-        <motion.div 
+        <motion.div
           initial="hidden"
           animate="visible"
           variants={containerVariants}
           className="mb-8"
         >
           <motion.div variants={itemVariants} className="mb-8">
-            <Link 
-              href="/student/dashboard" 
+            <Link
+              href="/student/dashboard"
               className="text-[#a0a0a0] hover:text-white inline-flex items-center gap-2 mb-4 text-sm transition-colors duration-200"
             >
               <ChevronLeft size={16} />
@@ -471,7 +473,7 @@ export default function TeamPage() {
                     <p className="text-[#a0a0a0] text-xs mt-1">Details about your team</p>
                   </div>
                   {team.is_leader && (
-                    <button 
+                    <button
                       onClick={() => setShowEditProject(true)}
                       className="text-xs px-3 py-1.5 bg-[#252525] hover:bg-[#303030] text-white rounded-md transition-colors flex items-center gap-1.5"
                     >
@@ -480,7 +482,7 @@ export default function TeamPage() {
                     </button>
                   )}
                 </div>
-                
+
                 <div className="space-y-5">
                   {/* Project Overview Card */}
                   <div className="bg-gradient-to-r from-[#1a1a2e] to-[#16213e] rounded-lg border border-[#272741] p-5 shadow-lg">
@@ -493,7 +495,7 @@ export default function TeamPage() {
                         <p className="text-[#a0a0a0] text-xs mt-0.5">Team: {team.name}</p>
                       </div>
                     </div>
-                    
+
                     {/* Project Stats */}
                     <div className="grid grid-cols-3 gap-3 mb-4">
                       <div className="bg-[#0f0f1a] rounded-md p-3">
@@ -518,7 +520,7 @@ export default function TeamPage() {
                         </div>
                       </div>
                     </div>
-                    
+
                     {/* Project Description */}
                     {team.project_description ? (
                       <div className="bg-[#0f0f1a] rounded-md p-3 mb-3">
@@ -526,7 +528,7 @@ export default function TeamPage() {
                         <p className="text-xs text-[#e0e0e0]">{team.project_description}</p>
                       </div>
                     ) : team.is_leader ? (
-                      <button 
+                      <button
                         onClick={() => setShowEditProject(true)}
                         className="w-full bg-[#0f0f1a] rounded-md p-3 mb-3 text-left hover:bg-[#141428] transition-colors"
                       >
@@ -542,7 +544,7 @@ export default function TeamPage() {
                         <p className="text-xs text-[#a0a0a0] italic">No description provided yet</p>
                       </div>
                     )}
-                    
+
                     {/* Project Tags */}
                     <div className="flex flex-wrap gap-2">
                       {team.project_tags && team.project_tags.length > 0 ? (
@@ -558,7 +560,7 @@ export default function TeamPage() {
                       )}
                     </div>
                   </div>
-                  
+
                   {/* Team Access */}
                   <div className="bg-[#1a1a1a] rounded-lg p-4">
                     <h4 className="text-xs font-medium mb-3">Team Access</h4>
@@ -567,7 +569,7 @@ export default function TeamPage() {
                         <p className="text-[10px] text-[#a0a0a0] mb-1">Invitation Code</p>
                         <p className="font-mono text-sm">{team.invitation_code}</p>
                       </div>
-                      <button 
+                      <button
                         onClick={() => {
                           navigator.clipboard.writeText(team.invitation_code);
                           setCodeCopied(true);
@@ -589,7 +591,7 @@ export default function TeamPage() {
                       </button>
                     </div>
                   </div>
-                  
+
                   {/* Your Status */}
                   <div className="bg-[#1a1a1a] rounded-lg p-4">
                     <h4 className="text-xs font-medium mb-3">Your Status</h4>
@@ -605,8 +607,8 @@ export default function TeamPage() {
                       <div>
                         <p className="text-[10px] text-[#a0a0a0] mb-1">Joined</p>
                         <p className="text-xs">
-                          {team.members.find(m => m.role === (team.is_leader ? 'leader' : 'member'))?.joined_at ? 
-                            new Date(team.members.find(m => m.role === (team.is_leader ? 'leader' : 'member'))?.joined_at || '').toLocaleDateString() : 
+                          {team.members.find(m => m.role === (team.is_leader ? 'leader' : 'member'))?.joined_at ?
+                            new Date(team.members.find(m => m.role === (team.is_leader ? 'leader' : 'member'))?.joined_at || '').toLocaleDateString() :
                             'Unknown'}
                         </p>
                       </div>
@@ -615,7 +617,7 @@ export default function TeamPage() {
                 </div>
               </div>
             </motion.div>
-            
+
             {/* Team Members */}
             <motion.div variants={itemVariants}>
               <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-5">
@@ -632,14 +634,14 @@ export default function TeamPage() {
                     </div>
                   )}
                 </div>
-                
+
                 <div className="space-y-4">
                   {/* Team Members List */}
                   <div className="bg-[#1a1a1a] rounded-lg overflow-hidden">
                     <div className="bg-[#0f0f0f] px-4 py-2 border-b border-[#252525] flex items-center justify-between">
                       <h4 className="text-xs font-medium">Members ({team.members.length}/{team.max_members})</h4>
                       {team.members.length < team.max_members && (
-                        <button 
+                        <button
                           onClick={() => navigator.clipboard.writeText(team.invitation_code)}
                           className="text-[10px] text-[#a0a0a0] hover:text-white flex items-center gap-1 transition-colors"
                         >
@@ -648,10 +650,10 @@ export default function TeamPage() {
                         </button>
                       )}
                     </div>
-                    
+
                     {team.members.map((member, index) => (
-                      <div 
-                        key={member.id} 
+                      <div
+                        key={member.id}
                         className={`flex items-center justify-between p-4 ${index !== team.members.length - 1 ? 'border-b border-[#252525]' : ''}`}
                       >
                         <div className="flex items-center gap-3">
@@ -661,9 +663,8 @@ export default function TeamPage() {
                           <div>
                             <div className="flex items-center gap-2">
                               <p className="text-sm font-medium">{member.name}</p>
-                              <span className={`text-[10px] px-2 py-0.5 rounded-full ${
-                                member.role === 'leader' ? 'bg-purple-500/10 text-purple-400' : 'bg-blue-500/10 text-blue-400'
-                              }`}>
+                              <span className={`text-[10px] px-2 py-0.5 rounded-full ${member.role === 'leader' ? 'bg-purple-500/10 text-purple-400' : 'bg-blue-500/10 text-blue-400'
+                                }`}>
                                 {member.role === 'leader' ? 'Leader' : 'Member'}
                               </span>
                             </div>
@@ -672,11 +673,11 @@ export default function TeamPage() {
                             )}
                           </div>
                         </div>
-                        
+
                         {/* Role Management (Only for team leader) */}
                         {team.is_leader && member.id !== team.members.find(m => m.role === 'leader')?.id && (
                           <div className="flex items-center gap-2">
-                            <button 
+                            <button
                               className="text-xs px-3 py-1 bg-[#252525] hover:bg-[#303030] text-[#a0a0a0] hover:text-white rounded-md transition-colors"
                               onClick={async () => {
                                 if (confirm(`Are you sure you want to promote ${member.name} to team leader? You will become a regular member.`)) {
@@ -684,25 +685,25 @@ export default function TeamPage() {
                                     // Get current user
                                     const { data: { user: currentUser } } = await supabase.auth.getUser();
                                     if (!currentUser) throw new Error('User not found');
-                                    
+
                                     // Get user details
                                     const { data: userData } = await supabase
                                       .from('users')
                                       .select('id')
                                       .eq('supabase_user_id', currentUser.id)
                                       .single();
-                                    
+
                                     if (!userData) {
                                       throw new Error('User data not found');
                                     }
-                                    
+
                                     // Update roles in a transaction
                                     await supabase.rpc('transfer_team_leadership', {
                                       p_team_id: team.id,
                                       p_old_leader_id: userData.id,
                                       p_new_leader_id: member.id
                                     });
-                                    
+
                                     // Refresh page
                                     window.location.reload();
                                   } catch (error) {
@@ -714,7 +715,7 @@ export default function TeamPage() {
                             >
                               Promote to Leader
                             </button>
-                            <button 
+                            <button
                               className="text-xs px-3 py-1 bg-red-900/20 hover:bg-red-900/30 text-red-400 hover:text-red-300 rounded-md transition-colors"
                               onClick={async () => {
                                 if (confirm(`Are you sure you want to remove ${member.name} from the team?`)) {
@@ -725,9 +726,9 @@ export default function TeamPage() {
                                       .delete()
                                       .eq('team_id', team.id)
                                       .eq('student_id', member.id);
-                                      
+
                                     if (error) throw error;
-                                    
+
                                     // Refresh page
                                     window.location.reload();
                                   } catch (error) {
@@ -744,7 +745,7 @@ export default function TeamPage() {
                       </div>
                     ))}
                   </div>
-                  
+
                   {/* Invitation Section */}
                   {team.members.length < team.max_members && (
                     <div className="bg-[#1a1a1a] rounded-lg p-4 border border-[#252525]">
@@ -753,7 +754,7 @@ export default function TeamPage() {
                         <div className="flex-1 bg-[#0f0f0f] border border-[#252525] rounded-md px-3 py-2">
                           <p className="font-mono text-sm">{team.invitation_code}</p>
                         </div>
-                        <button 
+                        <button
                           onClick={() => {
                             navigator.clipboard.writeText(team.invitation_code);
                             setCodeCopied(true);
@@ -783,7 +784,7 @@ export default function TeamPage() {
               </div>
             </motion.div>
           </div>
-          
+
           {/* Upcoming Reviews */}
           <motion.div variants={itemVariants}>
             <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-5">
@@ -793,7 +794,7 @@ export default function TeamPage() {
                   <p className="text-[#a0a0a0] text-xs mt-1">Scheduled review sessions</p>
                 </div>
               </div>
-              
+
               {team?.booked_slots && team.booked_slots.length > 0 ? (
                 <div className="overflow-x-auto">
                   <table className="w-full">
@@ -847,7 +848,7 @@ export default function TeamPage() {
           <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-medium">Edit Project Details</h3>
-              <button 
+              <button
                 onClick={() => setShowEditProject(false)}
                 className="text-[#a0a0a0] hover:text-white transition-colors"
               >
@@ -857,21 +858,37 @@ export default function TeamPage() {
                 </svg>
               </button>
             </div>
-            
+
             <form onSubmit={async (e) => {
               e.preventDefault();
               try {
-                const { error } = await supabase
+                console.log('=== UPDATE DEBUG ===');
+                console.log('projectTitle state:', projectTitle);
+                console.log('projectDescription state:', projectDescription);
+                console.log('projectTags state:', projectTags);
+                console.log('team.project_title:', team.project_title);
+                console.log('team.project_description:', team.project_description);
+                console.log('team.project_tags:', team.project_tags);
+
+                const updateData = {
+                  project_title: projectTitle !== null && projectTitle !== undefined ? projectTitle : team.project_title,
+                  project_description: projectDescription !== null && projectDescription !== undefined ? projectDescription : team.project_description,
+                  project_tags: projectTags.length > 0 ? projectTags : (team.project_tags || [])
+                };
+
+                console.log('Sending update:', updateData);
+
+                const { data, error } = await supabase
                   .from('teams')
-                  .update({
-                    project_title: projectTitle || team.project_title,
-                    project_description: projectDescription || null,
-                    project_tags: projectTags.length > 0 ? projectTags : null
-                  })
-                  .eq('id', team.id);
-                  
+                  .update(updateData)
+                  .eq('id', team.id)
+                  .select();
+
+                console.log('Update response:', { data, error });
+
                 if (error) throw error;
-                
+
+                console.log('Update successful, reloading page...');
                 // Refresh page
                 window.location.reload();
               } catch (error) {
@@ -893,7 +910,7 @@ export default function TeamPage() {
                     placeholder="Enter project title"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="projectDescription" className="block text-sm font-medium text-[#a0a0a0] mb-1">
                     Project Description
@@ -906,7 +923,7 @@ export default function TeamPage() {
                     placeholder="Describe your project"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-[#a0a0a0] mb-1">
                     Project Tags
@@ -915,7 +932,7 @@ export default function TeamPage() {
                     {(projectTags.length > 0 ? projectTags : (team.project_tags || [])).map((tag, index) => (
                       <div key={index} className="bg-[#252525] text-white px-2 py-1 rounded-md text-xs flex items-center gap-1">
                         {tag}
-                        <button 
+                        <button
                           type="button"
                           onClick={() => {
                             const newTags = [...(projectTags.length > 0 ? projectTags : (team.project_tags || []))];
@@ -940,7 +957,7 @@ export default function TeamPage() {
                       className="flex-1 bg-[#1a1a1a] border border-[#252525] rounded-l-md px-3 py-2 text-white focus:outline-none focus:ring-1 focus:ring-[#5c46f5] focus:border-[#5c46f5] transition-all"
                       placeholder="Add a tag"
                     />
-                    <button 
+                    <button
                       type="button"
                       onClick={() => {
                         if (newTag.trim()) {
@@ -955,16 +972,16 @@ export default function TeamPage() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex justify-end mt-6 gap-3">
-                <button 
+                <button
                   type="button"
                   onClick={() => setShowEditProject(false)}
                   className="px-4 py-2 text-[#a0a0a0] hover:text-white transition-colors"
                 >
                   Cancel
                 </button>
-                <button 
+                <button
                   type="submit"
                   className="bg-[#5c46f5] hover:bg-[#4c38e6] text-white px-4 py-2 rounded-md transition-colors"
                 >

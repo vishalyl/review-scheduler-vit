@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { AlertTriangle, ArrowLeft, LogOut } from 'lucide-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function AuthErrorPage() {
@@ -55,7 +54,7 @@ export default function AuthErrorPage() {
         className="w-full max-w-md text-center p-8 rounded-xl"
       >
         <div className="w-20 h-20 bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
-          <AlertTriangle className="h-10 w-10 text-red-500" />
+          <div className="text-red-500 text-4xl font-bold">!</div>
         </div>
 
         <h2 className="text-3xl font-bold mb-4">{errorTitle}</h2>
@@ -76,17 +75,15 @@ export default function AuthErrorPage() {
         <div className="flex flex-col space-y-3">
           <button
             onClick={handleSignOut}
-            className="bg-red-900/30 text-white border border-red-800 py-3 px-6 rounded-lg font-medium hover:bg-red-900/50 transition-colors flex items-center justify-center"
+            className="bg-red-900/30 text-white border border-red-800 py-3 px-6 rounded-lg font-medium hover:bg-red-900/50 transition-colors"
           >
-            <LogOut className="h-4 w-4 mr-2" />
             Sign Out
           </button>
 
           <Link
             href="/"
-            className="bg-gray-900 text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors flex items-center justify-center"
+            className="bg-gray-900 text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors"
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
             Return to Home
           </Link>
         </div>

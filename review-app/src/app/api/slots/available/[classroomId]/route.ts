@@ -8,34 +8,34 @@ export async function GET(
 ) {
   try {
     const classroomId = params.classroomId;
-    
+
     // Create a Supabase client with the user's cookies
     const supabase = createRouteHandlerClient({ cookies });
-    
+
     // Verify the user is authenticated
     const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
     if (authError || !user) {
       return NextResponse.json(
         { message: 'Unauthorized' },
         { status: 401 }
       );
     }
-    
+
     // Get user data
     const { data: userData, error: userError } = await supabase
       .from('users')
       .select('id, role')
       .eq('supabase_user_id', user.id)
       .single();
-      
+
     if (userError) {
       return NextResponse.json(
         { message: 'User not found' },
         { status: 404 }
       );
     }
-    
+
     // Verify user is a member of the classroom
     if (userData.role === 'student') {
       const { data: classroomStudent, error: classroomStudentError } = await supabase
@@ -44,7 +44,7 @@ export async function GET(
         .eq('classroom_id', classroomId)
         .eq('student_id', userData.id)
         .single();
-        
+
       if (classroomStudentError || !classroomStudent) {
         return NextResponse.json(
           { message: 'You are not a member of this classroom' },
@@ -58,7 +58,7 @@ export async function GET(
         .eq('id', classroomId)
         .eq('faculty_id', user.id)
         .single();
-        
+
       if (classroomError || !classroom) {
         return NextResponse.json(
           { message: 'You do not own this classroom' },
@@ -71,7 +71,7 @@ export async function GET(
         { status: 403 }
       );
     }
-    
+
     // Get available slots for the classroom
     const { data: slots, error: slotsError } = await supabase
       .from('slots')
@@ -80,16 +80,16 @@ export async function GET(
       .eq('is_available', true)
       .order('day')
       .order('start_time');
-      
+
     if (slotsError) {
       return NextResponse.json(
         { message: 'Error fetching slots' },
         { status: 500 }
       );
     }
-    
+
     // Get teams for the student
-    let teams = [];
+    let teams: any[] = [];
     if (userData.role === 'student') {
       const { data: teamMembers, error: teamMembersError } = await supabase
         .from('team_members')
@@ -103,26 +103,33 @@ export async function GET(
           role
         `)
         .eq('student_id', userData.id);
-        
+
       if (!teamMembersError && teamMembers) {
         teams = teamMembers
-          .filter(tm => tm.team && tm.team.classroom_id === parseInt(classroomId))
-          .map(tm => ({
-            ...tm.team,
-            isLeader: tm.role === 'leader'
-          }));
+          .filter(tm => {
+            if (!tm.team) return false;
+            const teamData: any = Array.isArray(tm.team) ? tm.team[0] : tm.team;
+            return teamData && teamData.classroom_id === parseInt(classroomId);
+          })
+          .map(tm => {
+            const teamData: any = Array.isArray(tm.team) ? tm.team[0] : tm.team;
+            return {
+              ...teamData,
+              isLeader: tm.role === 'leader'
+            };
+          });
       }
     }
-    
+
     // Group slots by day
-    const slotsByDay = {};
+    const slotsByDay: Record<string, any[]> = {};
     slots.forEach(slot => {
       if (!slotsByDay[slot.day]) {
         slotsByDay[slot.day] = [];
       }
       slotsByDay[slot.day].push(slot);
     });
-    
+
     return NextResponse.json({
       slots,
       slotsByDay,

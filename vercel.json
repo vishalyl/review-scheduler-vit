@@ -1,0 +1,7 @@
+{
+    "buildCommand": "cd review-app && npm run build",
+    "devCommand": "cd review-app && npm run dev",
+    "installCommand": "cd review-app && npm install",
+    "framework": "nextjs",
+    "outputDirectory": "review-app/.next"
+}

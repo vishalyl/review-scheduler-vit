@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     const requestData = await request.json();
     const { classroomId, slots, duration, reviewStage, bookingDeadline } = requestData;
-    
+
     // Validate required fields
     if (!classroomId || !slots || !duration || !reviewStage || !bookingDeadline) {
       return NextResponse.json(
@@ -14,34 +14,34 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    
+
     // Create a Supabase client with the user's cookies
     const supabase = createRouteHandlerClient({ cookies });
-    
+
     // Verify the user is authenticated and is a faculty
     const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
     if (authError || !user) {
       return NextResponse.json(
         { message: 'Unauthorized' },
         { status: 401 }
       );
     }
-    
+
     // Verify user is faculty
     const { data: userData, error: userError } = await supabase
       .from('users')
       .select('role')
       .eq('supabase_user_id', user.id)
       .single();
-      
+
     if (userError || userData?.role !== 'faculty') {
       return NextResponse.json(
         { message: 'Only faculty can publish slots' },
         { status: 403 }
       );
     }
-    
+
     // Add debug logging
     console.log('Publishing slots with data:', {
       classroomId,
@@ -50,24 +50,11 @@ export async function POST(request: Request) {
       duration,
       bookingDeadline
     });
-    
-    // First, update the classroom with the booking deadline for this review stage
-    const { error: updateError } = await supabase
-      .from('classrooms')
-      .update({
-        [`booking_deadlines`]: supabase.sql`jsonb_set(
-          coalesce(booking_deadlines, '{}'::jsonb),
-          '{${reviewStage}}',
-          '"${bookingDeadline}"'
-        )`
-      })
-      .eq('id', classroomId);
-      
-    if (updateError) {
-      console.error('Error updating classroom booking deadline:', updateError);
-      // Continue anyway, as this is not critical
-    }
-    
+
+
+    // The publish_review_slots RPC function handles the booking deadline update
+    // No need to update it separately here
+
     // Use the publish_review_slots function to insert slots
     const { data: result, error: publishError } = await supabase.rpc(
       'publish_review_slots',
@@ -80,7 +67,7 @@ export async function POST(request: Request) {
         p_created_by: user.id
       }
     );
-    
+
     if (publishError) {
       console.error('Error publishing slots:', publishError);
       return NextResponse.json(
@@ -88,7 +75,7 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
-    
+
     // Log activity
     try {
       // Get user ID from database
@@ -97,7 +84,7 @@ export async function POST(request: Request) {
         .select('id')
         .eq('supabase_user_id', user.id)
         .single();
-        
+
       if (userIdData) {
         await supabase.from('activities').insert({
           user_id: userIdData.id,
@@ -115,7 +102,7 @@ export async function POST(request: Request) {
       console.error('Error logging activity:', logError);
       // Continue even if logging fails
     }
-    
+
     return NextResponse.json(result);
   } catch (error: any) {
     console.error('Error in slots publishing API:', error);

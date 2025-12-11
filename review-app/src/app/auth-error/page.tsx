@@ -12,12 +12,12 @@ export default function AuthErrorPage() {
   const searchParams = useSearchParams();
   const supabase = createClientComponentClient();
   const [countdown, setCountdown] = useState(5);
-  
+
   const errorType = searchParams.get('error') || 'unknown';
-  
+
   let errorTitle = 'Authentication Error';
   let errorMessage = 'An unknown authentication error occurred.';
-  
+
   switch (errorType) {
     case 'role-not-found':
       errorTitle = 'Role Not Found';
@@ -31,7 +31,7 @@ export default function AuthErrorPage() {
       errorTitle = 'Authentication Error';
       errorMessage = 'An unknown authentication error occurred. Please try signing in again.';
   }
-  
+
   useEffect(() => {
     if (countdown > 0) {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
@@ -40,12 +40,12 @@ export default function AuthErrorPage() {
       router.push('/');
     }
   }, [countdown, router]);
-  
+
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     router.push('/');
   };
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-black text-white p-4">
       <motion.div
@@ -57,10 +57,10 @@ export default function AuthErrorPage() {
         <div className="w-20 h-20 bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
           <AlertTriangle className="h-10 w-10 text-red-500" />
         </div>
-        
+
         <h2 className="text-3xl font-bold mb-4">{errorTitle}</h2>
-        
-        <motion.p 
+
+        <motion.p
           className="text-gray-400 mb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -68,11 +68,11 @@ export default function AuthErrorPage() {
         >
           {errorMessage}
         </motion.p>
-        
+
         <p className="text-gray-500 mb-8">
           Redirecting to home page in {countdown} seconds...
         </p>
-        
+
         <div className="flex flex-col space-y-3">
           <button
             onClick={handleSignOut}
@@ -81,7 +81,7 @@ export default function AuthErrorPage() {
             <LogOut className="h-4 w-4 mr-2" />
             Sign Out
           </button>
-          
+
           <Link
             href="/"
             className="bg-gray-900 text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors flex items-center justify-center"

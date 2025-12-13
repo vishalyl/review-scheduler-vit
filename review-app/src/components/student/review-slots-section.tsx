@@ -15,6 +15,7 @@ interface ReviewSlot {
   duration: number;
   classroom_id: string;
   classroom_name: string;
+  faculty_name: string;
   review_stage: string;
   status: string;
   booking_deadline?: string;

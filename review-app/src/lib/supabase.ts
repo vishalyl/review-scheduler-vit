@@ -23,7 +23,7 @@ export async function createUser(userData: {
     role: userData.role,
     department: userData.department,
     roll_number: userData.rollNumber,
-  });
+  } as any);
 }
 
 export async function getUserBySupabaseId(supabaseUserId: string) {
@@ -42,7 +42,7 @@ export async function getUserRole(supabaseUserId: string) {
     .single();
 
   if (error) throw new Error('Failed to fetch user role');
-  return data?.role;
+  return (data as any)?.role;
 }
 
 // Classroom operations
@@ -57,7 +57,7 @@ export async function createClassroom(classroomData: {
     faculty_id: classroomData.facultyId,
     link_code: classroomData.linkCode,
     review_deadlines: classroomData.reviewDeadlines,
-  });
+  } as any);
 }
 
 export async function getClassroomsByFacultyId(facultyId: string) {
@@ -92,7 +92,7 @@ export async function createTimetable(timetableData: {
   return supabase.from('timetables').insert({
     faculty_id: timetableData.facultyId,
     data: timetableData.data,
-  });
+  } as any);
 }
 
 export async function getTimetableByFacultyId(facultyId: string) {
@@ -125,7 +125,7 @@ export async function createSlot(slotData: {
     max_teams: slotData.maxTeams,
     review_stage: slotData.reviewStage,
     status: slotData.status,
-  });
+  } as any);
 }
 
 export async function getAvailableSlotsByClassroomId(classroomId: number) {
@@ -145,7 +145,7 @@ export async function createTeam(teamData: {
   return supabase.from('teams').insert({
     name: teamData.name,
     classroom_id: teamData.classroomId,
-  });
+  } as any);
 }
 
 export async function getTeamsByClassroomId(classroomId: number) {
@@ -169,7 +169,7 @@ export async function createSubmission(submissionData: {
     team_id: submissionData.teamId,
     file_url: submissionData.fileUrl,
     review_stage: submissionData.reviewStage,
-  });
+  } as any);
 }
 
 export async function getSubmissionsByTeamId(teamId: number) {
@@ -188,7 +188,7 @@ export async function createBooking(bookingData: {
   return supabase.rpc('create_booking_and_update_slot', {
     p_slot_id: bookingData.slotId,
     p_team_id: bookingData.teamId
-  });
+  } as any);
 }
 
 export async function getBookingsByTeamId(teamId: number) {

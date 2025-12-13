@@ -3,6 +3,8 @@ import { Metadata } from 'next';
 import LoginForm from '@/components/auth/login-form';
 import { motion } from 'framer-motion';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Login | VIT Review Scheduler',
   description: 'Sign in to your account',

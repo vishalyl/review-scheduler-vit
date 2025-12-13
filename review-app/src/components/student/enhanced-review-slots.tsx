@@ -99,19 +99,24 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
       if (error) throw error;
 
       if (data) {
-        const formattedSlots = data.map(slot => ({
-          id: slot.id || '',
-          classroom_id: slot.classroom_id || '',
-          classroom_name: (slot.classrooms && typeof slot.classrooms === 'object' ? (slot.classrooms as any).name || 'Unknown' : 'Unknown') as string,
-          faculty_name: '', // Removed faculty name as it's not needed
-          day: slot.day,
-          date: slot.slot_date,
-          start_time: slot.start_time,
-          end_time: slot.end_time,
-          duration: slot.duration,
-          review_stage: slot.review_stage,
-          booking_deadline: slot.booking_deadline
-        }));
+        const formattedSlots = data.map(slot => {
+          const classrooms: any = slot.classrooms;
+          const classroomName = classrooms ? (Array.isArray(classrooms) ? (classrooms[0]?.name || 'Unknown') : (classrooms.name || 'Unknown')) : 'Unknown';
+
+          return {
+            id: slot.id || '',
+            classroom_id: slot.classroom_id || '',
+            classroom_name: classroomName,
+            faculty_name: '', // Removed faculty name as it's not needed
+            day: slot.day,
+            date: slot.slot_date,
+            start_time: slot.start_time,
+            end_time: slot.end_time,
+            duration: slot.duration,
+            review_stage: slot.review_stage,
+            booking_deadline: slot.booking_deadline
+          };
+        });
 
         setAvailableSlots(formattedSlots);
         setFilteredSlots(formattedSlots);

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Calendar, Users, FileText, Settings, Clock, Upload, BookOpen, AlertCircle, CheckCircle, ChevronDown, Link } from 'lucide-react';
+import { IoAdd, IoCalendar, IoPeople, IoDocument, IoSettings, IoTime, IoCloudUpload, IoBook, IoAlertCircle, IoCheckmarkCircle, IoChevronDown, IoLink } from 'react-icons/io5';
 import LogoutButton from '@/components/auth/logout-button';
 import { parseTimetableSlots, getAllFreeSlots, FreeSlot, Schedule, splitAllSlotsByDuration } from '@/utils/timetable-parser';
 import CreateClassroomForm from '@/components/faculty/create-classroom-form';
@@ -418,7 +418,7 @@ export default function FacultyDashboard() {
                     : 'bg-[#1a1a1a] text-[#a0a0a0] hover:bg-[#252525] transition-colors'
                 }`}
               >
-                <FileText size={16} />
+                <IoDocument size={16} />
                 Overview
               </button>
               <button
@@ -429,7 +429,7 @@ export default function FacultyDashboard() {
                     : 'bg-[#1a1a1a] text-[#a0a0a0] hover:bg-[#252525] transition-colors'
                 }`}
               >
-                <Calendar size={16} />
+                <IoCalendar size={16} />
                 Timetable
               </button>
               <button
@@ -440,7 +440,7 @@ export default function FacultyDashboard() {
                     : 'bg-[#1a1a1a] text-[#a0a0a0] hover:bg-[#252525] transition-colors'
                 }`}
               >
-                <Clock size={16} />
+                <IoTime size={16} />
                 Review Slots
               </button>
               <button
@@ -451,7 +451,7 @@ export default function FacultyDashboard() {
                     : 'bg-[#1a1a1a] text-[#a0a0a0] hover:bg-[#252525] transition-colors'
                 }`}
               >
-                <FileText size={16} />
+                <IoDocument size={16} />
                 Submissions
               </button>
             </div>
@@ -468,7 +468,7 @@ export default function FacultyDashboard() {
                   onClick={() => setShowCreateClassroomForm(true)}
                   className="ml-auto bg-[#5c46f5] hover:bg-[#4c38e6] text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm transition-colors"
                 >
-                  <Plus size={16} />
+                  <IoAdd size={16} />
                   Create Classroom
                 </button>
               </motion.div>
@@ -478,7 +478,7 @@ export default function FacultyDashboard() {
                 <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-5">
                   <div className="flex justify-between items-start mb-4">
                     <div className="p-3 bg-[#1a1a1a] rounded-lg">
-                      <Users className="text-[#a0a0a0]" size={20} />
+                      <IoPeople className="text-[#a0a0a0]" size={20} />
                     </div>
                     <span className="text-xs text-[#808080]">Total</span>
                   </div>
@@ -489,7 +489,7 @@ export default function FacultyDashboard() {
                 <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-5">
                   <div className="flex justify-between items-start mb-4">
                     <div className="p-3 bg-[#1a1a1a] rounded-lg">
-                      <Users className="text-[#a0a0a0]" size={20} />
+                      <IoPeople className="text-[#a0a0a0]" size={20} />
                     </div>
                     <span className="text-xs text-[#808080]">Total</span>
                   </div>
@@ -502,7 +502,7 @@ export default function FacultyDashboard() {
                 <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-5">
                   <div className="flex justify-between items-start mb-4">
                     <div className="p-3 bg-[#1a1a1a] rounded-lg">
-                      <Calendar className="text-[#a0a0a0]" size={20} />
+                      <IoCalendar className="text-[#a0a0a0]" size={20} />
                     </div>
                     <span className="text-xs text-[#808080]">Total</span>
                   </div>
@@ -520,7 +520,7 @@ export default function FacultyDashboard() {
                 {classrooms.length === 0 ? (
                   <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-6 text-center">
                     <div className="w-14 h-14 bg-[#1a1a1a] rounded-full flex items-center justify-center mx-auto mb-4">
-                      <BookOpen className="text-[#a0a0a0]" size={20} />
+                      <IoBook className="text-[#a0a0a0]" size={20} />
                     </div>
                     <h4 className="text-base font-medium mb-2">No classrooms yet</h4>
                     <p className="text-[#a0a0a0] text-sm mb-5">Create your first classroom to get started</p>
@@ -528,7 +528,7 @@ export default function FacultyDashboard() {
                       onClick={() => setShowCreateClassroomForm(true)}
                       className="bg-[#5c46f5] hover:bg-[#4c38e6] text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 text-sm transition-colors"
                     >
-                      <Plus size={16} />
+                      <IoAdd size={16} />
                       Create Classroom
                     </button>
                   </div>
@@ -547,7 +547,7 @@ export default function FacultyDashboard() {
                         <div className="flex justify-between items-start mb-5">
                           <div className="flex items-center gap-3">
                             <div className="p-2 bg-[#1a1a1a] rounded-lg">
-                              <BookOpen className="text-[#a0a0a0]" size={16} />
+                              <IoBook className="text-[#a0a0a0]" size={16} />
                             </div>
                             <h4 className="font-medium text-base">{classroom.name}</h4>
                           </div>
@@ -559,7 +559,7 @@ export default function FacultyDashboard() {
                         <div className="grid grid-cols-2 gap-4 mb-5">
                           <div className="bg-[#1a1a1a] rounded-lg p-3 flex flex-col items-center justify-center">
                             <div className="flex items-center gap-2 mb-1">
-                              <Users size={14} className="text-[#a0a0a0]" />
+                              <IoPeople size={14} className="text-[#a0a0a0]" />
                               <span className="text-[#808080] text-xs">Students</span>
                             </div>
                             <span className="text-lg font-medium">
@@ -568,7 +568,7 @@ export default function FacultyDashboard() {
                           </div>
                           <div className="bg-[#1a1a1a] rounded-lg p-3 flex flex-col items-center justify-center">
                             <div className="flex items-center gap-2 mb-1">
-                              <Users size={14} className="text-[#a0a0a0]" />
+                              <IoPeople size={14} className="text-[#a0a0a0]" />
                               <span className="text-[#808080] text-xs">Teams</span>
                             </div>
                             <span className="text-lg font-medium">{classroom.teams_count || 0}</span>
@@ -610,7 +610,7 @@ export default function FacultyDashboard() {
                   variants={itemVariants}
                   className="bg-[#141414] border border-[#1e1e1e] rounded-lg overflow-hidden max-w-3xl mx-auto mb-4 p-4 flex items-center gap-2"
                 >
-                  <CheckCircle size={16} className="text-[#4ade80]" />
+                  <IoCheckmarkCircle size={16} className="text-[#4ade80]" />
                   <span className="text-[#4ade80] text-sm">{publishMessage}</span>
                 </motion.div>
               )}
@@ -621,7 +621,7 @@ export default function FacultyDashboard() {
                   variants={itemVariants}
                   className="bg-[#141414] border border-[#1e1e1e] rounded-lg overflow-hidden max-w-3xl mx-auto mb-4 p-4 flex items-center gap-2"
                 >
-                  <AlertCircle size={16} className="text-[#f87171]" />
+                  <IoAlertCircle size={16} className="text-[#f87171]" />
                   <span className="text-[#f87171] text-sm">{publishMessage}</span>
                 </motion.div>
               )}
@@ -632,7 +632,7 @@ export default function FacultyDashboard() {
               >
                 <div className="border-b border-[#1e1e1e] p-3">
                   <h3 className="text-base font-medium flex items-center gap-2">
-                    <Upload size={16} className="text-[#a0a0a0]" />
+                    <IoCloudUpload size={16} className="text-[#a0a0a0]" />
                     Parse Timetable
                   </h3>
                 </div>
@@ -677,7 +677,7 @@ export default function FacultyDashboard() {
                         }}
                         className="bg-[#5c46f5] text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-[#4c38e6] transition-colors text-sm"
                       >
-                        <Upload size={16} />
+                        <IoCloudUpload size={16} />
                         Parse
                       </button>
                     </div>
@@ -685,7 +685,7 @@ export default function FacultyDashboard() {
 
                   {parseError && (
                     <div className="mt-2 flex items-center gap-2 text-[#f87171] bg-[#1a1a1a] p-2 rounded-lg text-xs">
-                      <AlertCircle size={14} />
+                      <IoAlertCircle size={14} />
                       <span>{parseError}</span>
                     </div>
                   )}
@@ -694,7 +694,7 @@ export default function FacultyDashboard() {
                   {parseSuccess && (
                     <div className="mt-3 space-y-3">
                       <div className="flex items-center gap-2 text-[#4ade80] text-xs bg-[#1a1a1a] p-2 rounded-lg">
-                        <CheckCircle size={14} />
+                        <IoCheckmarkCircle size={14} />
                         <span>Timetable parsed successfully! {allFreeSlots.length} free slots found</span>
                       </div>
                       
@@ -758,7 +758,7 @@ export default function FacultyDashboard() {
                             : 'bg-[#1a1a1a] text-[#505050] cursor-not-allowed'
                         }`}
                       >
-                        <Calendar size={16} />
+                        <IoCalendar size={16} />
                         Select Dates for Publishing
                       </button>
                     </div>
@@ -915,7 +915,7 @@ export default function FacultyDashboard() {
                         ))}
                       </select>
                       <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                        <ChevronDown size={16} className="text-[#a0a0a0]" />
+                        <IoChevronDown size={16} className="text-[#a0a0a0]" />
                       </div>
                     </div>
                     
@@ -940,7 +940,7 @@ export default function FacultyDashboard() {
                         <option value="graded">Graded</option>
                       </select>
                       <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                        <ChevronDown size={16} className="text-[#a0a0a0]" />
+                        <IoChevronDown size={16} className="text-[#a0a0a0]" />
                       </div>
                     </div>
                   </div>
@@ -954,7 +954,7 @@ export default function FacultyDashboard() {
                 ) : submissions.length === 0 ? (
                   <div className="text-center py-8">
                     <div className="mb-4 mx-auto w-16 h-16 bg-[#1a1a1a] rounded-full flex items-center justify-center">
-                      <FileText size={24} className="text-[#a0a0a0]" />
+                      <IoDocument size={24} className="text-[#a0a0a0]" />
                     </div>
                     <h4 className="text-lg font-medium mb-2">No submissions yet</h4>
                     <p className="text-[#a0a0a0]">Student submissions will appear here</p>
@@ -990,7 +990,7 @@ export default function FacultyDashboard() {
                                 rel="noopener noreferrer"
                                 className="text-[#5c46f5] hover:text-[#6e5af7] transition-colors flex items-center gap-1"
                               >
-                                <Link size={12} />
+                                <IoLink size={12} />
                                 View File
                               </a>
                             )}
@@ -1005,7 +1005,7 @@ export default function FacultyDashboard() {
                                 alert(`Status would be updated to: ${newStatus}`);
                               }}
                             >
-                              <CheckCircle size={12} />
+                              <IoCheckmarkCircle size={12} />
                               {submission.status === 'Pending' ? 'Mark as Reviewed' : 
                                submission.status === 'Reviewed' ? 'Mark as Graded' : 'Update Status'}
                             </button>

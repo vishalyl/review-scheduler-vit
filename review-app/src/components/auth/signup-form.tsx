@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { CheckCircle, Loader2 } from 'lucide-react';
+import { IoCheckmarkCircle, IoSync } from 'react-icons/io5';
 import { toast } from 'sonner';
 import { createUserInDatabase } from '@/app/actions/auth';
 
@@ -124,7 +124,7 @@ export default function SignupForm() {
           transition={{ duration: 0.5 }}
           className="w-full max-w-md text-center p-8 rounded-xl"
         >
-          <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-6" />
+          <IoCheckmarkCircle className="h-16 w-16 text-green-500 mx-auto mb-6" />
           <h2 className="text-3xl font-bold mb-4">Account Created!</h2>
           <p className="text-gray-400 mb-6">
             We've sent a verification link to your email. Please check your inbox and verify your account.
@@ -280,7 +280,7 @@ export default function SignupForm() {
           >
             {isLoading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <IoSync className="mr-2 h-4 w-4 animate-spin" />
                 Creating account...
               </>
             ) : (

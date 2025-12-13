@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Users, Calendar, FileText, Clock, School, Plus } from 'lucide-react';
+import { IoArrowBack, IoPeople, IoCalendar, IoDocument, IoTime, IoSchool, IoAdd } from 'react-icons/io5';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import CreateTeamForm from '@/components/student/create-team-form';
@@ -298,7 +298,7 @@ export default function ClassroomPage() {
           <h2 className="text-xl font-bold mb-4 text-red-400">Error</h2>
           <p className="text-gray-300 mb-6">{error}</p>
           <Link href="/student/dashboard" className="bg-indigo-600 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2">
-            <ArrowLeft size={18} />
+            <IoArrowBack size={18} />
             Back to Dashboard
           </Link>
         </div>
@@ -313,7 +313,7 @@ export default function ClassroomPage() {
           <h2 className="text-xl font-bold mb-4">Classroom Not Found</h2>
           <p className="text-gray-300 mb-6">The classroom you're looking for doesn't exist or you don't have access to it.</p>
           <Link href="/student/dashboard" className="bg-indigo-600 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2">
-            <ArrowLeft size={18} />
+            <IoArrowBack size={18} />
             Back to Dashboard
           </Link>
         </div>
@@ -333,7 +333,7 @@ export default function ClassroomPage() {
         >
           <motion.div variants={itemVariants} className="mb-6">
             <Link href="/student/dashboard" className="text-indigo-400 hover:text-indigo-300 inline-flex items-center gap-2 mb-4">
-              <ArrowLeft size={18} />
+              <IoArrowBack size={18} />
               Back to Dashboard
             </Link>
             <div className="flex justify-between items-start">
@@ -351,7 +351,7 @@ export default function ClassroomPage() {
                     className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-medium"
                     onClick={() => setShowCreateTeamForm(true)}
                   >
-                    <Plus size={18} />
+                    <IoAdd size={18} />
                     Create Team
                   </motion.button>
                   <motion.button
@@ -360,7 +360,7 @@ export default function ClassroomPage() {
                     className="bg-white text-black px-4 py-2 rounded-lg flex items-center gap-2 font-medium"
                     onClick={() => setShowJoinTeamForm(true)}
                   >
-                    <Users size={18} />
+                    <IoPeople size={18} />
                     Join Team
                   </motion.button>
                 </div>
@@ -371,7 +371,7 @@ export default function ClassroomPage() {
                     whileTap={{ scale: 0.95 }}
                     className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-medium"
                   >
-                    <Users size={18} />
+                    <IoPeople size={18} />
                     View Your Team
                   </motion.button>
                 </Link>
@@ -423,7 +423,7 @@ export default function ClassroomPage() {
             <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-indigo-900/30 rounded-lg">
-                  <Users className="text-indigo-400" size={24} />
+                  <IoPeople className="text-indigo-400" size={24} />
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Students</p>
@@ -435,7 +435,7 @@ export default function ClassroomPage() {
             <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-emerald-900/30 rounded-lg">
-                  <Users className="text-emerald-400" size={24} />
+                  <IoPeople className="text-emerald-400" size={24} />
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Teams</p>
@@ -447,7 +447,7 @@ export default function ClassroomPage() {
             <Link href={`/student/classroom/${classroomId}/slots`} className="bg-gray-900 p-6 rounded-xl border border-gray-800 hover:bg-gray-800 transition-colors">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-purple-900/30 rounded-lg">
-                  <Clock className="text-purple-400" size={24} />
+                  <IoTime className="text-purple-400" size={24} />
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Review Slots</p>
@@ -460,7 +460,7 @@ export default function ClassroomPage() {
               <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-amber-900/30 rounded-lg">
-                    <Calendar className="text-amber-400" size={24} />
+                    <IoCalendar className="text-amber-400" size={24} />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Reviews</p>
@@ -525,7 +525,7 @@ export default function ClassroomPage() {
             {teams.length === 0 ? (
               <div className="bg-gray-900 border border-gray-800 rounded-xl p-8 text-center">
                 <div className="mb-4 mx-auto w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center">
-                  <Users size={24} className="text-gray-400" />
+                  <IoPeople size={24} className="text-gray-400" />
                 </div>
                 <h4 className="text-lg font-medium mb-2">No teams yet</h4>
                 <p className="text-gray-400 mb-6">Create a team or join an existing one</p>
@@ -534,14 +534,14 @@ export default function ClassroomPage() {
                     className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-medium"
                     onClick={() => setShowCreateTeamForm(true)}
                   >
-                    <Plus size={18} />
+                    <IoAdd size={18} />
                     Create Team
                   </button>
                   <button 
                     className="bg-white text-black px-4 py-2 rounded-lg flex items-center gap-2 font-medium"
                     onClick={() => setShowJoinTeamForm(true)}
                   >
-                    <Users size={18} />
+                    <IoPeople size={18} />
                     Join Team
                   </button>
                 </div>

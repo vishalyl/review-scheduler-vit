@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, Clock, CheckCircle, AlertCircle, Plus } from 'lucide-react';
+import { IoArrowBack, IoCalendar, IoTime, IoCheckmarkCircle, IoAlertCircle, IoAdd } from 'react-icons/io5';
 import Link from 'next/link';
 
 interface Slot {
@@ -199,7 +199,7 @@ export default function StudentSlotBookingPage() {
                   onClick={() => router.back()}
                   className="p-2 rounded-full bg-[#1e1e1e] hover:bg-[#252525] transition-colors duration-200"
                 >
-                  <ArrowLeft size={18} className="text-[#a0a0a0]" />
+                  <IoArrowBack size={18} className="text-[#a0a0a0]" />
                 </button>
                 <div>
                   <h1 className="text-xl font-medium">Book Review Slot</h1>
@@ -210,7 +210,7 @@ export default function StudentSlotBookingPage() {
             {/* Booking Deadline Alert */}
             {slots.length > 0 && slots[0].booking_deadline && (
               <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-3 mt-4 flex items-start gap-3 max-w-lg">
-                <Clock className="text-[#a0a0a0] h-5 w-5 mt-0.5 flex-shrink-0" />
+                <IoTime className="text-[#a0a0a0] h-5 w-5 mt-0.5 flex-shrink-0" />
                 <div>
                   <h3 className="font-medium text-sm">Booking Deadline</h3>
                   <p className="text-[#a0a0a0] text-xs mt-1">
@@ -294,7 +294,7 @@ export default function StudentSlotBookingPage() {
                     <div key={day} className="bg-[#1a1a1a] border border-[#1e1e1e] rounded-lg overflow-hidden mb-3">
                       <div className="bg-[#1e1e1e] p-3 border-b border-[#252525]">
                         <h3 className="font-medium flex items-center gap-2">
-                          <Calendar size={16} className="text-[#a0a0a0]" />
+                          <IoCalendar size={16} className="text-[#a0a0a0]" />
                           {formatDay(day)}
                         </h3>
                       </div>
@@ -316,7 +316,7 @@ export default function StudentSlotBookingPage() {
                             >
                               <div className="flex items-center gap-3">
                                 <div className="bg-[#252525] p-1.5 rounded-full">
-                                  <Clock size={14} className="text-[#a0a0a0]" />
+                                  <IoTime size={14} className="text-[#a0a0a0]" />
                                 </div>
                                 <div>
                                   <p className="font-medium text-sm">{slot.start_time} - {slot.end_time}</p>
@@ -326,11 +326,11 @@ export default function StudentSlotBookingPage() {
                               <div>
                                 {selectedSlot === slot.id ? (
                                   <div className="bg-[#252525] p-1.5 rounded-full">
-                                    <CheckCircle size={16} className="text-[#a0a0a0]" />
+                                    <IoCheckmarkCircle size={16} className="text-[#a0a0a0]" />
                                   </div>
                                 ) : (
                                   <div className="bg-[#252525] p-1.5 rounded-full opacity-50 group-hover:opacity-100">
-                                    <Plus size={14} className="text-[#a0a0a0]" />
+                                    <IoAdd size={14} className="text-[#a0a0a0]" />
                                   </div>
                                 )}
                               </div>
@@ -347,7 +347,7 @@ export default function StudentSlotBookingPage() {
             <motion.div variants={itemVariants}>
               <div className="bg-[#141414] rounded-lg p-5 border border-[#1e1e1e]">
                 <div className="bg-[#1a1a1a] border border-[#1e1e1e] rounded-lg p-4 text-center">
-                  <Calendar size={32} className="text-[#a0a0a0] mx-auto mb-3" />
+                  <IoCalendar size={32} className="text-[#a0a0a0] mx-auto mb-3" />
                   <h2 className="text-base font-medium mb-2">No Available Slots</h2>
                   <p className="text-[#a0a0a0] text-sm">
                     There are no review slots available for booking at this time.
@@ -367,7 +367,7 @@ export default function StudentSlotBookingPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="bg-[#252525] p-2 rounded-lg">
-                      <Calendar size={18} className="text-[#a0a0a0]" />
+                      <IoCalendar size={18} className="text-[#a0a0a0]" />
                     </div>
                     <div>
                       <h3 className="font-medium">Ready to Book</h3>
@@ -387,7 +387,7 @@ export default function StudentSlotBookingPage() {
                 
                 {bookingStatus === 'success' && (
                   <div className="mt-3 p-2.5 bg-[#1e1e1e] border border-[#252525] rounded-md flex items-start gap-2">
-                    <CheckCircle className="text-[#a0a0a0] h-5 w-5 mt-0.5 flex-shrink-0" />
+                    <IoCheckmarkCircle className="text-[#a0a0a0] h-5 w-5 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="font-medium text-sm">Booking Successful!</p>
                       <p className="text-[#a0a0a0] text-xs mt-1">{bookingMessage}</p>
@@ -397,7 +397,7 @@ export default function StudentSlotBookingPage() {
                 
                 {bookingStatus === 'error' && (
                   <div className="mt-3 p-2.5 bg-[#1e1e1e] border border-[#252525] rounded-md flex items-start gap-2">
-                    <AlertCircle className="text-[#a0a0a0] h-5 w-5 mt-0.5 flex-shrink-0" />
+                    <IoAlertCircle className="text-[#a0a0a0] h-5 w-5 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="font-medium text-sm">Booking Failed</p>
                       <p className="text-[#a0a0a0] text-xs mt-1">{bookingMessage}</p>

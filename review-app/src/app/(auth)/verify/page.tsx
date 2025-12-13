@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { CheckCircle, X, RefreshCw } from 'lucide-react';
+import { IoCheckmarkCircle, IoClose, IoRefresh } from 'react-icons/io5';
 
 export default function VerifyPage() {
   const router = useRouter();
@@ -64,7 +64,7 @@ export default function VerifyPage() {
       >
         {status === 'loading' && (
           <>
-            <RefreshCw className="h-16 w-16 animate-spin text-white mx-auto mb-6" />
+            <IoRefresh className="h-16 w-16 animate-spin text-white mx-auto mb-6" />
             <h2 className="text-2xl font-bold mb-4">Verifying Your Email</h2>
             <p className="text-gray-400 mb-6">Please wait while we verify your email address...</p>
           </>
@@ -72,7 +72,7 @@ export default function VerifyPage() {
 
         {status === 'success' && (
           <>
-            <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-6" />
+            <IoCheckmarkCircle className="h-16 w-16 text-green-500 mx-auto mb-6" />
             <h2 className="text-2xl font-bold mb-4">Email Verified!</h2>
             <p className="text-gray-400 mb-6">{message}</p>
             <p className="text-gray-400 mb-2">Redirecting you to login page...</p>
@@ -81,7 +81,7 @@ export default function VerifyPage() {
 
         {status === 'error' && (
           <>
-            <X className="h-16 w-16 text-red-500 mx-auto mb-6" />
+            <IoClose className="h-16 w-16 text-red-500 mx-auto mb-6" />
             <h2 className="text-2xl font-bold mb-4">Verification Failed</h2>
             <p className="text-gray-400 mb-6">{message}</p>
             <Link

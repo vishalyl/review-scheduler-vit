@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Calendar, Clock, X, CheckCircle } from 'lucide-react';
+import { IoCalendar, IoTime, IoClose, IoCheckmarkCircle } from 'react-icons/io5';
 import { FreeSlot } from '@/utils/timetable-parser';
 import { getDayStringFromDate, formatDateForInput } from '@/lib/utils';
 
@@ -89,7 +89,7 @@ export default function DateBasedSlots({
           onClick={onCancel}
           className="text-[#a0a0a0] hover:text-white transition-colors"
         >
-          <X size={18} />
+          <IoClose size={18} />
         </button>
       </div>
       
@@ -122,7 +122,7 @@ export default function DateBasedSlots({
               return (
                 <div key={dateString} className="bg-[#141414] border border-[#1e1e1e] rounded-lg overflow-hidden">
                   <div className="bg-[#1a1a1a] p-3 flex items-center gap-2">
-                    <Calendar size={16} className="text-[#5c46f5]" />
+                    <IoCalendar size={16} className="text-[#5c46f5]" />
                     <h4 className="font-medium">
                       {date.toLocaleDateString('en-US', {
                         weekday: 'long',

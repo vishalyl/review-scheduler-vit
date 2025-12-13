@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, CheckCircle, Users, AlertCircle, Calendar } from 'lucide-react';
+import { IoChevronForward, IoCheckmarkCircle, IoPeople, IoAlertCircle, IoCalendar } from 'react-icons/io5';
 import { useRouter } from 'next/navigation';
 
 interface WelcomeScreenProps {
@@ -21,21 +21,21 @@ export default function WelcomeScreen({ userName, onComplete, onSkip }: WelcomeS
     {
       title: "Join a Classroom",
       description: "Connect with your faculty by joining their classroom",
-      icon: <Users className="w-8 h-8 text-blue-500" />,
+      icon: <IoPeople className="w-8 h-8 text-blue-500" />,
       action: "Join Classroom",
       step: 0 // Corresponds to the first onboarding step
     },
     {
       title: "Create or Join a Team",
       description: "Collaborate with classmates by creating or joining a team",
-      icon: <AlertCircle className="w-8 h-8 text-purple-500" />,
+      icon: <IoAlertCircle className="w-8 h-8 text-purple-500" />,
       action: "Team Up",
       step: 1 // Corresponds to the second onboarding step
     },
     {
       title: "Schedule Reviews",
       description: "Book slots for your project reviews and presentations",
-      icon: <Calendar className="w-8 h-8 text-green-500" />,
+      icon: <IoCalendar className="w-8 h-8 text-green-500" />,
       action: "Schedule",
       step: 2 // Corresponds to the third onboarding step
     }
@@ -85,7 +85,7 @@ export default function WelcomeScreen({ userName, onComplete, onSkip }: WelcomeS
                   initial={{ scale: 0 }}
                   animate={{ scale: 1, transition: { delay: 0.6, type: "spring", stiffness: 200 } }}
                 >
-                  <Calendar className="w-8 h-8 text-white" />
+                  <IoCalendar className="w-8 h-8 text-white" />
                 </motion.div>
               </div>
               
@@ -115,7 +115,7 @@ export default function WelcomeScreen({ userName, onComplete, onSkip }: WelcomeS
                   className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center gap-2"
                 >
                   Get Started
-                  <ChevronRight size={16} />
+                  <IoChevronForward size={16} />
                 </button>
                 
                 <button
@@ -184,7 +184,7 @@ export default function WelcomeScreen({ userName, onComplete, onSkip }: WelcomeS
                       className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center gap-2"
                     >
                       {steps[currentStep].action}
-                      <ChevronRight size={16} />
+                      <IoChevronForward size={16} />
                     </button>
                     
                     <button

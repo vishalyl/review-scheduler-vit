@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Check, AlertCircle, Loader2, ChevronRight } from 'lucide-react';
+import { IoCalendar, IoTime, IoCheckmark, IoAlertCircle, IoSync, IoChevronForward } from 'react-icons/io5';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useOnboarding } from './onboarding-context';
 
@@ -242,7 +242,7 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
     >
       <div className="flex items-center justify-center mb-6">
         <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center">
-          <Calendar className="text-green-400" size={24} />
+          <IoCalendar className="text-green-400" size={24} />
         </div>
       </div>
       
@@ -254,7 +254,7 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
       {success ? (
         <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-6">
           <div className="flex items-center">
-            <Check className="text-green-400 mr-2" size={18} />
+            <IoCheckmark className="text-green-400 mr-2" size={18} />
             <p className="text-green-400 text-sm font-medium">
               Review scheduled successfully!
             </p>
@@ -265,7 +265,7 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
           {error && (
             <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6">
               <div className="flex items-center">
-                <AlertCircle className="text-red-400 mr-2" size={18} />
+                <IoAlertCircle className="text-red-400 mr-2" size={18} />
                 <p className="text-red-400 text-sm">{error}</p>
               </div>
             </div>
@@ -273,7 +273,7 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
           
           {loading ? (
             <div className="flex items-center justify-center p-8">
-              <Loader2 className="animate-spin text-green-400 mr-2" size={24} />
+              <IoSync className="animate-spin text-green-400 mr-2" size={24} />
               <p className="text-[#a0a0a0]">Loading available slots...</p>
             </div>
           ) : (
@@ -339,7 +339,7 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
                     {Object.entries(slotsByDate).map(([date, slots]) => (
                       <div key={date} className="bg-[#1a1a1a] border border-[#252525] rounded-lg p-4">
                         <h5 className="text-sm font-medium mb-3 flex items-center">
-                          <Calendar size={14} className="text-green-400 mr-2" />
+                          <IoCalendar size={14} className="text-green-400 mr-2" />
                           {formatDate(date)}
                         </h5>
                         
@@ -355,14 +355,14 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
                               }`}
                             >
                               <div className="flex items-center">
-                                <Clock size={14} className="text-[#a0a0a0] mr-2" />
+                                <IoTime size={14} className="text-[#a0a0a0] mr-2" />
                                 <span className="text-sm">
                                   {formatTime(slot.time_start)} - {formatTime(slot.time_end)}
                                 </span>
                               </div>
                               
                               {selectedSlot === slot.id && (
-                                <Check size={14} className="text-green-400" />
+                                <IoCheckmark size={14} className="text-green-400" />
                               )}
                             </div>
                           ))}
@@ -381,9 +381,9 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
                   disabled={bookingLoading || !selectedTeam || !selectedSlot || teams.length === 0}
                 >
                   {bookingLoading ? (
-                    <Loader2 className="animate-spin mr-2" size={16} />
+                    <IoSync className="animate-spin mr-2" size={16} />
                   ) : (
-                    <Calendar className="mr-2" size={16} />
+                    <IoCalendar className="mr-2" size={16} />
                   )}
                   Schedule Review
                 </button>

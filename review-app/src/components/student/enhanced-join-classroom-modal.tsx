@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle, RefreshCw } from 'lucide-react';
+import { IoClose, IoCheckmarkCircle, IoRefresh } from 'react-icons/io5';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 interface EnhancedJoinClassroomModalProps {
@@ -135,7 +135,7 @@ export default function EnhancedJoinClassroomModal({
           onClick={onClose}
           className="absolute right-4 top-4 z-10 w-8 h-8 rounded-full bg-[#1e1e1e] hover:bg-[#252525] flex items-center justify-center transition-colors duration-200"
         >
-          <X size={14} className="text-[#a0a0a0]" />
+          <IoClose size={14} className="text-[#a0a0a0]" />
         </button>
         
         <motion.div
@@ -163,7 +163,7 @@ export default function EnhancedJoinClassroomModal({
                   className="text-center py-4"
                 >
                   <div className="w-16 h-16 bg-[#1a1a1a] rounded-full flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle size={32} className="text-green-500" />
+                    <IoCheckmarkCircle size={32} className="text-green-500" />
                   </div>
                   <h4 className="text-lg font-medium mb-1">Successfully Joined!</h4>
                   <p className="text-[#a0a0a0] text-sm mb-4">You've been added to the classroom</p>
@@ -194,7 +194,7 @@ export default function EnhancedJoinClassroomModal({
                         animate={{ opacity: 1, y: 0 }}
                         className="mt-2 text-red-400 text-sm flex items-center gap-1"
                       >
-                        <X size={14} />
+                        <IoClose size={14} />
                         {error}
                       </motion.p>
                     )}
@@ -208,7 +208,7 @@ export default function EnhancedJoinClassroomModal({
                     >
                       {isSubmitting ? (
                         <>
-                          <RefreshCw size={16} className="animate-spin" />
+                          <IoRefresh size={16} className="animate-spin" />
                           Joining...
                         </>
                       ) : (

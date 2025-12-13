@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Users, Calendar, FileText } from 'lucide-react';
+import { IoPeople, IoCalendar, IoDocument } from 'react-icons/io5';
 
 interface ClassroomCardProps {
   classroom: {
@@ -39,7 +39,7 @@ export default function ClassroomCard({ classroom }: ClassroomCardProps) {
 
         {nextDeadline && (
           <div className="mb-4 flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-amber-400" />
+            <IoCalendar className="h-4 w-4 text-amber-400" />
             <div>
               <p className="text-xs text-gray-400">Next Deadline</p>
               <p className="text-sm">
@@ -54,18 +54,18 @@ export default function ClassroomCard({ classroom }: ClassroomCardProps) {
 
         <div className="flex flex-wrap gap-3">
           <div className="bg-gray-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
-            <Users className="h-3.5 w-3.5 text-indigo-400" />
+            <IoPeople className="h-3.5 w-3.5 text-indigo-400" />
             <span className="text-xs">{classroom.students_count || 0} students</span>
           </div>
           
           <div className="bg-gray-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
-            <FileText className="h-3.5 w-3.5 text-emerald-400" />
+            <IoDocument className="h-3.5 w-3.5 text-emerald-400" />
             <span className="text-xs">{classroom.teams_count || 0} teams</span>
           </div>
           
           {classroom.review_deadlines && (
             <div className="bg-gray-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
-              <Calendar className="h-3.5 w-3.5 text-amber-400" />
+              <IoCalendar className="h-3.5 w-3.5 text-amber-400" />
               <span className="text-xs">{Object.keys(classroom.review_deadlines).length} reviews</span>
             </div>
           )}

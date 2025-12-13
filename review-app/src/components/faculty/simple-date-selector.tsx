@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { getDayStringFromDate } from '@/lib/utils';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { IoChevronBack, IoChevronForward, IoClose } from 'react-icons/io5';
 import { format, addMonths, subMonths } from 'date-fns';
 
 interface SimpleDateSelectorProps {
@@ -59,7 +59,7 @@ export default function SimpleDateSelector({
           onClick={onCancel}
           className="text-[#a0a0a0] hover:text-white transition-colors"
         >
-          <X size={18} />
+          <IoClose size={18} />
         </button>
       </div>
       
@@ -98,7 +98,7 @@ export default function SimpleDateSelector({
                   onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
                   className="p-1 rounded-full hover:bg-[#252525] transition-colors"
                 >
-                  <ChevronLeft size={18} className="text-[#a0a0a0]" />
+                  <IoChevronBack size={18} className="text-[#a0a0a0]" />
                 </button>
                 
                 <h3 className="text-white font-medium">
@@ -109,7 +109,7 @@ export default function SimpleDateSelector({
                   onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
                   className="p-1 rounded-full hover:bg-[#252525] transition-colors"
                 >
-                  <ChevronRight size={18} className="text-[#a0a0a0]" />
+                  <IoChevronForward size={18} className="text-[#a0a0a0]" />
                 </button>
               </div>
               
@@ -221,7 +221,7 @@ export default function SimpleDateSelector({
                         onClick={() => handleDateSelect(date)}
                         className="text-[#f87171] hover:text-[#ef4444] transition-colors"
                       >
-                        <X size={16} />
+                        <IoClose size={16} />
                       </button>
                     </div>
                   ))}

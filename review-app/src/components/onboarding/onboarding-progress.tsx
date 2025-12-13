@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, AlertCircle } from 'lucide-react';
+import { IoCheckmarkCircle, IoAlertCircle } from 'react-icons/io5';
 
 interface OnboardingProgressProps {
   steps: {
@@ -63,7 +63,7 @@ export default function OnboardingProgress({ steps, currentStep }: OnboardingPro
                   : 'bg-[#1e1e1e]'
             }`}>
               {step.completed ? (
-                <CheckCircle size={12} className="text-white" />
+                <IoCheckmarkCircle size={12} className="text-white" />
               ) : (
                 <span className="w-2 h-2 rounded-full bg-[#a0a0a0]"></span>
               )}

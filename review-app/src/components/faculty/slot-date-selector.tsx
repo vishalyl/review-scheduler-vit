@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { getDayStringFromDate, formatDateForInput } from '@/lib/utils';
 import { motion } from 'framer-motion';
-import { Calendar as CalendarIcon, Check, X } from 'lucide-react';
+import { IoCheckmark, IoClose } from 'react-icons/io5';
 
 interface SlotDateSelectorProps {
   selectedSlots: any[];
@@ -86,7 +86,7 @@ export default function SlotDateSelector({
           onClick={onCancel}
           className="text-gray-400 hover:text-white"
         >
-          <X size={20} />
+          <IoClose size={20} />
         </button>
       </div>
       
@@ -192,7 +192,7 @@ export default function SlotDateSelector({
             >
               <div className="flex items-center gap-2">
                 {assignedDates[index] ? (
-                  <Check size={14} className="text-green-400" />
+                  <IoCheckmark size={14} className="text-green-400" />
                 ) : (
                   <span className="w-3 h-3 rounded-full bg-gray-600"></span>
                 )}

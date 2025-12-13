@@ -3,17 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { motion } from 'framer-motion';
-import { 
-  Calendar, 
-  Clock, 
-  Filter, 
-  CheckCircle, 
-  AlertCircle, 
-  Info, 
-  ChevronRight, 
-  RefreshCw,
-  ChevronLeft
-} from 'lucide-react';
+import { IoCalendar, IoTime, IoFunnel, IoCheckmarkCircle, IoAlertCircle, IoInformationCircle, IoChevronForward, IoRefresh, IoChevronBack } from 'react-icons/io5';
 import { format, addMonths, subMonths, isSameDay, isToday } from 'date-fns';
 
 // Types
@@ -400,7 +390,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
       <div className="bg-gradient-to-r from-[#1a1a2e] to-[#16213e] rounded-lg border border-[#272741] p-5 mb-6 shadow-lg">
         <div className="flex items-center gap-4 mb-4">
           <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#5c46f5]/20">
-            <Calendar size={20} className="text-[#5c46f5]" />
+            <IoCalendar size={20} className="text-[#5c46f5]" />
           </div>
           <div className="flex-1">
             <h2 className="text-xl font-bold text-white">Review Slot Booking</h2>
@@ -411,7 +401,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
             disabled={refreshing}
             className="flex items-center gap-1 bg-[#0f0f1a] hover:bg-[#1a1a36] text-[#a0a0a0] hover:text-white px-3 py-2 rounded-md text-xs transition-colors duration-200"
           >
-            <RefreshCw size={14} className={`${refreshing ? 'animate-spin' : ''}`} />
+            <IoRefresh size={14} className={`${refreshing ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
           </button>
         </div>
@@ -455,7 +445,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
       <div className="bg-[#0f0f1a] rounded-lg border border-[#1e1e1e] p-3 mb-6">
         <div className="flex items-center justify-between mb-3 border-b border-[#1e1e1e] pb-2">
           <div className="flex items-center gap-1.5">
-            <Filter size={12} className="text-[#5c46f5]" />
+            <IoFunnel size={12} className="text-[#5c46f5]" />
             <span className="text-xs font-medium">Filters</span>
           </div>
           
@@ -468,7 +458,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
               }}
               className="text-[10px] text-[#a0a0a0] hover:text-white flex items-center gap-1 transition-colors"
             >
-              <RefreshCw size={10} />
+              <IoRefresh size={10} />
               Reset All
             </button>
           )}
@@ -489,7 +479,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
                 </option>
               ))}
             </select>
-            <ChevronRight size={10} className="absolute right-2 top-1.5 text-[#505050] rotate-90 pointer-events-none" />
+            <IoChevronForward size={10} className="absolute right-2 top-1.5 text-[#505050] rotate-90 pointer-events-none" />
           </div>
           
           {/* Review Stage Filter */}
@@ -504,7 +494,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
               <option value="Review 2">Review 2</option>
               <option value="Final Review">Final Review</option>
             </select>
-            <ChevronRight size={10} className="absolute right-2 top-1.5 text-[#505050] rotate-90 pointer-events-none" />
+            <IoChevronForward size={10} className="absolute right-2 top-1.5 text-[#505050] rotate-90 pointer-events-none" />
           </div>
           
           {/* Date Filter */}
@@ -521,7 +511,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
                 </option>
               ))}
             </select>
-            <ChevronRight size={10} className="absolute right-2 top-1.5 text-[#505050] rotate-90 pointer-events-none" />
+            <IoChevronForward size={10} className="absolute right-2 top-1.5 text-[#505050] rotate-90 pointer-events-none" />
           </div>
           
           {/* Calendar Toggle Button */}
@@ -529,7 +519,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
             onClick={() => setShowCalendar(!showCalendar)}
             className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-md transition-colors ${showCalendar ? 'bg-[#5c46f5] text-white' : 'bg-[#1a1a1a] border border-[#252525] text-[#a0a0a0] hover:text-white'}`}
           >
-            <Calendar size={10} />
+            <IoCalendar size={10} />
             Calendar
           </button>
         </div>
@@ -550,7 +540,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
                 }}
                 className="w-6 h-6 flex items-center justify-center hover:bg-[#252525] transition-colors rounded"
               >
-                <ChevronLeft size={12} className="text-[#a0a0a0]" />
+                <IoChevronBack size={12} className="text-[#a0a0a0]" />
               </button>
               
               <h3 className="text-white text-xs font-medium">
@@ -561,7 +551,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
                 onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
                 className="w-6 h-6 flex items-center justify-center hover:bg-[#252525] transition-colors rounded"
               >
-                <ChevronRight size={12} className="text-[#a0a0a0]" />
+                <IoChevronForward size={12} className="text-[#a0a0a0]" />
               </button>
             </div>
             
@@ -653,7 +643,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
       {/* Error and Success Messages */}
       {error && (
         <div className="bg-red-900/20 border border-red-900/30 rounded-lg p-4 mb-6 flex items-start gap-3">
-          <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+          <IoAlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
           <div className="flex-1">
             <p className="text-red-400 text-sm font-medium">{error}</p>
             <p className="text-red-500/70 text-xs mt-1">Please try again or contact support</p>
@@ -661,7 +651,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
               onClick={() => fetchAvailableSlots(true)}
               className="mt-3 px-4 py-1.5 bg-red-900/30 hover:bg-red-900/50 text-red-300 text-xs rounded-md flex items-center gap-1.5 transition-colors duration-200"
             >
-              <RefreshCw size={12} />
+              <IoRefresh size={12} />
               Try Again
             </button>
           </div>
@@ -670,7 +660,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
       
       {success && (
         <div className="bg-green-900/20 border border-green-900/30 rounded-lg p-4 mb-6 flex items-start gap-3 animate-fadeIn">
-          <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+          <IoCheckmarkCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
           <div>
             <p className="text-green-400 text-sm font-medium">{success}</p>
             <p className="text-green-500/70 text-xs mt-1">You can view your booked slots in your dashboard</p>
@@ -703,13 +693,13 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
         {/* Error state */}
         {!loading && error && !success && (
           <div className="bg-red-900/20 border border-red-900/30 rounded-lg p-4 text-center">
-            <AlertCircle className="mx-auto h-8 w-8 text-red-500 mb-2" />
+            <IoAlertCircle className="mx-auto h-8 w-8 text-red-500 mb-2" />
             <p className="text-red-400">{error}</p>
             <button 
               onClick={() => fetchAvailableSlots(false)}
               className="mt-4 bg-[#1a1a1a] hover:bg-[#252525] text-[#a0a0a0] hover:text-white px-4 py-2 rounded-md text-xs transition-colors duration-200 flex items-center gap-2 mx-auto"
             >
-              <RefreshCw size={14} />
+              <IoRefresh size={14} />
               <span>Try Again</span>
             </button>
           </div>
@@ -719,7 +709,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
         {!loading && !error && filteredSlots.length === 0 && (
           <div className="bg-[#141414] rounded-lg border border-[#1e1e1e] p-8 text-center">
             <div className="w-16 h-16 mx-auto bg-[#1a1a1a] rounded-full flex items-center justify-center mb-4">
-              <Calendar className="h-8 w-8 text-[#505050]" />
+              <IoCalendar className="h-8 w-8 text-[#505050]" />
             </div>
             <h3 className="text-lg font-medium mb-2">No slots available</h3>
             <p className="text-[#a0a0a0] text-sm mb-4">
@@ -750,7 +740,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
                   {/* Left side - Time */}
                   <div className="flex-shrink-0 w-1/3 flex flex-col justify-center items-center border-r border-[#1e1e1e] pr-3">
                     <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#5c46f5]/10 mb-1">
-                      <Clock size={14} className="text-[#5c46f5]" />
+                      <IoTime size={14} className="text-[#5c46f5]" />
                     </div>
                     <p className="text-sm font-medium text-center">{slot.start_time} - {slot.end_time}</p>
                     <p className="text-[#a0a0a0] text-xs text-center">{slot.duration} min</p>
@@ -772,7 +762,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
                       
                       {slot.booking_deadline && (
                         <div className="flex items-center gap-1 mb-2 text-xs text-yellow-500/80">
-                          <Info size={10} className="text-yellow-500" />
+                          <IoInformationCircle size={10} className="text-yellow-500" />
                           Book before {new Date(slot.booking_deadline).toLocaleDateString()}
                         </div>
                       )}
@@ -783,7 +773,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
                       className="w-full bg-gradient-to-r from-[#5c46f5] to-[#4c38e6] hover:from-[#6b56ff] hover:to-[#5c48f6] text-white rounded-md py-2 text-xs font-medium transition-all duration-200 flex items-center justify-center gap-1"
                     >
                       <span>Book this slot</span>
-                      <ChevronRight size={12} className="opacity-70" />
+                      <IoChevronForward size={12} className="opacity-70" />
                     </button>
                   </div>
                 </div>
@@ -799,7 +789,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
           <div className="bg-gradient-to-b from-[#141414] to-[#1a1a1a] border border-[#272741] rounded-lg p-6 max-w-md w-full shadow-xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#5c46f5]/20">
-                <Calendar size={18} className="text-[#5c46f5]" />
+                <IoCalendar size={18} className="text-[#5c46f5]" />
               </div>
               <div>
                 <h3 className="text-lg font-medium">Confirm Booking</h3>
@@ -835,7 +825,7 @@ export default function EnhancedReviewSlots({ userId }: EnhancedReviewSlotsProps
             
             {teams.length === 0 ? (
               <div className="bg-[#1a1a1a] rounded-md p-4 text-center mb-6 border border-[#252525]">
-                <AlertCircle className="mx-auto h-6 w-6 text-yellow-500 mb-2" />
+                <IoAlertCircle className="mx-auto h-6 w-6 text-yellow-500 mb-2" />
                 <p className="text-[#a0a0a0] text-sm mb-2">You are not part of any teams</p>
                 <p className="text-xs text-[#505050]">You need to be part of a team to book a slot</p>
               </div>

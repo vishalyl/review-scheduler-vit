@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { motion } from 'framer-motion';
-import { Users, Calendar, FileText, Clock, Copy, LogOut, Edit, Plus, ChevronLeft, CheckCircle } from 'lucide-react';
+import { IoPeople, IoCalendar, IoDocument, IoTime, IoCopy, IoLogOut, IoCreate, IoAdd, IoChevronBack, IoCheckmarkCircle } from 'react-icons/io5';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -382,7 +382,7 @@ export default function TeamPage() {
             href="/student/dashboard"
             className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-md inline-flex items-center gap-2 text-sm font-medium shadow-md shadow-blue-500/10"
           >
-            <ChevronLeft size={16} />
+            <IoChevronBack size={16} />
             Back to Dashboard
           </Link>
         </div>
@@ -400,7 +400,7 @@ export default function TeamPage() {
             href="/student/dashboard"
             className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-md inline-flex items-center gap-2 text-sm font-medium shadow-md shadow-blue-500/10"
           >
-            <ChevronLeft size={16} />
+            <IoChevronBack size={16} />
             Back to Dashboard
           </Link>
         </div>
@@ -423,7 +423,7 @@ export default function TeamPage() {
               className="w-8 h-8 rounded-full bg-[#1e1e1e] hover:bg-[#252525] flex items-center justify-center transition-colors duration-200 relative group"
             >
               <span className="absolute -bottom-8 right-0 bg-[#252525] text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">View Profile</span>
-              <Users size={14} className="text-[#a0a0a0]" />
+              <IoPeople size={14} className="text-[#a0a0a0]" />
             </button>
           </div>
         </div>
@@ -442,7 +442,7 @@ export default function TeamPage() {
               href="/student/dashboard"
               className="text-[#a0a0a0] hover:text-white inline-flex items-center gap-2 mb-4 text-sm transition-colors duration-200"
             >
-              <ChevronLeft size={16} />
+              <IoChevronBack size={16} />
               Back to Dashboard
             </Link>
             <div className="flex justify-between items-start">
@@ -456,7 +456,7 @@ export default function TeamPage() {
                 className="bg-[#1e1e1e] hover:bg-[#252525] text-[#a0a0a0] hover:text-white px-4 py-2 rounded-md flex items-center gap-2 text-sm transition-colors duration-200"
                 onClick={handleLeaveTeam}
               >
-                <LogOut size={18} />
+                <IoLogOut size={18} />
                 {confirmLeave ? 'Confirm Leave' : 'Leave Team'}
               </motion.button>
             </div>
@@ -477,7 +477,7 @@ export default function TeamPage() {
                       onClick={() => setShowEditProject(true)}
                       className="text-xs px-3 py-1.5 bg-[#252525] hover:bg-[#303030] text-white rounded-md transition-colors flex items-center gap-1.5"
                     >
-                      <Edit size={12} />
+                      <IoCreate size={12} />
                       Edit Project
                     </button>
                   )}
@@ -488,7 +488,7 @@ export default function TeamPage() {
                   <div className="bg-gradient-to-r from-[#1a1a2e] to-[#16213e] rounded-lg border border-[#272741] p-5 shadow-lg">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#5c46f5]/20">
-                        <FileText size={16} className="text-[#5c46f5]" />
+                        <IoDocument size={16} className="text-[#5c46f5]" />
                       </div>
                       <div>
                         <h3 className="font-medium text-sm">{team.project_title || 'Untitled Project'}</h3>
@@ -502,21 +502,21 @@ export default function TeamPage() {
                         <p className="text-[10px] text-[#a0a0a0] mb-1">Team Size</p>
                         <div className="flex items-center justify-between">
                           <p className="text-sm font-medium">{team.members.length} / {team.max_members}</p>
-                          <Users size={14} className="text-[#5c46f5]" />
+                          <IoPeople size={14} className="text-[#5c46f5]" />
                         </div>
                       </div>
                       <div className="bg-[#0f0f1a] rounded-md p-3">
                         <p className="text-[10px] text-[#a0a0a0] mb-1">Reviews</p>
                         <div className="flex items-center justify-between">
                           <p className="text-sm font-medium">{team.booked_slots.length}</p>
-                          <Calendar size={14} className="text-[#5c46f5]" />
+                          <IoCalendar size={14} className="text-[#5c46f5]" />
                         </div>
                       </div>
                       <div className="bg-[#0f0f1a] rounded-md p-3">
                         <p className="text-[10px] text-[#a0a0a0] mb-1">Classroom</p>
                         <div className="flex items-center justify-between">
                           <p className="text-sm font-medium truncate max-w-[80px]">{team.classroom_name}</p>
-                          <Users size={14} className="text-[#5c46f5]" />
+                          <IoPeople size={14} className="text-[#5c46f5]" />
                         </div>
                       </div>
                     </div>
@@ -534,7 +534,7 @@ export default function TeamPage() {
                       >
                         <p className="text-[10px] text-[#a0a0a0] mb-1">Project Description</p>
                         <p className="text-xs text-[#5c46f5] flex items-center gap-1">
-                          <Plus size={10} />
+                          <IoAdd size={10} />
                           Add a project description
                         </p>
                       </button>
@@ -579,12 +579,12 @@ export default function TeamPage() {
                       >
                         {codeCopied ? (
                           <>
-                            <CheckCircle size={14} className="text-green-400" />
+                            <IoCheckmarkCircle size={14} className="text-green-400" />
                             <span className="text-xs">Copied!</span>
                           </>
                         ) : (
                           <>
-                            <Copy size={14} />
+                            <IoCopy size={14} />
                             <span className="text-xs">Copy</span>
                           </>
                         )}
@@ -645,7 +645,7 @@ export default function TeamPage() {
                           onClick={() => navigator.clipboard.writeText(team.invitation_code)}
                           className="text-[10px] text-[#a0a0a0] hover:text-white flex items-center gap-1 transition-colors"
                         >
-                          <Copy size={10} />
+                          <IoCopy size={10} />
                           Copy Invite Code
                         </button>
                       )}
@@ -764,12 +764,12 @@ export default function TeamPage() {
                         >
                           {codeCopied ? (
                             <>
-                              <CheckCircle size={14} className="text-green-400" />
+                              <IoCheckmarkCircle size={14} className="text-green-400" />
                               <span className="text-xs">Copied!</span>
                             </>
                           ) : (
                             <>
-                              <Copy size={14} />
+                              <IoCopy size={14} />
                               <span className="text-xs">Copy Code</span>
                             </>
                           )}
@@ -831,7 +831,7 @@ export default function TeamPage() {
               ) : (
                 <div className="text-center py-6">
                   <div className="w-10 h-10 bg-[#1e1e1e] rounded-full flex items-center justify-center mx-auto mb-3">
-                    <Calendar size={18} className="text-[#a0a0a0]" />
+                    <IoCalendar size={18} className="text-[#a0a0a0]" />
                   </div>
                   <h4 className="text-sm font-medium mb-1">No upcoming reviews</h4>
                   <p className="text-[#a0a0a0] text-xs">Your scheduled reviews will appear here</p>

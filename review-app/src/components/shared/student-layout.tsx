@@ -2,7 +2,7 @@
 
 import { useState, ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, X } from 'lucide-react';
+import { IoPeople, IoClose } from 'react-icons/io5';
 import Link from 'next/link';
 import Image from 'next/image';
 import LogoutButton from '@/components/auth/logout-button';
@@ -35,7 +35,7 @@ export default function StudentLayout({ children, user }: StudentLayoutProps) {
               className="w-8 h-8 rounded-full bg-[#1e1e1e] hover:bg-[#252525] flex items-center justify-center transition-colors duration-200 relative group"
             >
               <span className="absolute -bottom-8 right-0 bg-[#252525] text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">View Profile</span>
-              <Users size={14} className="text-[#a0a0a0]" />
+              <IoPeople size={14} className="text-[#a0a0a0]" />
             </button>
             <LogoutButton variant="minimal" />
           </div>
@@ -71,7 +71,7 @@ export default function StudentLayout({ children, user }: StudentLayoutProps) {
                     onClick={() => setShowProfileModal(false)}
                     className="w-8 h-8 rounded-full bg-[#1e1e1e] hover:bg-[#252525] flex items-center justify-center transition-colors duration-200"
                   >
-                    <X size={14} className="text-[#a0a0a0]" />
+                    <IoClose size={14} className="text-[#a0a0a0]" />
                   </button>
                 </div>
               </div>

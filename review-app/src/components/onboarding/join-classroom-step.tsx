@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, CheckCircle, X, RefreshCw } from 'lucide-react';
+import { IoPeople, IoCheckmarkCircle, IoClose, IoRefresh } from 'react-icons/io5';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 interface JoinClassroomStepProps {
@@ -126,7 +126,7 @@ export default function JoinClassroomStep({ onSuccess, onSkip }: JoinClassroomSt
             <p className="text-[#a0a0a0] text-sm">Enter the invitation code provided by your faculty</p>
           </div>
           <div className="w-12 h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center">
-            <Users size={20} className="text-blue-500" />
+            <IoPeople size={20} className="text-blue-500" />
           </div>
         </div>
         
@@ -140,7 +140,7 @@ export default function JoinClassroomStep({ onSuccess, onSkip }: JoinClassroomSt
               className="text-center py-4"
             >
               <div className="w-16 h-16 bg-[#1a1a1a] rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle size={32} className="text-green-500" />
+                <IoCheckmarkCircle size={32} className="text-green-500" />
               </div>
               <h4 className="text-lg font-medium mb-1">Successfully Joined!</h4>
               <p className="text-[#a0a0a0] text-sm mb-4">You've been added to the classroom</p>
@@ -171,7 +171,7 @@ export default function JoinClassroomStep({ onSuccess, onSkip }: JoinClassroomSt
                     animate={{ opacity: 1, y: 0 }}
                     className="mt-2 text-red-400 text-sm flex items-center gap-1"
                   >
-                    <X size={14} />
+                    <IoClose size={14} />
                     {error}
                   </motion.p>
                 )}
@@ -185,7 +185,7 @@ export default function JoinClassroomStep({ onSuccess, onSkip }: JoinClassroomSt
                 >
                   {isSubmitting ? (
                     <>
-                      <RefreshCw size={16} className="animate-spin" />
+                      <IoRefresh size={16} className="animate-spin" />
                       Joining...
                     </>
                   ) : (

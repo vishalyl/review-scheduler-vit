@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Loader2, AlertCircle } from 'lucide-react';
+import { IoSync, IoAlertCircle } from 'react-icons/io5';
 import { toast } from 'sonner';
 import { useEffect } from 'react';
 
@@ -168,7 +168,7 @@ export default function LoginForm() {
               animate={{ opacity: 1 }}
               className="p-3 text-sm text-red-400 bg-red-900/30 rounded-lg border border-red-800 flex items-start"
             >
-              <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
+              <IoAlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
               <span>{error}</span>
             </motion.div>
           )}
@@ -180,7 +180,7 @@ export default function LoginForm() {
           >
             {isLoading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <IoSync className="mr-2 h-4 w-4 animate-spin" />
                 Signing in...
               </>
             ) : (

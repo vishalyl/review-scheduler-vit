@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { CheckCircle, X, RefreshCw } from 'lucide-react';
+import { IoCheckmarkCircle, IoClose, IoRefresh } from 'react-icons/io5';
 
 interface JoinTeamFormProps {
   classroomId: number;
@@ -146,7 +146,7 @@ export default function JoinTeamForm({ classroomId, onSuccess, onCancel }: JoinT
             onClick={onCancel}
             className="text-[#a0a0a0] hover:text-white transition-colors duration-200"
           >
-            <X size={20} />
+            <IoClose size={20} />
           </button>
         )}
       </div>
@@ -154,7 +154,7 @@ export default function JoinTeamForm({ classroomId, onSuccess, onCancel }: JoinT
       {success ? (
         <div className="flex flex-col items-center justify-center py-6">
           <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mb-4">
-            <CheckCircle className="h-8 w-8 text-green-400" />
+            <IoCheckmarkCircle className="h-8 w-8 text-green-400" />
           </div>
           <h4 className="text-lg font-medium mb-2">Successfully joined team!</h4>
           <p className="text-[#a0a0a0] text-center mb-6">
@@ -200,7 +200,7 @@ export default function JoinTeamForm({ classroomId, onSuccess, onCancel }: JoinT
                   className="absolute right-2 top-1/2 transform -translate-y-1/2 text-[#a0a0a0] hover:text-white transition-colors duration-200"
                   onClick={() => setInvitationCode('')}
                 >
-                  <X size={16} />
+                  <IoClose size={16} />
                 </button>
               )}
             </div>
@@ -229,7 +229,7 @@ export default function JoinTeamForm({ classroomId, onSuccess, onCancel }: JoinT
             >
               {isSubmitting ? (
                 <>
-                  <RefreshCw size={16} className="animate-spin mr-2" />
+                  <IoRefresh size={16} className="animate-spin mr-2" />
                   Joining...
                 </>
               ) : (

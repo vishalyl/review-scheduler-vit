@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ChevronLeft } from 'lucide-react';
+import { IoChevronBack } from 'react-icons/io5';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import EnhancedReviewSlots from '@/components/student/enhanced-review-slots';
 
@@ -39,7 +39,7 @@ export default function StudentSlotsPage() {
           href="/student/dashboard" 
           className="text-[#a0a0a0] hover:text-white inline-flex items-center gap-1 mb-4 transition-colors duration-200"
         >
-          <ChevronLeft size={16} />
+          <IoChevronBack size={16} />
           <span>Back to Dashboard</span>
         </Link>
         <h1 className="text-2xl font-bold">Available Review Slots</h1>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { ArrowLeft, Users, UserPlus, UserCheck, Copy, CheckCircle, AlertCircle, Clock } from 'lucide-react';
+import { IoArrowBack, IoPeople, IoPersonAdd, IoCheckmarkCircle, IoCopy, IoCheckmarkCircle, IoAlertCircle, IoTime } from 'react-icons/io5';
 import Link from 'next/link';
 import CreateTeamForm from '@/components/student/create-team-form';
 import JoinTeamForm from '@/components/student/join-team-form';
@@ -305,7 +305,7 @@ export default function ClassroomTeamsPage() {
           <h2 className="text-lg font-medium mb-4">Classroom Not Found</h2>
           <p className="text-[#a0a0a0] mb-6">The classroom you're looking for doesn't exist or you don't have access to it.</p>
           <Link href="/student/dashboard" className="bg-[#5c46f5] hover:bg-[#4c38e6] text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 text-sm transition-colors">
-            <ArrowLeft size={18} />
+            <IoArrowBack size={18} />
             Back to Dashboard
           </Link>
         </div>
@@ -324,7 +324,7 @@ export default function ClassroomTeamsPage() {
           {/* Header */}
           <motion.div variants={itemVariants} className="mb-8">
             <Link href="/student/dashboard" className="text-[#a0a0a0] hover:text-white inline-flex items-center gap-2 mb-4 transition-colors">
-              <ArrowLeft size={16} />
+              <IoArrowBack size={16} />
               Back to Dashboard
             </Link>
             <div className="flex justify-between items-start">
@@ -340,7 +340,7 @@ export default function ClassroomTeamsPage() {
                     className="bg-[#5c46f5] hover:bg-[#4c38e6] text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm transition-colors"
                     onClick={() => router.push(`/student/classroom/${classroomId}/slots`)}
                   >
-                    <Clock size={16} />
+                    <IoTime size={16} />
                     Book Review Slot
                   </motion.button>
                   <motion.button
@@ -349,7 +349,7 @@ export default function ClassroomTeamsPage() {
                     className="bg-[#5c46f5] hover:bg-[#4c38e6] text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm transition-colors"
                     onClick={() => setShowCreateTeamForm(true)}
                   >
-                    <Users size={16} />
+                    <IoPeople size={16} />
                     Create Team
                   </motion.button>
                 </div>
@@ -431,7 +431,7 @@ export default function ClassroomTeamsPage() {
                         className="bg-[#252525] hover:bg-[#303030] text-[#e0e0e0] px-3 py-1.5 rounded-lg text-sm flex items-center gap-2 transition-colors"
                         onClick={copyInvitationCode}
                       >
-                        {copiedCode ? <CheckCircle size={14} className="text-[#a0a0a0]" /> : <Copy size={14} />}
+                        {copiedCode ? <IoCheckmarkCircle size={14} className="text-[#a0a0a0]" /> : <IoCopy size={14} />}
                         {copiedCode ? 'Copied' : 'Copy Code'}
                       </button>
                     </div>
@@ -448,7 +448,7 @@ export default function ClassroomTeamsPage() {
                       <div key={member.id} className="p-3 flex justify-between items-center">
                         <div className="flex items-center gap-3">
                           <div className="bg-[#252525] p-2 rounded-full">
-                            <Users size={14} className="text-[#a0a0a0]" />
+                            <IoPeople size={14} className="text-[#a0a0a0]" />
                           </div>
                           <span className="text-sm">{member.name}</span>
                         </div>
@@ -465,7 +465,7 @@ export default function ClassroomTeamsPage() {
                     href={`/student/classroom/${classroomId}/slots`}
                     className="bg-[#5c46f5] hover:bg-[#4c38e6] text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors"
                   >
-                    <Clock size={16} />
+                    <IoTime size={16} />
                     Book Review Slot
                   </Link>
                 </div>
@@ -505,7 +505,7 @@ export default function ClassroomTeamsPage() {
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="flex items-center">
                                 <div className="flex-shrink-0 h-8 w-8 bg-gray-800 rounded-full flex items-center justify-center">
-                                  <Users size={16} className="text-indigo-400" />
+                                  <IoPeople size={16} className="text-indigo-400" />
                                 </div>
                                 <div className="ml-4">
                                   <div className="text-sm font-medium">{student.name}</div>
@@ -516,7 +516,7 @@ export default function ClassroomTeamsPage() {
                             <td className="px-6 py-4 whitespace-nowrap">
                               {student.has_team ? (
                                 <span className="px-2 py-1 text-xs rounded-full bg-green-900/30 text-green-400 flex items-center gap-1 w-fit">
-                                  <UserCheck size={12} />
+                                  <IoCheckmarkCircle size={12} />
                                   In a team
                                 </span>
                               ) : (
@@ -566,7 +566,7 @@ export default function ClassroomTeamsPage() {
                       <div className="text-xs text-[#808080] mb-2">Team Leader</div>
                       <div className="flex items-center gap-2 bg-[#1a1a1a] p-2 rounded-lg">
                         <div className="bg-[#252525] p-1.5 rounded-full">
-                          <Users size={14} className="text-[#a0a0a0]" />
+                          <IoPeople size={14} className="text-[#a0a0a0]" />
                         </div>
                         <span className="text-sm">{team.members.find(m => m.role === 'leader')?.name || 'Unknown'}</span>
                       </div>

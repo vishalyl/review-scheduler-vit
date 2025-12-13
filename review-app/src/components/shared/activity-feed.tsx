@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Users, Calendar, FileText, School, Clock } from 'lucide-react';
+import { IoPeople, IoCalendar, IoDocument, IoSchool, IoTime } from 'react-icons/io5';
 
 interface Activity {
   id: number;
@@ -92,16 +92,16 @@ export default function ActivityFeed({ userRole, limit = 5 }: ActivityFeedProps)
     switch (type) {
       case 'classroom_created':
       case 'classroom_joined':
-        return <School size={16} className="text-indigo-400" />;
+        return <IoSchool size={16} className="text-indigo-400" />;
       case 'team_created':
       case 'team_joined':
-        return <Users size={16} className="text-purple-400" />;
+        return <IoPeople size={16} className="text-purple-400" />;
       case 'slots_published':
-        return <Calendar size={16} className="text-emerald-400" />;
+        return <IoCalendar size={16} className="text-emerald-400" />;
       case 'submission_created':
-        return <FileText size={16} className="text-amber-400" />;
+        return <IoDocument size={16} className="text-amber-400" />;
       default:
-        return <Clock size={14} className="text-[#a0a0a0]" />;
+        return <IoTime size={14} className="text-[#a0a0a0]" />;
     }
   };
 
@@ -238,7 +238,7 @@ export default function ActivityFeed({ userRole, limit = 5 }: ActivityFeedProps)
       <div className="p-5">
         <div className="text-center py-6">
           <div className="w-10 h-10 bg-[#1e1e1e] rounded-full flex items-center justify-center mx-auto mb-3">
-            <Clock size={18} className="text-[#a0a0a0]" />
+            <IoTime size={18} className="text-[#a0a0a0]" />
           </div>
           <p className="text-sm font-medium mb-1">No recent activity</p>
           <p className="text-[#a0a0a0] text-xs">Your activity will appear here</p>

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Check, X, Loader2, Calendar } from 'lucide-react';
+import { IoCheckmark, IoClose, IoSync, IoCalendar } from 'react-icons/io5';
 import { useForm } from 'react-hook-form';
 
 interface CreateClassroomFormProps {
@@ -139,7 +139,7 @@ export default function CreateClassroomForm({ onSuccess, onCancel }: CreateClass
             onClick={onCancel}
             className="text-gray-400 hover:text-white"
           >
-            <X size={20} />
+            <IoClose size={20} />
           </button>
         )}
       </div>
@@ -147,7 +147,7 @@ export default function CreateClassroomForm({ onSuccess, onCancel }: CreateClass
       {success.created ? (
         <div className="flex flex-col items-center justify-center py-6">
           <div className="w-16 h-16 bg-green-900/30 rounded-full flex items-center justify-center mb-4">
-            <Check className="h-8 w-8 text-green-400" />
+            <IoCheckmark className="h-8 w-8 text-green-400" />
           </div>
           <h4 className="text-lg font-medium mb-2">Classroom created successfully!</h4>
           <p className="text-gray-400 text-center mb-6">Your classroom has been created and is ready for students to join</p>
@@ -211,7 +211,7 @@ export default function CreateClassroomForm({ onSuccess, onCancel }: CreateClass
 
             <div className="pt-2">
               <h4 className="text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
-                <Calendar size={16} className="text-indigo-400" />
+                <IoCalendar size={16} className="text-indigo-400" />
                 Review Deadlines (Optional)
               </h4>
               
@@ -262,7 +262,7 @@ export default function CreateClassroomForm({ onSuccess, onCancel }: CreateClass
 
             {error && (
               <div className="p-3 bg-red-900/30 border border-red-800 rounded-lg flex items-start gap-3">
-                <X className="text-red-400 h-5 w-5 mt-0.5 flex-shrink-0" />
+                <IoClose className="text-red-400 h-5 w-5 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-red-400 font-medium">Error creating classroom</p>
                   <p className="text-red-300/80 text-sm">{error}</p>
@@ -290,7 +290,7 @@ export default function CreateClassroomForm({ onSuccess, onCancel }: CreateClass
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 size={18} className="animate-spin" />
+                    <IoSync size={18} className="animate-spin" />
                     Creating...
                   </>
                 ) : (

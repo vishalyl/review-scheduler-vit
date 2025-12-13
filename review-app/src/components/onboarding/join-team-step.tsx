@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Check, AlertCircle, Loader2 } from 'lucide-react';
+import { IoPeople, IoCheckmark, IoAlertCircle, IoSync } from 'react-icons/io5';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useOnboarding } from './onboarding-context';
 
@@ -288,7 +288,7 @@ export default function JoinTeamStep({ onComplete, onSkip }: JoinTeamStepProps) 
     >
       <div className="flex items-center justify-center mb-6">
         <div className="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center">
-          <Users className="text-purple-400" size={24} />
+          <IoPeople className="text-purple-400" size={24} />
         </div>
       </div>
       
@@ -300,7 +300,7 @@ export default function JoinTeamStep({ onComplete, onSkip }: JoinTeamStepProps) 
       {success ? (
         <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-6">
           <div className="flex items-center">
-            <Check className="text-green-400 mr-2" size={18} />
+            <IoCheckmark className="text-green-400 mr-2" size={18} />
             <p className="text-green-400 text-sm font-medium">
               {showCreateTeamOption ? 'Team created successfully!' : 'Joined team successfully!'}
             </p>
@@ -311,7 +311,7 @@ export default function JoinTeamStep({ onComplete, onSkip }: JoinTeamStepProps) 
           {error && (
             <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6">
               <div className="flex items-center">
-                <AlertCircle className="text-red-400 mr-2" size={18} />
+                <IoAlertCircle className="text-red-400 mr-2" size={18} />
                 <p className="text-red-400 text-sm">{error}</p>
               </div>
             </div>
@@ -356,7 +356,7 @@ export default function JoinTeamStep({ onComplete, onSkip }: JoinTeamStepProps) 
                 </label>
                 {loadingClassrooms ? (
                   <div className="flex items-center justify-center p-4">
-                    <Loader2 className="animate-spin text-purple-400" size={20} />
+                    <IoSync className="animate-spin text-purple-400" size={20} />
                   </div>
                 ) : classrooms.length === 0 ? (
                   <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3">
@@ -390,9 +390,9 @@ export default function JoinTeamStep({ onComplete, onSkip }: JoinTeamStepProps) 
                   disabled={loading || classrooms.length === 0}
                 >
                   {loading ? (
-                    <Loader2 className="animate-spin mr-2" size={16} />
+                    <IoSync className="animate-spin mr-2" size={16} />
                   ) : (
-                    <Users className="mr-2" size={16} />
+                    <IoPeople className="mr-2" size={16} />
                   )}
                   Create Team
                 </button>
@@ -431,9 +431,9 @@ export default function JoinTeamStep({ onComplete, onSkip }: JoinTeamStepProps) 
                   disabled={loading}
                 >
                   {loading ? (
-                    <Loader2 className="animate-spin mr-2" size={16} />
+                    <IoSync className="animate-spin mr-2" size={16} />
                   ) : (
-                    <Users className="mr-2" size={16} />
+                    <IoPeople className="mr-2" size={16} />
                   )}
                   Join Team
                 </button>

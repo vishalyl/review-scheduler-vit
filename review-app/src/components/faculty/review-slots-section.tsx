@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Filter, Search, Edit, X, AlertCircle, CheckCircle, ChevronDown } from 'lucide-react';
+import { IoCalendar, IoTime, IoFunnel, IoSearch, IoCreate, IoClose, IoAlertCircle, IoCheckmarkCircle, IoChevronDown } from 'react-icons/io5';
 
 interface ReviewSlot {
   id: string;
@@ -330,7 +330,7 @@ export default function ReviewSlotsSection({ userId }: ReviewSlotsSectionProps) 
           variants={itemVariants}
           className="bg-[#141414] border border-[#1e1e1e] rounded-lg overflow-hidden max-w-3xl mx-auto mb-4 p-4 flex items-center gap-2"
         >
-          <AlertCircle size={16} className="text-[#f87171]" />
+          <IoAlertCircle size={16} className="text-[#f87171]" />
           <span className="text-[#f87171] text-sm">{error}</span>
         </motion.div>
       )}
@@ -340,7 +340,7 @@ export default function ReviewSlotsSection({ userId }: ReviewSlotsSectionProps) 
           variants={itemVariants}
           className="bg-[#141414] border border-[#1e1e1e] rounded-lg overflow-hidden max-w-3xl mx-auto mb-4 p-4 flex items-center gap-2"
         >
-          <CheckCircle size={16} className="text-[#4ade80]" />
+          <IoCheckmarkCircle size={16} className="text-[#4ade80]" />
           <span className="text-[#4ade80] text-sm">{success}</span>
         </motion.div>
       )}
@@ -355,7 +355,7 @@ export default function ReviewSlotsSection({ userId }: ReviewSlotsSectionProps) 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <div className="relative">
-                <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#a0a0a0]" />
+                <IoSearch size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#a0a0a0]" />
                 <input
                   type="text"
                   placeholder="Search slots..."
@@ -379,7 +379,7 @@ export default function ReviewSlotsSection({ userId }: ReviewSlotsSectionProps) 
                   ))}
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <ChevronDown size={16} className="text-[#a0a0a0]" />
+                  <IoChevronDown size={16} className="text-[#a0a0a0]" />
                 </div>
               </div>
             </div>
@@ -405,7 +405,7 @@ export default function ReviewSlotsSection({ userId }: ReviewSlotsSectionProps) 
                   })}
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <ChevronDown size={16} className="text-[#a0a0a0]" />
+                  <IoChevronDown size={16} className="text-[#a0a0a0]" />
                 </div>
               </div>
             </div>
@@ -423,7 +423,7 @@ export default function ReviewSlotsSection({ userId }: ReviewSlotsSectionProps) 
                   <option value="Review 3">Review 3</option>
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <ChevronDown size={16} className="text-[#a0a0a0]" />
+                  <IoChevronDown size={16} className="text-[#a0a0a0]" />
                 </div>
               </div>
             </div>
@@ -469,7 +469,7 @@ export default function ReviewSlotsSection({ userId }: ReviewSlotsSectionProps) 
                 }}
                 className="px-4 py-2 bg-[#5c46f5] text-white rounded-lg text-sm hover:bg-[#4c38e6] transition-colors inline-flex items-center gap-2"
               >
-                <Calendar size={16} />
+                <IoCalendar size={16} />
                 Go to Timetable
               </button>
             </div>
@@ -524,7 +524,7 @@ export default function ReviewSlotsSection({ userId }: ReviewSlotsSectionProps) 
                       className="p-2 rounded-full hover:bg-[#252525] text-[#a0a0a0] hover:text-white transition-colors"
                       title="Edit"
                     >
-                      <Edit size={16} />
+                      <IoCreate size={16} />
                     </button>
                     <button 
                       className="p-2 rounded-full hover:bg-[#2d1515] text-[#f87171] hover:text-[#ef4444] transition-colors"
@@ -535,7 +535,7 @@ export default function ReviewSlotsSection({ userId }: ReviewSlotsSectionProps) 
                       {cancellingSlot === slot.id ? (
                         <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#f87171] border-t-transparent"></div>
                       ) : (
-                        <X size={16} />
+                        <IoClose size={16} />
                       )}
                     </button>
                   </div>

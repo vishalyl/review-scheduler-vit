@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Filter, Search, CheckCircle, AlertCircle, ChevronDown, Info, ChevronRight, RefreshCw } from 'lucide-react';
+import { IoCalendar, IoTime, IoFunnel, IoSearch, IoCheckmarkCircle, IoAlertCircle, IoChevronDown, IoInformationCircle, IoChevronForward, IoRefresh } from 'react-icons/io5';
 import Link from 'next/link';
 
 interface ReviewSlot {
@@ -337,7 +337,7 @@ export default function StudentReviewSlotsSection({ userId }: ReviewSlotsSection
       <div className="bg-gradient-to-r from-[#1a1a2e] to-[#16213e] rounded-lg border border-[#272741] p-5 mb-6 shadow-lg">
         <div className="flex items-center gap-4 mb-4">
           <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#5c46f5]/20">
-            <Calendar size={20} className="text-[#5c46f5]" />
+            <IoCalendar size={20} className="text-[#5c46f5]" />
           </div>
           <div className="flex-1">
             <h2 className="text-xl font-bold text-white">Review Slot Booking</h2>
@@ -348,7 +348,7 @@ export default function StudentReviewSlotsSection({ userId }: ReviewSlotsSection
             disabled={refreshing}
             className="flex items-center gap-1 bg-[#0f0f1a] hover:bg-[#1a1a36] text-[#a0a0a0] hover:text-white px-3 py-2 rounded-md text-xs transition-colors duration-200"
           >
-            <RefreshCw size={14} className={`${refreshing ? 'animate-spin' : ''}`} />
+            <IoRefresh size={14} className={`${refreshing ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
           </button>
         </div>
@@ -392,7 +392,7 @@ export default function StudentReviewSlotsSection({ userId }: ReviewSlotsSection
       <div className="bg-[#141414] rounded-lg border border-[#1e1e1e] p-5 mb-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#5c46f5]/20">
-            <Filter size={16} className="text-[#5c46f5]" />
+            <IoFunnel size={16} className="text-[#5c46f5]" />
           </div>
           <div>
             <h3 className="font-medium text-sm">Filter Available Slots</h3>
@@ -461,7 +461,7 @@ export default function StudentReviewSlotsSection({ userId }: ReviewSlotsSection
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-[#1a1a1a] border border-[#252525] rounded-md pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#5c46f5] focus:border-[#5c46f5] transition-all duration-200"
               />
-              <Search size={14} className="absolute left-3 top-2.5 text-[#505050]" />
+              <IoSearch size={14} className="absolute left-3 top-2.5 text-[#505050]" />
             </div>
           </div>
         </div>
@@ -469,7 +469,7 @@ export default function StudentReviewSlotsSection({ userId }: ReviewSlotsSection
         {/* Error and Success Messages */}
         {error && (
           <motion.div variants={itemVariants} className="bg-red-900/20 border border-red-900/30 rounded-lg p-4 flex items-start gap-3 animate-fadeIn">
-            <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+            <IoAlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
             <div>
               <p className="text-red-400 text-sm font-medium">{error}</p>
               <p className="text-red-500/70 text-xs mt-1">Please try again or contact support</p>
@@ -479,7 +479,7 @@ export default function StudentReviewSlotsSection({ userId }: ReviewSlotsSection
 
         {success && (
           <div className="bg-green-900/20 border border-green-900/30 rounded-lg p-4 mb-6 flex items-start gap-3 animate-fadeIn">
-            <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+            <IoCheckmarkCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
             <div>
               <p className="text-green-400 text-sm font-medium">{success}</p>
               <p className="text-green-500/70 text-xs mt-1">You can view your booked slots in your dashboard</p>
@@ -502,19 +502,19 @@ export default function StudentReviewSlotsSection({ userId }: ReviewSlotsSection
             </div>
           ) : error ? (
             <div className="bg-red-900/20 border border-red-900/30 rounded-lg p-4 text-center">
-              <AlertCircle className="mx-auto h-8 w-8 text-red-500 mb-2" />
+              <IoAlertCircle className="mx-auto h-8 w-8 text-red-500 mb-2" />
               <p className="text-red-400">{error}</p>
               <button
                 onClick={() => fetchAvailableSlots(false)}
                 className="mt-4 bg-[#1a1a1a] hover:bg-[#252525] text-[#a0a0a0] hover:text-white px-4 py-2 rounded-md text-xs transition-colors duration-200 flex items-center gap-2 mx-auto"
               >
-                <RefreshCw size={14} />
+                <IoRefresh size={14} />
                 <span>Try Again</span>
               </button>
             </div>
           ) : filteredSlots.length === 0 ? (
             <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-8 text-center">
-              <Calendar className="mx-auto h-8 w-8 text-[#505050] mb-2" />
+              <IoCalendar className="mx-auto h-8 w-8 text-[#505050] mb-2" />
               <h4 className="text-base font-medium mb-2">No slots available</h4>
               <p className="text-[#a0a0a0] text-sm mb-4">
                 {availableSlots.length > 0
@@ -537,7 +537,7 @@ export default function StudentReviewSlotsSection({ userId }: ReviewSlotsSection
                   onClick={() => fetchAvailableSlots(false)}
                   className="bg-[#1a1a1a] hover:bg-[#252525] text-[#a0a0a0] hover:text-white px-4 py-2 rounded-md text-sm transition-colors duration-200 flex items-center justify-center gap-2"
                 >
-                  <RefreshCw size={14} />
+                  <IoRefresh size={14} />
                   <span>Refresh Slots</span>
                 </button>
               </div>
@@ -567,7 +567,7 @@ export default function StudentReviewSlotsSection({ userId }: ReviewSlotsSection
                   <div className="p-4">
                     <div className="flex items-center gap-3 p-3 bg-[#141428] rounded-lg mb-3">
                       <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#5c46f5]/10">
-                        <Clock size={18} className="text-[#5c46f5]" />
+                        <IoTime size={18} className="text-[#5c46f5]" />
                       </div>
                       <div>
                         <p className="text-sm font-medium">{slot.start_time} - {slot.end_time}</p>
@@ -577,7 +577,7 @@ export default function StudentReviewSlotsSection({ userId }: ReviewSlotsSection
 
                     {slot.booking_deadline && (
                       <div className="flex items-center gap-2 mb-4 p-2 rounded-md bg-yellow-500/5 border border-yellow-500/10">
-                        <Info size={14} className="text-yellow-500" />
+                        <IoInformationCircle size={14} className="text-yellow-500" />
                         <p className="text-xs text-yellow-500/80">
                           Book before <span className="font-medium text-yellow-500">{new Date(slot.booking_deadline).toLocaleDateString()}</span>
                         </p>
@@ -589,7 +589,7 @@ export default function StudentReviewSlotsSection({ userId }: ReviewSlotsSection
                       className="w-full bg-gradient-to-r from-[#5c46f5] to-[#4c38e6] hover:from-[#6b56ff] hover:to-[#5c48f6] text-white rounded-md py-3 text-sm font-medium transition-all duration-200 transform hover:-translate-y-0.5 shadow-md shadow-[#5c46f5]/10 hover:shadow-[#5c46f5]/20 flex items-center justify-center gap-2"
                     >
                       <span>Book this slot</span>
-                      <ChevronRight size={16} className="opacity-70" />
+                      <IoChevronForward size={16} className="opacity-70" />
                     </button>
                   </div>
                 </div>
@@ -603,7 +603,7 @@ export default function StudentReviewSlotsSection({ userId }: ReviewSlotsSection
             <div className="bg-gradient-to-b from-[#141414] to-[#1a1a1a] border border-[#272741] rounded-lg p-6 max-w-md w-full shadow-xl">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#5c46f5]/20">
-                  <Calendar size={18} className="text-[#5c46f5]" />
+                  <IoCalendar size={18} className="text-[#5c46f5]" />
                 </div>
                 <div>
                   <h3 className="text-lg font-medium">Confirm Booking</h3>
@@ -613,7 +613,7 @@ export default function StudentReviewSlotsSection({ userId }: ReviewSlotsSection
 
               {teams.length === 0 ? (
                 <div className="bg-[#1a1a1a] rounded-md p-4 text-center mb-6 border border-[#252525]">
-                  <AlertCircle className="mx-auto h-6 w-6 text-yellow-500 mb-2" />
+                  <IoAlertCircle className="mx-auto h-6 w-6 text-yellow-500 mb-2" />
                   <p className="text-[#a0a0a0] text-sm mb-2">You are not part of any teams</p>
                   <p className="text-xs text-[#505050]">You need to be part of a team to book a slot</p>
                 </div>

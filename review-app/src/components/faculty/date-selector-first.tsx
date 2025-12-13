@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { getDayStringFromDate, formatDateForInput } from '@/lib/utils';
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Check, X } from 'lucide-react';
+import { IoChevronBack, IoChevronForward, IoCheckmark, IoClose } from 'react-icons/io5';
 import { format, addMonths, subMonths } from 'date-fns';
 
 interface DateSelectorFirstProps {
@@ -62,7 +62,7 @@ export default function DateSelectorFirst({
           onClick={onCancel}
           className="text-gray-400 hover:text-white"
         >
-          <X size={20} />
+          <IoClose size={20} />
         </button>
       </div>
       
@@ -101,7 +101,7 @@ export default function DateSelectorFirst({
                   onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
                   className="p-1 rounded-full hover:bg-gray-700"
                 >
-                  <ChevronLeft size={20} className="text-gray-400" />
+                  <IoChevronBack size={20} className="text-gray-400" />
                 </button>
 
                 <h3 className="text-white font-medium">
@@ -112,7 +112,7 @@ export default function DateSelectorFirst({
                   onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
                   className="p-1 rounded-full hover:bg-gray-700"
                 >
-                  <ChevronRight size={20} className="text-gray-400" />
+                  <IoChevronForward size={20} className="text-gray-400" />
                 </button>
               </div>
 
@@ -215,7 +215,7 @@ export default function DateSelectorFirst({
                         onClick={() => handleDateSelect(date)}
                         className="text-red-400 hover:text-red-300"
                       >
-                        <X size={16} />
+                        <IoClose size={16} />
                       </button>
                     </div>
                   ))}

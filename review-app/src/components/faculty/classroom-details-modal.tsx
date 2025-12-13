@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { X, Users, Calendar, School, Copy, Clock, User2 } from 'lucide-react';
+import { IoClose, IoPeople, IoCalendar, IoSchool, IoCopy, IoTime, IoPerson } from 'react-icons/io5';
 
 interface ClassroomDetailsModalProps {
   classroom: {
@@ -86,7 +86,7 @@ export default function ClassroomDetailsModal({ classroom, onClose }: ClassroomD
             className="text-gray-400 hover:text-white transition-colors"
             aria-label="Close modal"
           >
-            <X size={20} />
+            <IoClose size={20} />
           </button>
         </div>
 
@@ -95,11 +95,11 @@ export default function ClassroomDetailsModal({ classroom, onClose }: ClassroomD
           {/* Stats */}
           <div className="flex space-x-3 mb-4">
             <div className="flex items-center gap-2 bg-indigo-900/30 text-indigo-300 px-3 py-2 rounded-lg">
-              <Users size={16} />
+              <IoPeople size={16} />
               <span>{classroom.students_count || 0} students</span>
             </div>
             <div className="flex items-center gap-2 bg-emerald-900/30 text-emerald-300 px-3 py-2 rounded-lg">
-              <School size={16} />
+              <IoSchool size={16} />
               <span>{classroom.teams_count || 0} teams</span>
             </div>
           </div>
@@ -121,7 +121,7 @@ export default function ClassroomDetailsModal({ classroom, onClose }: ClassroomD
                   {codeCopied ? (
                     <span className="text-green-400 text-xs">Copied!</span>
                   ) : (
-                    <Copy size={16} />
+                    <IoCopy size={16} />
                   )}
                 </button>
               </div>
@@ -139,7 +139,7 @@ export default function ClassroomDetailsModal({ classroom, onClose }: ClassroomD
                   return (
                     <div key={review} className="flex justify-between items-center bg-gray-800/50 p-2 rounded">
                       <div className="flex items-center gap-2">
-                        <Calendar size={16} className={isUpcoming ? "text-emerald-400" : "text-gray-400"} />
+                        <IoCalendar size={16} className={isUpcoming ? "text-emerald-400" : "text-gray-400"} />
                         <span>{review}</span>
                       </div>
                       <span className={`text-xs px-2 py-1 rounded ${
@@ -155,7 +155,7 @@ export default function ClassroomDetailsModal({ classroom, onClose }: ClassroomD
               </div>
             ) : (
               <div className="text-center py-4 bg-gray-800/30 rounded">
-                <Clock size={24} className="mx-auto mb-2 text-gray-500" />
+                <IoTime size={24} className="mx-auto mb-2 text-gray-500" />
                 <p className="text-gray-400">No deadlines set</p>
               </div>
             )}

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, X, Loader2 } from 'lucide-react';
+import { IoCheckmark, IoClose, IoSync } from 'react-icons/io5';
 
 interface JoinClassroomFormProps {
   onSuccess?: () => void;
@@ -147,7 +147,7 @@ export default function JoinClassroomForm({ onSuccess, onCancel }: JoinClassroom
               onClick={onCancel}
               className="w-8 h-8 rounded-full bg-[#1e1e1e] hover:bg-[#252525] flex items-center justify-center transition-colors duration-200"
             >
-              <X size={14} className="text-[#a0a0a0]" />
+              <IoClose size={14} className="text-[#a0a0a0]" />
             </button>
           )}
         </div>
@@ -157,7 +157,7 @@ export default function JoinClassroomForm({ onSuccess, onCancel }: JoinClassroom
       {success ? (
         <div className="flex flex-col items-center justify-center py-4">
           <div className="w-16 h-16 bg-[#1a1a1a] rounded-full flex items-center justify-center mb-4">
-            <Check className="h-8 w-8 text-white" />
+            <IoCheckmark className="h-8 w-8 text-white" />
           </div>
           <h4 className="text-base font-medium mb-2">Successfully joined classroom!</h4>
           <p className="text-[#a0a0a0] text-sm text-center">You can now create or join teams in this classroom</p>
@@ -202,7 +202,7 @@ export default function JoinClassroomForm({ onSuccess, onCancel }: JoinClassroom
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 size={14} className="animate-spin" />
+                  <IoSync size={14} className="animate-spin" />
                   <span>Joining...</span>
                 </>
               ) : (

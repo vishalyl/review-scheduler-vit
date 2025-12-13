@@ -9,7 +9,7 @@ import OnboardingProgress from './onboarding-progress';
 import JoinClassroomStep from './join-classroom-step';
 import JoinTeamStep from './join-team-step';
 import ScheduleReviewStep from './schedule-review-step';
-import { CheckCircle, ChevronRight } from 'lucide-react';
+import { IoCheckmarkCircle, IoChevronForward } from 'react-icons/io5';
 
 export default function OnboardingController() {
   const [user, setUser] = useState<any>(null);
@@ -172,7 +172,7 @@ export default function OnboardingController() {
                           : 'bg-[#1e1e1e]'
                     }`}>
                       {step.completed ? (
-                        <CheckCircle size={12} className="text-white" />
+                        <IoCheckmarkCircle size={12} className="text-white" />
                       ) : (
                         <span className="w-2 h-2 rounded-full bg-[#a0a0a0]"></span>
                       )}
@@ -195,7 +195,7 @@ export default function OnboardingController() {
                 className="w-full py-2 rounded-md bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center justify-center gap-1"
               >
                 Continue Setup
-                <ChevronRight size={14} />
+                <IoChevronForward size={14} />
               </button>
             </div>
           </motion.div>
@@ -219,7 +219,7 @@ export default function OnboardingController() {
               }}
               className="bg-[#141414] border border-[#1e1e1e] rounded-full p-8 flex items-center justify-center"
             >
-              <CheckCircle size={48} className="text-green-500" />
+              <IoCheckmarkCircle size={48} className="text-green-500" />
             </motion.div>
           </motion.div>
         )}

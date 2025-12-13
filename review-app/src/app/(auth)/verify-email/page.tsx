@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Mail, ChevronRight } from 'lucide-react';
+import { IoMail, IoChevronForward } from 'react-icons/io5';
 
 export default function VerifyEmailPage() {
   const router = useRouter();
@@ -20,7 +20,7 @@ export default function VerifyEmailPage() {
         className="w-full max-w-md text-center p-8 rounded-xl"
       >
         <div className="w-20 h-20 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Mail className="h-10 w-10 text-white" />
+          <IoMail className="h-10 w-10 text-white" />
         </div>
 
         <h2 className="text-3xl font-bold mb-4">Check your email</h2>
@@ -35,15 +35,15 @@ export default function VerifyEmailPage() {
             <h3 className="font-medium mb-2">Didn't receive an email?</h3>
             <ul className="text-sm text-gray-400 text-left space-y-2">
               <li className="flex items-start">
-                <ChevronRight className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                <IoChevronForward className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
                 Check your spam or junk folder
               </li>
               <li className="flex items-start">
-                <ChevronRight className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                <IoChevronForward className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
                 Make sure you entered the correct email address
               </li>
               <li className="flex items-start">
-                <ChevronRight className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                <IoChevronForward className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
                 Allow a few minutes for the email to arrive
               </li>
             </ul>

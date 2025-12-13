@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import './custom-scrollbar.css';
 import './onboarding.css';
-import { Plus, Calendar, Users, FileText, Clock, X, ChevronRight } from 'lucide-react';
+import { IoAdd, IoCalendar, IoPeople, IoDocument, IoTime, IoClose, IoChevronForward } from 'react-icons/io5';
 import Link from 'next/link';
 import LogoutButton from '@/components/auth/logout-button';
 import EnhancedJoinClassroomModal from '@/components/student/enhanced-join-classroom-modal';
@@ -460,7 +460,7 @@ export default function StudentDashboard() {
               className="w-8 h-8 rounded-full bg-[#1e1e1e] hover:bg-[#252525] flex items-center justify-center transition-colors duration-200 relative group"
             >
               <span className="absolute -bottom-8 right-0 bg-[#252525] text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">View Profile</span>
-              <Users size={14} className="text-[#a0a0a0]" />
+              <IoPeople size={14} className="text-[#a0a0a0]" />
             </button>
             <LogoutButton variant="minimal" />
           </div>
@@ -497,7 +497,7 @@ export default function StudentDashboard() {
                   <h3 className="text-xl font-medium">{classrooms.length}</h3>
                 </div>
                 <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500/10">
-                  <Users className="text-blue-400" size={18} />
+                  <IoPeople className="text-blue-400" size={18} />
                 </div>
               </div>
               <div className="mt-3 pt-3 border-t border-[#1e1e1e]">
@@ -516,7 +516,7 @@ export default function StudentDashboard() {
                   <h3 className="text-xl font-medium">{teams.length}</h3>
                 </div>
                 <div className="w-10 h-10 flex items-center justify-center rounded-full bg-purple-500/10">
-                  <Users className="text-purple-400" size={18} />
+                  <IoPeople className="text-purple-400" size={18} />
                 </div>
               </div>
               <div className="mt-3 pt-3 border-t border-[#1e1e1e]">
@@ -535,7 +535,7 @@ export default function StudentDashboard() {
                   <h3 className="text-xl font-medium">{upcomingReviews.length}</h3>
                 </div>
                 <div className="w-10 h-10 flex items-center justify-center rounded-full bg-green-500/10">
-                  <Calendar className="text-green-400" size={18} />
+                  <IoCalendar className="text-green-400" size={18} />
                 </div>
               </div>
               <div className="mt-3 pt-3 border-t border-[#1e1e1e]">
@@ -554,7 +554,7 @@ export default function StudentDashboard() {
                   <h3 className="text-xl font-medium truncate max-w-[120px]">{user?.roll_number || 'Not set'}</h3>
                 </div>
                 <div className="w-10 h-10 flex items-center justify-center rounded-full bg-amber-500/10">
-                  <Clock className="text-amber-400" size={18} />
+                  <IoTime className="text-amber-400" size={18} />
                 </div>
               </div>
               <div className="mt-3 pt-3 border-t border-[#1e1e1e]">
@@ -577,14 +577,14 @@ export default function StudentDashboard() {
                 className="text-xs text-white px-3 py-1.5 rounded-md bg-[#5c46f5] hover:bg-[#4c38e6] transition-colors duration-200 flex items-center gap-1"
               >
                 View all
-                <ChevronRight size={12} />
+                <IoChevronForward size={12} />
               </Link>
             </div>
             
             <div className="bg-gradient-to-r from-[#1a1a2e] to-[#16213e] rounded-lg border border-[#272741] p-5 shadow-lg">
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#5c46f5]/20">
-                  <Calendar size={16} className="text-[#5c46f5]" />
+                  <IoCalendar size={16} className="text-[#5c46f5]" />
                 </div>
                 <div>
                   <h3 className="font-medium text-sm">Book Your Review Slots</h3>
@@ -594,10 +594,10 @@ export default function StudentDashboard() {
               
               <div className="flex flex-wrap gap-3 mb-4">
                 <span className="bg-[#5c46f5]/20 text-[#5c46f5] px-3 py-1 rounded-full text-xs flex items-center gap-1">
-                  <Clock size={12} /> Schedule Reviews
+                  <IoTime size={12} /> Schedule Reviews
                 </span>
                 <span className="bg-[#5c46f5]/20 text-[#5c46f5] px-3 py-1 rounded-full text-xs flex items-center gap-1">
-                  <Calendar size={12} /> View Details
+                  <IoCalendar size={12} /> View Details
                 </span>
               </div>
               
@@ -609,7 +609,7 @@ export default function StudentDashboard() {
                     className="bg-gradient-to-r from-[#5c46f5] to-[#4c38e6] text-white px-4 py-2 rounded-md inline-flex items-center gap-2 text-xs font-medium shadow-md shadow-[#5c46f5]/10 hover:shadow-[#5c46f5]/20 transition-all duration-200 hover:-translate-y-0.5"
                   >
                     View Available Slots
-                    <ChevronRight size={12} />
+                    <IoChevronForward size={12} />
                   </Link>
                 </div>
               ) : (
@@ -630,7 +630,7 @@ export default function StudentDashboard() {
                         Faculty: {classroom.faculty_name || 'Unknown'}
                       </p>
                       <div className="flex items-center gap-2 text-sm">
-                        <Clock size={14} className="text-[#5c46f5]" />
+                        <IoTime size={14} className="text-[#5c46f5]" />
                         <span>Book your review slot now</span>
                       </div>
                     </Link>
@@ -654,7 +654,7 @@ export default function StudentDashboard() {
                 <div className="bg-[#1a1a1a] rounded-lg p-5 border border-[#252525] hover:border-blue-500/30 transition-colors duration-200">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center">
-                      <Users size={20} className="text-blue-400" />
+                      <IoPeople size={20} className="text-blue-400" />
                     </div>
                     <div>
                       <h4 className="text-base font-medium">Create a New Team</h4>
@@ -674,7 +674,7 @@ export default function StudentDashboard() {
                 <div className="bg-[#1a1a1a] rounded-lg p-5 border border-[#252525] hover:border-indigo-500/30 transition-colors duration-200">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 rounded-full bg-indigo-500/10 flex items-center justify-center">
-                      <Users size={20} className="text-indigo-400" />
+                      <IoPeople size={20} className="text-indigo-400" />
                     </div>
                     <div>
                       <h4 className="text-base font-medium">Join Existing Team</h4>
@@ -718,7 +718,7 @@ export default function StudentDashboard() {
                 onClick={() => setShowJoinForm(true)}
                 className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1.5 rounded-md text-xs font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center gap-1.5"
               >
-                <Plus size={12} />
+                <IoAdd size={12} />
                 Join Classroom
               </button>
             </div>
@@ -726,7 +726,7 @@ export default function StudentDashboard() {
             {classrooms.length === 0 ? (
               <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-8 text-center">
                 <div className="mb-4 mx-auto w-12 h-12 bg-[#1e1e1e] rounded-full flex items-center justify-center">
-                  <Users size={20} className="text-[#a0a0a0]" />
+                  <IoPeople size={20} className="text-[#a0a0a0]" />
                 </div>
                 <h4 className="text-base font-medium mb-2">No classrooms joined yet</h4>
                 <p className="text-[#a0a0a0] text-sm mb-4">Join a classroom to start creating or joining teams</p>
@@ -734,7 +734,7 @@ export default function StudentDashboard() {
                   onClick={() => setShowJoinForm(true)}
                   className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center gap-2 mx-auto"
                 >
-                  <Plus size={14} />
+                  <IoAdd size={14} />
                   Join Classroom
                 </button>
               </div>
@@ -752,7 +752,7 @@ export default function StudentDashboard() {
                     <div className="flex justify-between items-start mb-3">
                       <h4 className="font-medium text-sm">{classroom.name}</h4>
                       <div className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500/10">
-                        <Users size={14} className="text-blue-400" />
+                        <IoPeople size={14} className="text-blue-400" />
                       </div>
                     </div>
                     <p className="text-[#a0a0a0] text-xs mb-4">{classroom.faculty_name || 'Unknown Faculty'}</p>
@@ -783,7 +783,7 @@ export default function StudentDashboard() {
             {teams.length === 0 ? (
               <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-8 text-center">
                 <div className="mb-4 mx-auto w-12 h-12 bg-[#1e1e1e] rounded-full flex items-center justify-center">
-                  <Users size={20} className="text-[#a0a0a0]" />
+                  <IoPeople size={20} className="text-[#a0a0a0]" />
                 </div>
                 <h4 className="text-base font-medium mb-2">No teams yet</h4>
                 <p className="text-[#a0a0a0] text-sm mb-4">Join a team or create one to start scheduling reviews</p>
@@ -800,7 +800,7 @@ export default function StudentDashboard() {
                     <div className="flex justify-between items-start mb-3">
                       <h4 className="font-medium text-sm">{team.name}</h4>
                       <div className="w-8 h-8 flex items-center justify-center rounded-full bg-purple-500/10">
-                        <Users size={14} className="text-purple-400" />
+                        <IoPeople size={14} className="text-purple-400" />
                       </div>
                     </div>
                     <p className="text-[#a0a0a0] text-xs mb-4">{team.project_title || 'No project title set'}</p>
@@ -849,7 +849,7 @@ export default function StudentDashboard() {
             {upcomingReviews.length === 0 ? (
               <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-8 text-center">
                 <div className="mb-4 mx-auto w-12 h-12 bg-[#1e1e1e] rounded-full flex items-center justify-center">
-                  <Calendar size={20} className="text-[#a0a0a0]" />
+                  <IoCalendar size={20} className="text-[#a0a0a0]" />
                 </div>
                 <h4 className="text-base font-medium mb-2">No upcoming reviews</h4>
                 <p className="text-[#a0a0a0] text-sm">Your scheduled reviews will appear here</p>
@@ -909,7 +909,7 @@ export default function StudentDashboard() {
             <div className="flex items-center gap-2">
               <span>{successMessage}</span>
               <button onClick={() => setSuccessMessage(null)} className="ml-2 text-white hover:text-white/80">
-                <X size={14} />
+                <IoClose size={14} />
               </button>
             </div>
           </motion.div>
@@ -958,7 +958,7 @@ export default function StudentDashboard() {
                           <p className="text-sm font-medium">{classroom.name}</p>
                           <p className="text-[#a0a0a0] text-xs mt-0.5">{classroom.faculty_name}</p>
                         </div>
-                        <ChevronRight size={16} className="text-[#a0a0a0]" />
+                        <IoChevronForward size={16} className="text-[#a0a0a0]" />
                       </button>
                     ))}
                   </div>
@@ -966,7 +966,7 @@ export default function StudentDashboard() {
               ) : (
                 <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-6 text-center">
                   <div className="mb-4 mx-auto w-12 h-12 bg-[#1e1e1e] rounded-full flex items-center justify-center">
-                    <Users size={20} className="text-[#a0a0a0]" />
+                    <IoPeople size={20} className="text-[#a0a0a0]" />
                   </div>
                   <h4 className="text-base font-medium mb-2">No classrooms joined</h4>
                   <p className="text-[#a0a0a0] text-sm mb-4">You need to join a classroom before creating a team</p>
@@ -1044,7 +1044,7 @@ export default function StudentDashboard() {
                           <p className="text-sm font-medium">{classroom.name}</p>
                           <p className="text-[#a0a0a0] text-xs mt-0.5">{classroom.faculty_name}</p>
                         </div>
-                        <ChevronRight size={16} className="text-[#a0a0a0]" />
+                        <IoChevronForward size={16} className="text-[#a0a0a0]" />
                       </button>
                     ))}
                   </div>
@@ -1052,7 +1052,7 @@ export default function StudentDashboard() {
               ) : (
                 <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-6 text-center">
                   <div className="mb-4 mx-auto w-12 h-12 bg-[#1e1e1e] rounded-full flex items-center justify-center">
-                    <Users size={20} className="text-[#a0a0a0]" />
+                    <IoPeople size={20} className="text-[#a0a0a0]" />
                   </div>
                   <h4 className="text-base font-medium mb-2">No classrooms joined</h4>
                   <p className="text-[#a0a0a0] text-sm mb-4">You need to join a classroom before joining a team</p>
@@ -1116,7 +1116,7 @@ export default function StudentDashboard() {
                     onClick={() => setShowProfileModal(false)}
                     className="w-8 h-8 rounded-full bg-[#1e1e1e] hover:bg-[#252525] flex items-center justify-center transition-colors duration-200"
                   >
-                    <X size={14} className="text-[#a0a0a0]" />
+                    <IoClose size={14} className="text-[#a0a0a0]" />
                   </button>
                 </div>
               </div>

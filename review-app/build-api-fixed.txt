@@ -1,0 +1,93 @@
+
+> review-app@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.24
+  - Environments: .env.local, .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+
+./src/app/faculty/dashboard/page.tsx
+382:13  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/app/student/dashboard/page.tsx
+419:6  Warning: React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/faculty/review-slots-section-fixed.tsx
+165:6  Warning: React Hook useEffect has a missing dependency: 'fetchReviewSlots'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+216:6  Warning: React Hook useEffect has a missing dependency: 'applyFilters'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/faculty/review-slots-section.tsx
+191:6  Warning: React Hook useEffect has a missing dependency: 'fetchReviewSlots'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+242:6  Warning: React Hook useEffect has a missing dependency: 'applyFilters'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/onboarding/onboarding-context.tsx
+97:6  Warning: React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/onboarding/onboarding-controller.tsx
+50:6  Warning: React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/student/enhanced-review-slots.tsx
+148:6  Warning: React Hook useCallback has a missing dependency: 'fetchClassrooms'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+378:6  Warning: React Hook useEffect has a missing dependency: 'fetchUserTeams'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/student/review-slots-section.tsx
+310:6  Warning: React Hook useEffect has a missing dependency: 'applyFilters'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+316:6  Warning: React Hook useEffect has missing dependencies: 'fetchAvailableSlots' and 'fetchUserTeams'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/13) ...
+   Generating static pages (3/13) 
+ Γ¿» useSearchParams() should be wrapped in a suspense boundary at page "/auth-error". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at o (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\.next\server\chunks\500.js:1:10847)
+    at s (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\.next\server\chunks\500.js:1:21783)
+    at c (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\.next\server\app\auth-error\page.js:1:2714)
+    at nj (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:46252)
+    at nM (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47572)
+    at nN (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64547)
+    at nI (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47011)
+    at nM (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47718)
+    at nM (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:61547)
+    at nN (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64547)
+
+Error occurred prerendering page "/auth-error". Read more: https://nextjs.org/docs/messages/prerender-error
+
+ Γ¿» useSearchParams() should be wrapped in a suspense boundary at page "/verify-email". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at o (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\.next\server\chunks\500.js:1:10847)
+    at s (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\.next\server\chunks\500.js:1:21783)
+    at c (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\.next\server\app\(auth)\verify-email\page.js:1:2828)
+    at nj (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:46252)
+    at nM (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47572)
+    at nN (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64547)
+    at nI (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47011)
+    at nM (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47718)
+    at nM (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:61547)
+    at nN (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64547)
+
+Error occurred prerendering page "/verify-email". Read more: https://nextjs.org/docs/messages/prerender-error
+
+   Generating static pages (6/13) 
+ Γ¿» useSearchParams() should be wrapped in a suspense boundary at page "/verify". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at o (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\.next\server\chunks\500.js:1:10847)
+    at s (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\.next\server\chunks\500.js:1:21783)
+    at u (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\.next\server\app\(auth)\verify\page.js:1:2857)
+    at nj (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:46252)
+    at nM (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47572)
+    at nN (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64547)
+    at nI (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47011)
+    at nM (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47718)
+    at nM (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:61547)
+    at nN (O:\Downloads\Review Scheduling Website\reviewscheduling\review-scheduler-vit\review-app\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64547)
+
+Error occurred prerendering page "/verify". Read more: https://nextjs.org/docs/messages/prerender-error
+
+   Generating static pages (9/13) 
+ Γ£ô Generating static pages (13/13)
+
+> Export encountered errors on following paths:
+	/(auth)/verify-email/page: /verify-email
+	/(auth)/verify/page: /verify
+	/auth-error/page: /auth-error

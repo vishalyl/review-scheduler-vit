@@ -218,8 +218,8 @@ export default function ClassroomTeamsPage() {
 
         // Set user's team if they have one
         if (!userTeamError && userTeamData) {
-          const team = userTeamData.team;
-          const members = team.members.map(member => {
+          const team: any = Array.isArray(userTeamData.team) ? userTeamData.team[0] : userTeamData.team;
+          const members = team.members.map((member: any) => {
             const studentData: any = Array.isArray(member.student) ? member.student[0] : member.student;
             return {
               id: studentData.id,

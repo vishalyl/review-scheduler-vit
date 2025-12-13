@@ -168,11 +168,14 @@ export default function ClassroomTeamsPage() {
 
         // Format teams data
         const formattedTeams = teamsData.map(team => {
-          const members = team.members.map(member => ({
-            id: member.student.id,
-            name: member.student.name,
-            role: member.role
-          }));
+          const members = team.members.map(member => {
+            const studentData: any = Array.isArray(member.student) ? member.student[0] : member.student;
+            return {
+              id: studentData.id,
+              name: studentData.name,
+              role: member.role
+            };
+          });
 
           return {
             id: team.id,
@@ -215,11 +218,14 @@ export default function ClassroomTeamsPage() {
         // Set user's team if they have one
         if (!userTeamError && userTeamData) {
           const team = userTeamData.team;
-          const members = team.members.map(member => ({
-            id: member.student.id,
-            name: member.student.name,
-            role: member.role
-          }));
+          const members = team.members.map(member => {
+            const studentData: any = Array.isArray(member.student) ? member.student[0] : member.student;
+            return {
+              id: studentData.id,
+              name: studentData.name,
+              role: member.role
+            };
+          });
 
           setUserTeam({
             id: team.id,

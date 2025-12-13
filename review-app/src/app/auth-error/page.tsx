@@ -2,13 +2,13 @@
 
 export const dynamic = 'force-dynamic';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
-export default function AuthErrorPage() {
+function AuthErrorPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClientComponentClient();
@@ -91,5 +91,17 @@ export default function AuthErrorPage() {
         </div>
       </motion.div>
     </div>
+  );
+}
+
+export default function AuthErrorPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-black text-white">
+        <div className="text-4xl font-bold">!</div>
+      </div>
+    }>
+      <AuthErrorPageContent />
+    </Suspense>
   );
 }

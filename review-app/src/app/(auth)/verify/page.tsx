@@ -2,14 +2,14 @@
 
 export const dynamic = 'force-dynamic';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { IoCheckmarkCircle, IoClose, IoRefresh } from 'react-icons/io5';
 
-export default function VerifyPage() {
+function VerifyPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClientComponentClient();
@@ -96,5 +96,17 @@ export default function VerifyPage() {
         )}
       </motion.div>
     </div>
+  );
+}
+
+export default function VerifyPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-black text-white">
+        <IoRefresh className="h-16 w-16 animate-spin text-white" />
+      </div>
+    }>
+      <VerifyPageContent />
+    </Suspense>
   );
 }

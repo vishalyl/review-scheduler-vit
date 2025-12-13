@@ -2,13 +2,13 @@
 
 export const dynamic = 'force-dynamic';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { IoMail, IoChevronForward } from 'react-icons/io5';
 
-export default function VerifyEmailPage() {
+function VerifyEmailPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get('email') || '';
@@ -69,5 +69,17 @@ export default function VerifyEmailPage() {
         </div>
       </motion.div>
     </div>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-black text-white">
+        <IoMail className="h-16 w-16 text-white" />
+      </div>
+    }>
+      <VerifyEmailPageContent />
+    </Suspense>
   );
 }

@@ -49,7 +49,7 @@ export default function FacultyDashboard() {
   const [publishSuccess, setPublishSuccess] = useState(false);
   const [publishError, setPublishError] = useState(false);
   const [publishMessage, setPublishMessage] = useState('');
-  
+
   // New workflow state
   const [showDateSelector, setShowDateSelector] = useState(false);
   const [showSlotSelector, setShowSlotSelector] = useState(false);
@@ -66,9 +66,9 @@ export default function FacultyDashboard() {
   // Function to toggle slot selection
   const toggleSlotSelection = (day: string, time: string, endTime: string, isFree: boolean) => {
     if (!isFree) return; // Can't select busy slots
-    
+
     const slotKey = `${day}-${time}-${endTime}`;
-    
+
     if (isSlotSelected(day, time, endTime)) {
       // Remove from selected
       setSelectedSlots(selectedSlots.filter(
@@ -98,23 +98,23 @@ export default function FacultyDashboard() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      
+
       console.log('Current user:', user);
-      
+
       // First, try to fetch all classrooms directly to see what's available
       const { data: allClassrooms, error: allClassroomsError } = await supabase
         .from('classrooms')
         .select('*');
-      
+
       // Get current user's Supabase ID
       const { data: { user: currentUser } } = await supabase.auth.getUser();
-      
+
       // Try to use the RPC function first
       try {
         // Attempt to call the RPC function
         const { data: classroomData, error: classroomError } = await supabase
           .rpc('get_classrooms_with_student_counts', { p_faculty_id: user?.id });
-        
+
         if (!classroomError && classroomData) {
           // If RPC was successful, use the data directly
           console.log('RPC function succeeded:', classroomData);
@@ -123,7 +123,7 @@ export default function FacultyDashboard() {
           // Fallback to standard query if RPC fails
           console.log('RPC function failed, using fallback query');
           let fallbackData, fallbackError;
-          
+
           // Try with the database user ID first - use a more detailed query without nested relationships
           const { data: data1, error: error1 } = await supabase
             .from('classrooms')
@@ -133,9 +133,9 @@ export default function FacultyDashboard() {
               classroom_students(*)
             `)
             .eq('faculty_id', user?.id);
-            
+
           console.log('Direct query with database ID result:', { data1, error1 });
-          
+
           if (data1 && data1.length > 0) {
             fallbackData = data1;
             fallbackError = error1;
@@ -148,9 +148,9 @@ export default function FacultyDashboard() {
                 students:classroom_students(count)
               `)
               .eq('faculty_id', currentUser?.id);
-              
+
             console.log('Direct query with Supabase ID result:', { data2, error2 });
-            
+
             fallbackData = data2;
             fallbackError = error2;
           }
@@ -163,23 +163,23 @@ export default function FacultyDashboard() {
           const processedClassrooms = fallbackData?.map(classroom => {
             // Calculate student count manually if needed
             let studentCount = classroom.students?.count || 0;
-            
+
             // If we have classroom_students data, count them directly
             if (classroom.classroom_students && Array.isArray(classroom.classroom_students)) {
               studentCount = classroom.classroom_students.length;
               console.log(`Manual count for ${classroom.name}:`, studentCount);
             }
-            
+
             // We'll set a default of 0 for teams count and update it separately
             const teamsCount = 0;
-            
+
             return {
               ...classroom,
               teams_count: teamsCount,
               students_count: studentCount
             };
           }) || [];
-          
+
           // After processing classrooms, fetch accurate student and team counts directly
           const fetchAccurateCounts = async () => {
             try {
@@ -189,32 +189,32 @@ export default function FacultyDashboard() {
                   .from('classroom_students')
                   .select('student_id')
                   .eq('classroom_id', classroom.id);
-                  
+
                 if (!studentError) {
                   classroom.students_count = students?.length || 0;
                 }
-                
+
                 // Direct query for teams - use a simple count query to avoid relationship issues
                 const { count: teamsCount, error: teamError } = await supabase
                   .from('teams')
                   .select('id', { count: 'exact', head: true })
                   .eq('classroom_id', classroom.id);
-                  
+
                 if (!teamError) {
                   classroom.teams_count = teamsCount || 0;
                 }
               }
-              
+
               // Update the state with the corrected data
               setClassrooms([...processedClassrooms]);
             } catch (error) {
               console.error('Error fetching accurate counts:', error);
             }
           };
-          
+
           // Execute the fetch for accurate counts
           fetchAccurateCounts();
-          
+
           // Initial set of classrooms before the fetch completes
           setClassrooms(processedClassrooms);
         }
@@ -222,7 +222,7 @@ export default function FacultyDashboard() {
         console.error('Error with RPC function:', error);
         // Continue with fallback approach if there's an error with the RPC call
       }
-      
+
       // After classrooms are loaded, fetch slots and submissions
       fetchReviewSlots();
       fetchSubmissions();
@@ -237,10 +237,10 @@ export default function FacultyDashboard() {
     const fetchUserData = async () => {
       try {
         setLoading(true);
-        
+
         // Get current user
         const { data: { user: currentUser } } = await supabase.auth.getUser();
-        
+
         if (!currentUser) {
           throw new Error('User not found');
         }
@@ -264,8 +264,9 @@ export default function FacultyDashboard() {
     };
 
     fetchUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [supabase]);
-  
+
   // Function to fetch review slots
   const fetchReviewSlots = async () => {
     try {
@@ -273,13 +274,13 @@ export default function FacultyDashboard() {
       // Check if API endpoint exists before fetching
       try {
         const response = await fetch('/api/faculty/slots');
-        
+
         if (!response.ok) {
           // If API returns error, just set empty array and don't throw
           setReviewSlots([]);
           return;
         }
-        
+
         const { data } = await response.json();
         setReviewSlots(data || []);
       } catch (error) {
@@ -294,7 +295,7 @@ export default function FacultyDashboard() {
       setSlotsLoading(false);
     }
   };
-  
+
   // Function to fetch submissions
   const fetchSubmissions = async () => {
     try {
@@ -302,17 +303,17 @@ export default function FacultyDashboard() {
       // Check if API endpoint exists before fetching
       try {
         const response = await fetch('/api/faculty/submissions');
-        
+
         if (!response.ok) {
           // If API returns error, just set empty array and don't throw
           setSubmissions([]);
           return;
         }
-        
+
         const { data } = await response.json();
         const submissionsData = data || [];
-      setSubmissions(submissionsData);
-      setFilteredSubmissions(submissionsData);
+        setSubmissions(submissionsData);
+        setFilteredSubmissions(submissionsData);
       } catch (error) {
         // If API doesn't exist or network error, just set empty array
         setSubmissions([]);
@@ -331,7 +332,7 @@ export default function FacultyDashboard() {
     const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
     return days[day] || 'Unknown';
   };
-  
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -378,11 +379,11 @@ export default function FacultyDashboard() {
       <header className="border-b border-[#1e1e1e]">
         <div className="container mx-auto px-6 py-5 flex justify-between items-center">
           <div className="flex items-center">
-            <img 
-              src="/images/Review Scheduler.png" 
-              alt="Review Scheduler Logo" 
-              width={100} 
-              height={60} 
+            <img
+              src="/images/Review Scheduler.png"
+              alt="Review Scheduler Logo"
+              width={100}
+              height={60}
               className="rounded-full"
             />
           </div>
@@ -412,44 +413,40 @@ export default function FacultyDashboard() {
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => setActiveTab('overview')}
-                className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 ${
-                  activeTab === 'overview'
+                className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 ${activeTab === 'overview'
                     ? 'bg-[#5c46f5] text-white'
                     : 'bg-[#1a1a1a] text-[#a0a0a0] hover:bg-[#252525] transition-colors'
-                }`}
+                  }`}
               >
                 <IoDocument size={16} />
                 Overview
               </button>
               <button
                 onClick={() => setActiveTab('timetable')}
-                className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 ${
-                  activeTab === 'timetable'
+                className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 ${activeTab === 'timetable'
                     ? 'bg-[#5c46f5] text-white'
                     : 'bg-[#1a1a1a] text-[#a0a0a0] hover:bg-[#252525] transition-colors'
-                }`}
+                  }`}
               >
                 <IoCalendar size={16} />
                 Timetable
               </button>
               <button
                 onClick={() => setActiveTab('slots')}
-                className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 ${
-                  activeTab === 'slots'
+                className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 ${activeTab === 'slots'
                     ? 'bg-[#5c46f5] text-white'
                     : 'bg-[#1a1a1a] text-[#a0a0a0] hover:bg-[#252525] transition-colors'
-                }`}
+                  }`}
               >
                 <IoTime size={16} />
                 Review Slots
               </button>
               <button
                 onClick={() => setActiveTab('submissions')}
-                className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 ${
-                  activeTab === 'submissions'
+                className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 ${activeTab === 'submissions'
                     ? 'bg-[#5c46f5] text-white'
                     : 'bg-[#1a1a1a] text-[#a0a0a0] hover:bg-[#252525] transition-colors'
-                }`}
+                  }`}
               >
                 <IoDocument size={16} />
                 Submissions
@@ -485,7 +482,7 @@ export default function FacultyDashboard() {
                   <h3 className="text-xl font-medium mb-1">{classrooms.length}</h3>
                   <p className="text-[#a0a0a0] text-sm">Classrooms</p>
                 </div>
-                
+
                 <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-5">
                   <div className="flex justify-between items-start mb-4">
                     <div className="p-3 bg-[#1a1a1a] rounded-lg">
@@ -498,7 +495,7 @@ export default function FacultyDashboard() {
                   </h3>
                   <p className="text-[#a0a0a0] text-sm">Students</p>
                 </div>
-                
+
                 <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-5">
                   <div className="flex justify-between items-start mb-4">
                     <div className="p-3 bg-[#1a1a1a] rounded-lg">
@@ -516,7 +513,7 @@ export default function FacultyDashboard() {
                   <h3 className="text-lg font-medium">Your Classrooms</h3>
                   <button className="text-sm text-[#5c46f5] hover:text-[#4c38e6] transition-colors">View all</button>
                 </div>
-                
+
                 {classrooms.length === 0 ? (
                   <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-6 text-center">
                     <div className="w-14 h-14 bg-[#1a1a1a] rounded-full flex items-center justify-center mx-auto mb-4">
@@ -533,10 +530,10 @@ export default function FacultyDashboard() {
                     </button>
                   </div>
                 ) : (
-                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {classrooms.map((classroom) => (
-                      <motion.div 
-                        key={classroom.id} 
+                      <motion.div
+                        key={classroom.id}
                         whileHover={{ scale: 1.02 }}
                         className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-5 hover:border-[#5c46f5] transition-all cursor-pointer shadow-md hover:shadow-[#5c46f5]/10"
                         onClick={() => {
@@ -555,7 +552,7 @@ export default function FacultyDashboard() {
                             {classroom.link_code}
                           </span>
                         </div>
-                        
+
                         <div className="grid grid-cols-2 gap-4 mb-5">
                           <div className="bg-[#1a1a1a] rounded-lg p-3 flex flex-col items-center justify-center">
                             <div className="flex items-center gap-2 mb-1">
@@ -574,7 +571,7 @@ export default function FacultyDashboard() {
                             <span className="text-lg font-medium">{classroom.teams_count || 0}</span>
                           </div>
                         </div>
-                        
+
                         <button className="w-full py-2 bg-[#1a1a1a] hover:bg-[#252525] border border-[#252525] rounded-lg text-sm text-[#5c46f5] transition-colors flex items-center justify-center gap-2">
                           <span>View Details</span>
                         </button>
@@ -614,7 +611,7 @@ export default function FacultyDashboard() {
                   <span className="text-[#4ade80] text-sm">{publishMessage}</span>
                 </motion.div>
               )}
-              
+
               {/* Error message */}
               {publishError && (
                 <motion.div
@@ -625,7 +622,7 @@ export default function FacultyDashboard() {
                   <span className="text-[#f87171] text-sm">{publishMessage}</span>
                 </motion.div>
               )}
-              
+
               <motion.div
                 variants={itemVariants}
                 className="bg-[#141414] border border-[#1e1e1e] rounded-lg overflow-hidden max-w-3xl mx-auto"
@@ -636,12 +633,12 @@ export default function FacultyDashboard() {
                     Parse Timetable
                   </h3>
                 </div>
-                
+
                 <div className="p-3">
                   <div className="text-xs text-[#a0a0a0] mb-2">
                     Copy and paste your VIT timetable text here. The system will automatically identify your free slots.
                   </div>
-                  
+
                   <div className="flex flex-col gap-3">
                     <textarea
                       value={timetableText}
@@ -649,26 +646,26 @@ export default function FacultyDashboard() {
                       className="w-full h-32 bg-[#1a1a1a] border border-[#252525] rounded-lg p-3 text-white font-mono text-xs focus:border-[#5c46f5] focus:outline-none transition-colors"
                       placeholder="Paste your timetable here..."
                     />
-                    
+
                     <div className="flex justify-end">
                       <button
                         onClick={() => {
                           try {
                             setParseError('');
                             setParseSuccess(false);
-                            
+
                             // Parse the timetable
                             const schedule = parseTimetableSlots(timetableText);
                             setParsedSchedule(schedule);
-                            
+
                             // Get all free slots
                             const freeSlots = getAllFreeSlots(schedule);
                             setAllFreeSlots(freeSlots);
-                            
+
                             const duration = parseInt(reviewDuration, 10);
                             const splitSlots = splitAllSlotsByDuration(freeSlots, duration);
                             setSplitFreeSlots(splitSlots);
-                            
+
                             setParseSuccess(true);
                           } catch (error) {
                             console.error('Error parsing timetable:', error);
@@ -689,7 +686,7 @@ export default function FacultyDashboard() {
                       <span>{parseError}</span>
                     </div>
                   )}
-                  
+
                   {/* Success message and form */}
                   {parseSuccess && (
                     <div className="mt-3 space-y-3">
@@ -697,7 +694,7 @@ export default function FacultyDashboard() {
                         <IoCheckmarkCircle size={14} />
                         <span>Timetable parsed successfully! {allFreeSlots.length} free slots found</span>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {/* Classroom Selection */}
                         <div>
@@ -715,7 +712,7 @@ export default function FacultyDashboard() {
                             ))}
                           </select>
                         </div>
-                        
+
                         {/* Review Stage */}
                         <div>
                           <label className="text-xs text-[#a0a0a0] mb-1 block">Review Stage</label>
@@ -730,7 +727,7 @@ export default function FacultyDashboard() {
                           </select>
                         </div>
                       </div>
-                      
+
                       {/* Booking Deadline */}
                       <div>
                         <label className="text-xs text-[#a0a0a0] mb-1 block">Booking Deadline</label>
@@ -741,7 +738,7 @@ export default function FacultyDashboard() {
                           className="w-full bg-[#1a1a1a] border border-[#252525] rounded-lg p-2 text-white text-sm focus:border-[#5c46f5] focus:outline-none transition-colors"
                         />
                       </div>
-                      
+
                       {/* Button to proceed to date selection */}
                       <button
                         onClick={() => {
@@ -752,11 +749,10 @@ export default function FacultyDashboard() {
                           }
                         }}
                         disabled={!(allFreeSlots.length > 0 && selectedClassroomId && bookingDeadline)}
-                        className={`w-full py-2 px-4 rounded-lg text-sm flex items-center justify-center gap-2 ${
-                          allFreeSlots.length > 0 && selectedClassroomId && bookingDeadline
+                        className={`w-full py-2 px-4 rounded-lg text-sm flex items-center justify-center gap-2 ${allFreeSlots.length > 0 && selectedClassroomId && bookingDeadline
                             ? 'bg-[#5c46f5] hover:bg-[#4c38e6] text-white transition-colors'
                             : 'bg-[#1a1a1a] text-[#505050] cursor-not-allowed'
-                        }`}
+                          }`}
                       >
                         <IoCalendar size={16} />
                         Select Dates for Publishing
@@ -767,13 +763,13 @@ export default function FacultyDashboard() {
               </motion.div>
 
               {allFreeSlots.length > 0 && (
-                <motion.div 
+                <motion.div
                   variants={itemVariants}
                   className="grid grid-cols-1 md:grid-cols-2 gap-4"
                 >
                 </motion.div>
               )}
-              
+
               {/* Date Selector Modal - Step 1: Select Dates */}
               <AnimatePresence>
                 {showDateSelector && (
@@ -798,7 +794,7 @@ export default function FacultyDashboard() {
                   </motion.div>
                 )}
               </AnimatePresence>
-              
+
               {/* Slot Selector Modal - Step 2: Select Slots for Dates */}
               <AnimatePresence>
                 {showSlotSelector && (
@@ -819,14 +815,14 @@ export default function FacultyDashboard() {
                             setPublishSuccess(false);
                             setPublishError(false);
                             setPublishMessage('');
-                            
+
                             // Get current user's ID
                             const { data: { user: currentUser } } = await supabase.auth.getUser();
-                            
+
                             if (!currentUser) {
                               throw new Error('User not authenticated');
                             }
-                            
+
                             // Create slots in the database with dates
                             const { data, error } = await supabase
                               .from('slots')
@@ -844,16 +840,16 @@ export default function FacultyDashboard() {
                                   created_by: currentUser.id
                                 }))
                               );
-                            
+
                             if (error) {
                               throw error;
                             }
-                            
+
                             setPublishSuccess(true);
                             setPublishMessage(`Successfully published ${selectedSlotsWithDates.length} review slots!`);
                             setSelectedSlots([]);
                             fetchReviewSlots();
-                            
+
                             // Show a toast notification or alert
                             alert(`Successfully published ${selectedSlotsWithDates.length} review slots!`);
                           } catch (error) {
@@ -895,7 +891,7 @@ export default function FacultyDashboard() {
                   <h3 className="text-xl font-bold">Recent Submissions</h3>
                   <div className="flex gap-2">
                     <div className="relative">
-                      <select 
+                      <select
                         className="w-full bg-[#1a1a1a] border border-[#252525] rounded-lg pl-3 pr-8 py-2 text-sm text-white focus:border-[#5c46f5] focus:outline-none transition-colors appearance-none"
                         onChange={(e) => {
                           // Filter submissions by classroom
@@ -918,9 +914,9 @@ export default function FacultyDashboard() {
                         <IoChevronDown size={16} className="text-[#a0a0a0]" />
                       </div>
                     </div>
-                    
+
                     <div className="relative">
-                      <select 
+                      <select
                         className="w-full bg-[#1a1a1a] border border-[#252525] rounded-lg pl-3 pr-8 py-2 text-sm text-white focus:border-[#5c46f5] focus:outline-none transition-colors appearance-none"
                         onChange={(e) => {
                           // Filter submissions by status
@@ -928,7 +924,7 @@ export default function FacultyDashboard() {
                           if (status === 'all') {
                             setFilteredSubmissions(submissions);
                           } else {
-                            setFilteredSubmissions(submissions.filter(s => 
+                            setFilteredSubmissions(submissions.filter(s =>
                               s.status.toLowerCase() === status.toLowerCase()
                             ));
                           }
@@ -968,12 +964,11 @@ export default function FacultyDashboard() {
                             <h4 className="font-medium text-white">{submission.title}</h4>
                             <p className="text-[#a0a0a0] text-sm">Team {submission.team_name} - {submission.project_title}</p>
                           </div>
-                          <span className={`px-2 py-1 text-xs rounded-full ${
-                            submission.status === 'Pending' ? 'bg-[#3a2e0b] text-[#fbbf24]' :
-                            submission.status === 'Reviewed' ? 'bg-[#0f2922] text-[#34d399]' :
-                            submission.status === 'Graded' ? 'bg-[#1e1a4f] text-[#818cf8]' :
-                            'bg-[#1e1e1e] text-[#a0a0a0]'
-                          }`}>
+                          <span className={`px-2 py-1 text-xs rounded-full ${submission.status === 'Pending' ? 'bg-[#3a2e0b] text-[#fbbf24]' :
+                              submission.status === 'Reviewed' ? 'bg-[#0f2922] text-[#34d399]' :
+                                submission.status === 'Graded' ? 'bg-[#1e1a4f] text-[#818cf8]' :
+                                  'bg-[#1e1e1e] text-[#a0a0a0]'
+                            }`}>
                             {submission.status}
                           </span>
                         </div>
@@ -984,9 +979,9 @@ export default function FacultyDashboard() {
                           <span>Submitted on {submission.formatted_date}</span>
                           <div className="flex gap-3">
                             {submission.file_url && (
-                              <a 
-                                href={submission.file_url} 
-                                target="_blank" 
+                              <a
+                                href={submission.file_url}
+                                target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-[#5c46f5] hover:text-[#6e5af7] transition-colors flex items-center gap-1"
                               >
@@ -994,20 +989,20 @@ export default function FacultyDashboard() {
                                 View File
                               </a>
                             )}
-                            <button 
+                            <button
                               className="text-[#34d399] hover:text-[#4ade80] transition-colors flex items-center gap-1"
                               onClick={() => {
                                 // Handle status update
-                                const newStatus = submission.status === 'Pending' ? 'Reviewed' : 
-                                                 submission.status === 'Reviewed' ? 'Graded' : 'Pending';
-                                
+                                const newStatus = submission.status === 'Pending' ? 'Reviewed' :
+                                  submission.status === 'Reviewed' ? 'Graded' : 'Pending';
+
                                 // Show a modal or implement the API call to update the status
                                 alert(`Status would be updated to: ${newStatus}`);
                               }}
                             >
                               <IoCheckmarkCircle size={12} />
-                              {submission.status === 'Pending' ? 'Mark as Reviewed' : 
-                               submission.status === 'Reviewed' ? 'Mark as Graded' : 'Update Status'}
+                              {submission.status === 'Pending' ? 'Mark as Reviewed' :
+                                submission.status === 'Reviewed' ? 'Mark as Graded' : 'Update Status'}
                             </button>
                           </div>
                         </div>
@@ -1068,6 +1063,6 @@ function getDayFullName(day: string): string {
     'SAT': 'Saturday',
     'SUN': 'Sunday'
   };
-  
+
   return days[day] || day;
 }

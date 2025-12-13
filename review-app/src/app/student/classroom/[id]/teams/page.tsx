@@ -202,7 +202,7 @@ export default function ClassroomTeamsPage() {
         });
 
         const formattedStudents = classroomStudents.map(cs => {
-          const student = cs.students;
+          const student: any = Array.isArray(cs.students) ? cs.students[0] : cs.students;
           studentIds.add(student.id);
 
           return {

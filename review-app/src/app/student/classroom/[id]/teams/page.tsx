@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { IoArrowBack, IoPeople, IoPersonAdd, IoCheckmarkCircle, IoCopy, IoCheckmarkCircle, IoAlertCircle, IoTime } from 'react-icons/io5';
+import { IoArrowBack, IoPeople, IoPersonAdd, IoCheckmarkCircle, IoCopy, IoAlertCircle, IoTime } from 'react-icons/io5';
 import Link from 'next/link';
 import CreateTeamForm from '@/components/student/create-team-form';
 import JoinTeamForm from '@/components/student/join-team-form';
@@ -38,7 +38,7 @@ export default function ClassroomTeamsPage() {
   const params = useParams();
   const router = useRouter();
   const classroomId = params.id as string;
-  
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [classroom, setClassroom] = useState<{ id: number; name: string } | null>(null);
@@ -50,47 +50,47 @@ export default function ClassroomTeamsPage() {
   const [copiedCode, setCopiedCode] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const supabase = createClientComponentClient();
-  
+
   useEffect(() => {
     const fetchClassroomData = async () => {
       try {
         setLoading(true);
-        
+
         // Get current user
         const { data: { user: currentUser } } = await supabase.auth.getUser();
-        
+
         if (!currentUser) {
           throw new Error('Not authenticated');
         }
-        
+
         // Get user data
         const { data: userData, error: userError } = await supabase
           .from('users')
           .select('id, role')
           .eq('supabase_user_id', currentUser.id)
           .single();
-          
+
         if (userError) {
           throw userError;
         }
-        
+
         if (userData.role !== 'student') {
           throw new Error('Only students can access this page');
         }
-        
+
         // Get classroom data
         const { data: classroomData, error: classroomError } = await supabase
           .from('classrooms')
           .select('id, name')
           .eq('id', classroomId)
           .single();
-          
+
         if (classroomError) {
           throw classroomError;
         }
-        
+
         setClassroom(classroomData);
-        
+
         // Check if user is a member of this classroom
         const { data: classroomStudent, error: classroomStudentError } = await supabase
           .from('classroom_students')
@@ -98,11 +98,11 @@ export default function ClassroomTeamsPage() {
           .eq('classroom_id', classroomId)
           .eq('student_id', userData.id)
           .single();
-          
+
         if (classroomStudentError) {
           throw new Error('You are not a member of this classroom');
         }
-        
+
         // Get all students in the classroom
         const { data: classroomStudents, error: studentsError } = await supabase
           .from('classroom_students')
@@ -114,11 +114,11 @@ export default function ClassroomTeamsPage() {
             )
           `)
           .eq('classroom_id', classroomId);
-          
+
         if (studentsError) {
           throw studentsError;
         }
-        
+
         // Get all teams in the classroom
         const { data: teamsData, error: teamsError } = await supabase
           .from('teams')
@@ -137,11 +137,11 @@ export default function ClassroomTeamsPage() {
             )
           `)
           .eq('classroom_id', classroomId);
-          
+
         if (teamsError) {
           throw teamsError;
         }
-        
+
         // Get user's team in this classroom
         const { data: userTeamData, error: userTeamError } = await supabase
           .from('team_members')
@@ -165,7 +165,7 @@ export default function ClassroomTeamsPage() {
           .eq('student_id', userData.id)
           .eq('team.classroom_id', classroomId)
           .single();
-          
+
         // Format teams data
         const formattedTeams = teamsData.map(team => {
           const members = team.members.map(member => ({
@@ -173,7 +173,7 @@ export default function ClassroomTeamsPage() {
             name: member.student.name,
             role: member.role
           }));
-          
+
           return {
             id: team.id,
             name: team.name,
@@ -186,21 +186,21 @@ export default function ClassroomTeamsPage() {
             members
           };
         });
-        
+
         // Format students data
         const studentIds = new Set();
         const teamMemberIds = new Set();
-        
+
         teamsData.forEach(team => {
           team.members.forEach(member => {
             teamMemberIds.add(member.student.id);
           });
         });
-        
+
         const formattedStudents = classroomStudents.map(cs => {
           const student = cs.students;
           studentIds.add(student.id);
-          
+
           return {
             id: student.id,
             name: student.name,
@@ -208,10 +208,10 @@ export default function ClassroomTeamsPage() {
             has_team: teamMemberIds.has(student.id)
           };
         });
-        
+
         setStudents(formattedStudents);
         setTeams(formattedTeams);
-        
+
         // Set user's team if they have one
         if (!userTeamError && userTeamData) {
           const team = userTeamData.team;
@@ -220,7 +220,7 @@ export default function ClassroomTeamsPage() {
             name: member.student.name,
             role: member.role
           }));
-          
+
           setUserTeam({
             id: team.id,
             name: team.name,
@@ -240,10 +240,10 @@ export default function ClassroomTeamsPage() {
         setLoading(false);
       }
     };
-    
+
     fetchClassroomData();
   }, [classroomId, supabase]);
-  
+
   const copyInvitationCode = () => {
     if (userTeam) {
       navigator.clipboard.writeText(userTeam.invitation_code);
@@ -251,12 +251,12 @@ export default function ClassroomTeamsPage() {
       setTimeout(() => setCopiedCode(false), 2000);
     }
   };
-  
-  const filteredStudents = students.filter(student => 
+
+  const filteredStudents = students.filter(student =>
     student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     student.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -267,7 +267,7 @@ export default function ClassroomTeamsPage() {
       }
     }
   };
-  
+
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
@@ -275,7 +275,7 @@ export default function ClassroomTeamsPage() {
       opacity: 1
     }
   };
-  
+
   if (loading) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
@@ -283,7 +283,7 @@ export default function ClassroomTeamsPage() {
       </div>
     );
   }
-  
+
   if (error) {
     return (
       <div className="min-h-screen bg-black text-white p-8">
@@ -297,11 +297,11 @@ export default function ClassroomTeamsPage() {
       </div>
     );
   }
-  
+
   if (!classroom) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
-          <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-8 max-w-md">
+        <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-8 max-w-md">
           <h2 className="text-lg font-medium mb-4">Classroom Not Found</h2>
           <p className="text-[#a0a0a0] mb-6">The classroom you're looking for doesn't exist or you don't have access to it.</p>
           <Link href="/student/dashboard" className="bg-[#5c46f5] hover:bg-[#4c38e6] text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 text-sm transition-colors">
@@ -312,7 +312,7 @@ export default function ClassroomTeamsPage() {
       </div>
     );
   }
-  
+
   return (
     <div className="min-h-screen bg-[#0e0e0e] text-white">
       <div className="max-w-6xl mx-auto px-4 py-8">
@@ -356,7 +356,7 @@ export default function ClassroomTeamsPage() {
               )}
             </div>
           </motion.div>
-          
+
           {/* Create/Join Team Forms */}
           <AnimatePresence>
             {showCreateTeamForm && (
@@ -366,7 +366,7 @@ export default function ClassroomTeamsPage() {
                 exit={{ opacity: 0, y: 20 }}
                 className="mb-8"
               >
-                <CreateTeamForm 
+                <CreateTeamForm
                   classroomId={parseInt(classroomId)}
                   onSuccess={(teamId) => {
                     setShowCreateTeamForm(false);
@@ -384,7 +384,7 @@ export default function ClassroomTeamsPage() {
                 exit={{ opacity: 0, y: 20 }}
                 className="mb-8"
               >
-                <JoinTeamForm 
+                <JoinTeamForm
                   classroomId={parseInt(classroomId)}
                   onSuccess={(teamId) => {
                     setShowJoinTeamForm(false);
@@ -395,7 +395,7 @@ export default function ClassroomTeamsPage() {
               </motion.div>
             )}
           </AnimatePresence>
-          
+
           {/* User's Team */}
           {userTeam && (
             <motion.div variants={itemVariants} className="mb-8">
@@ -419,7 +419,7 @@ export default function ClassroomTeamsPage() {
                     )}
                   </div>
                 </div>
-                
+
                 {userTeam.is_leader && (
                   <div className="bg-[#1a1a1a] border border-[#1e1e1e] rounded-lg p-3 mb-4">
                     <div className="flex justify-between items-center">
@@ -427,7 +427,7 @@ export default function ClassroomTeamsPage() {
                         <p className="text-sm text-[#a0a0a0] mb-1">Invitation Code</p>
                         <p className="font-mono text-sm">{userTeam.invitation_code}</p>
                       </div>
-                      <button 
+                      <button
                         className="bg-[#252525] hover:bg-[#303030] text-[#e0e0e0] px-3 py-1.5 rounded-lg text-sm flex items-center gap-2 transition-colors"
                         onClick={copyInvitationCode}
                       >
@@ -440,7 +440,7 @@ export default function ClassroomTeamsPage() {
                     </p>
                   </div>
                 )}
-                
+
                 <div>
                   <h4 className="text-sm text-[#a0a0a0] mb-2">Team Members</h4>
                   <div className="bg-[#1a1a1a] border border-[#1e1e1e] rounded-lg divide-y divide-[#1e1e1e]">
@@ -459,9 +459,9 @@ export default function ClassroomTeamsPage() {
                     ))}
                   </div>
                 </div>
-                
+
                 <div className="mt-4 flex justify-end">
-                  <Link 
+                  <Link
                     href={`/student/classroom/${classroomId}/slots`}
                     className="bg-[#5c46f5] hover:bg-[#4c38e6] text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors"
                   >
@@ -472,7 +472,7 @@ export default function ClassroomTeamsPage() {
               </div>
             </motion.div>
           )}
-          
+
           {/* Available Students */}
           {!userTeam && (
             <motion.div variants={itemVariants} className="mb-8">
@@ -488,7 +488,7 @@ export default function ClassroomTeamsPage() {
                   />
                 </div>
               </div>
-              
+
               <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full table-auto">
@@ -540,15 +540,15 @@ export default function ClassroomTeamsPage() {
               </div>
             </motion.div>
           )}
-          
+
           {/* Other Teams */}
           {teams.length > 0 && (
             <motion.div variants={itemVariants}>
               <h3 className="text-lg font-medium mb-3">All Teams</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {teams.map(team => (
-                  <div 
-                    key={team.id} 
+                  <div
+                    key={team.id}
                     className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-4 hover:bg-[#1a1a1a] transition-colors"
                   >
                     <div className="flex justify-between items-start mb-2">

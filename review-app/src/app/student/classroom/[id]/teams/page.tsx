@@ -196,7 +196,8 @@ export default function ClassroomTeamsPage() {
 
         teamsData.forEach(team => {
           team.members.forEach(member => {
-            teamMemberIds.add(member.student.id);
+            const studentData: any = Array.isArray(member.student) ? member.student[0] : member.student;
+            teamMemberIds.add(studentData.id);
           });
         });
 

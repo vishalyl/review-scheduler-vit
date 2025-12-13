@@ -37,34 +37,34 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
   const [selectedTeam, setSelectedTeam] = useState<number | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [selectedReviewStage, setSelectedReviewStage] = useState<string>('REVIEW_1');
-  
+
   const { markReviewScheduled } = useOnboarding();
   const supabase = createClientComponentClient();
-  
+
   // Fetch teams and available slots
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
-        
+
         // Get current user
         const { data: { user: currentUser } } = await supabase.auth.getUser();
-        
+
         if (!currentUser) {
           throw new Error('User not found');
         }
-        
+
         // Get user details from the database
         const { data: userData, error: userError } = await supabase
           .from('users')
           .select('*')
           .eq('supabase_user_id', currentUser.id)
           .single();
-          
+
         if (userError) {
           throw userError;
         }
-        
+
         // Get user's teams
         const { data: teamData, error: teamError } = await supabase
           .from('team_members')
@@ -79,41 +79,42 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
             student_id
           `)
           .eq('student_id', userData.id);
-          
+
         if (teamError) {
           throw teamError;
         }
-        
+
         // Format team data
         const formattedTeams: Team[] = [];
-        
+
         if (teamData && teamData.length > 0) {
           teamData.forEach(item => {
-            if (item.team) {
+            const team: any = Array.isArray(item.team) ? item.team[0] : item.team;
+            if (team) {
               formattedTeams.push({
-                id: item.team.id,
-                name: item.team.name,
-                classroom_id: item.team.classroom_id,
-                classroom_name: item.team.classroom?.name
+                id: team.id,
+                name: team.name,
+                classroom_id: team.classroom_id,
+                classroom_name: team.classroom?.name || 'Unknown'
               });
             }
           });
         }
-        
+
         setTeams(formattedTeams);
-        
+
         // If there's only one team, select it by default
         if (formattedTeams.length === 1) {
           setSelectedTeam(formattedTeams[0].id);
         }
-        
+
         // Fetch available slots
         const response = await fetch('/api/student/slots');
-        
+
         if (!response.ok) {
           throw new Error('Failed to fetch available slots');
         }
-        
+
         const { data } = await response.json();
         setAvailableSlots(data || []);
       } catch (error) {
@@ -123,10 +124,10 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
         setLoading(false);
       }
     }
-    
+
     fetchData();
   }, [supabase]);
-  
+
   // Function to format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -136,7 +137,7 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
       day: 'numeric'
     });
   };
-  
+
   // Function to format time
   const formatTime = (timeString: string) => {
     // Convert 24-hour format to 12-hour format
@@ -146,23 +147,23 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
     const formattedHour = hour % 12 || 12;
     return `${formattedHour}:${minutes} ${ampm}`;
   };
-  
+
   // Function to book a slot
   const bookSlot = async () => {
     if (!selectedTeam) {
       setError('Please select a team');
       return;
     }
-    
+
     if (!selectedSlot) {
       setError('Please select a slot');
       return;
     }
-    
+
     try {
       setBookingLoading(true);
       setError(null);
-      
+
       // Check if the team already has a booking for this review stage
       const { data: existingBookings, error: bookingCheckError } = await supabase
         .from('bookings')
@@ -172,20 +173,20 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
           slot:slot_id(review_stage)
         `)
         .eq('team_id', selectedTeam);
-        
+
       if (bookingCheckError) {
         throw bookingCheckError;
       }
-      
+
       const hasBookingForStage = existingBookings?.some(
         (booking: any) => booking.slot?.review_stage === selectedReviewStage
       );
-      
+
       if (hasBookingForStage) {
         setError(`Your team already has a booking for ${selectedReviewStage.replace('_', ' ')}. You can only have one booking per review stage.`);
         return;
       }
-      
+
       // Create a booking
       const { error: bookingError } = await supabase
         .from('bookings')
@@ -194,22 +195,22 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
           team_id: selectedTeam,
           created_at: new Date().toISOString()
         });
-        
+
       if (bookingError) {
         throw bookingError;
       }
-      
+
       // Update onboarding status
       markReviewScheduled();
-      
+
       // Show success message
       setSuccess(true);
-      
+
       // Complete the step after a short delay
       setTimeout(() => {
         onComplete();
       }, 2000);
-      
+
     } catch (error) {
       console.error('Error booking slot:', error);
       setError('Failed to book the slot. Please try again.');
@@ -217,12 +218,12 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
       setBookingLoading(false);
     }
   };
-  
+
   // Filter slots by review stage
-  const filteredSlots = availableSlots.filter(slot => 
+  const filteredSlots = availableSlots.filter(slot =>
     slot.review_stage === selectedReviewStage && !slot.is_booked
   );
-  
+
   // Group slots by date
   const slotsByDate = filteredSlots.reduce((acc: Record<string, Slot[]>, slot) => {
     const date = slot.date;
@@ -232,7 +233,7 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
     acc[date].push(slot);
     return acc;
   }, {});
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -245,12 +246,12 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
           <IoCalendar className="text-green-400" size={24} />
         </div>
       </div>
-      
+
       <h3 className="text-xl font-medium text-center mb-2">Schedule Your First Review</h3>
       <p className="text-[#a0a0a0] text-sm text-center mb-6">
         Book a time slot for your team's first project review
       </p>
-      
+
       {success ? (
         <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-6">
           <div className="flex items-center">
@@ -270,7 +271,7 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
               </div>
             </div>
           )}
-          
+
           {loading ? (
             <div className="flex items-center justify-center p-8">
               <IoSync className="animate-spin text-green-400 mr-2" size={24} />
@@ -306,7 +307,7 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
                   </select>
                 )}
               </div>
-              
+
               {/* Review Stage Selection */}
               <div>
                 <label htmlFor="reviewStage" className="block text-sm font-medium mb-2">
@@ -324,11 +325,11 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
                   <option value="REVIEW_3">Review 3</option>
                 </select>
               </div>
-              
+
               {/* Available Slots */}
               <div>
                 <h4 className="text-sm font-medium mb-2">Available Slots</h4>
-                
+
                 {Object.keys(slotsByDate).length === 0 ? (
                   <div className="bg-[#1a1a1a] border border-[#252525] rounded-lg p-4 text-center">
                     <p className="text-[#a0a0a0] text-sm mb-2">No slots available for {selectedReviewStage.replace('_', ' ')}</p>
@@ -342,17 +343,16 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
                           <IoCalendar size={14} className="text-green-400 mr-2" />
                           {formatDate(date)}
                         </h5>
-                        
+
                         <div className="space-y-2">
                           {slots.map((slot) => (
-                            <div 
+                            <div
                               key={slot.id}
                               onClick={() => !bookingLoading && setSelectedSlot(slot.id)}
-                              className={`flex items-center justify-between p-2 rounded-md cursor-pointer transition-colors duration-200 ${
-                                selectedSlot === slot.id 
-                                  ? 'bg-green-500/20 border border-green-500/30' 
+                              className={`flex items-center justify-between p-2 rounded-md cursor-pointer transition-colors duration-200 ${selectedSlot === slot.id
+                                  ? 'bg-green-500/20 border border-green-500/30'
                                   : 'bg-[#252525] hover:bg-[#2a2a2a] border border-transparent'
-                              }`}
+                                }`}
                             >
                               <div className="flex items-center">
                                 <IoTime size={14} className="text-[#a0a0a0] mr-2" />
@@ -360,7 +360,7 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
                                   {formatTime(slot.time_start)} - {formatTime(slot.time_end)}
                                 </span>
                               </div>
-                              
+
                               {selectedSlot === slot.id && (
                                 <IoCheckmark size={14} className="text-green-400" />
                               )}
@@ -372,7 +372,7 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
                   </div>
                 )}
               </div>
-              
+
               <div className="flex flex-col gap-3 pt-4">
                 <button
                   type="button"
@@ -387,7 +387,7 @@ export default function ScheduleReviewStep({ onComplete, onSkip }: ScheduleRevie
                   )}
                   Schedule Review
                 </button>
-                
+
                 <button
                   type="button"
                   onClick={onSkip}

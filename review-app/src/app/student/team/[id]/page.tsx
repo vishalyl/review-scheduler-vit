@@ -233,7 +233,11 @@ export default function TeamPage() {
           invitation_code: teamData.invitation_code,
           max_members: teamData.max_members,
           classroom_id: teamData.classroom_id,
-          classroom_name: teamData.classrooms && typeof teamData.classrooms === 'object' ? teamData.classrooms.name : 'Unknown Classroom',
+          classroom_name: (() => {
+            const classrooms: any = teamData.classrooms;
+            if (!classrooms) return 'Unknown Classroom';
+            return Array.isArray(classrooms) ? (classrooms[0]?.name || 'Unknown Classroom') : (classrooms.name || 'Unknown Classroom');
+          })(),
           members: Array.isArray(membersData) ? membersData.map((member: any) => ({
             id: member.users.id,
             name: member.users.name,

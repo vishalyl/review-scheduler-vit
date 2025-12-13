@@ -48,11 +48,11 @@ export default function StudentDashboard() {
   const [selectedClassroom, setSelectedClassroom] = useState<Classroom | null>(null);
   const [isNewUser, setIsNewUser] = useState(false);
   const supabase = createClientComponentClient();
-  
+
   // Get onboarding context
-  const { 
-    hasJoinedClassroom, 
-    hasJoinedTeam, 
+  const {
+    hasJoinedClassroom,
+    hasJoinedTeam,
     isOnboardingComplete,
     markClassroomJoined,
     markTeamJoined
@@ -63,11 +63,11 @@ export default function StudentDashboard() {
     try {
       setSlotsLoading(true);
       const response = await fetch('/api/student/slots');
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch available slots');
       }
-      
+
       const { data } = await response.json();
       setAvailableSlots(data || []);
     } catch (error) {
@@ -77,7 +77,7 @@ export default function StudentDashboard() {
       setSlotsLoading(false);
     }
   };
-  
+
   // Function to book a slot
   const bookSlot = async (slotId: string, reviewStage: string) => {
     try {
@@ -86,14 +86,14 @@ export default function StudentDashboard() {
         .from('team_members')
         .select('team_id')
         .eq('student_id', user.id);
-      
+
       if (!teamMembers || teamMembers.length === 0) {
         alert('You need to be part of a team to book a slot');
         return;
       }
-      
+
       const teamId = teamMembers[0].team_id;
-      
+
       // Check if the team already has a booking for this review stage
       const { data: existingBookings } = await supabase
         .from('bookings')
@@ -103,16 +103,16 @@ export default function StudentDashboard() {
           slot:slots!slot_id(review_stage)
         `)
         .eq('team_id', teamId);
-      
+
       const hasBookingForStage = existingBookings?.some(
         (booking: any) => booking.slot?.review_stage === reviewStage
       );
-      
+
       if (hasBookingForStage) {
         alert(`Your team already has a booking for ${reviewStage}. You can only have one booking per review stage.`);
         return;
       }
-      
+
       // Create a booking
       const { error } = await supabase
         .from('bookings')
@@ -121,12 +121,12 @@ export default function StudentDashboard() {
           team_id: teamId,
           created_at: new Date().toISOString()
         });
-      
+
       if (error) {
         console.error('Booking error:', error);
         throw new Error('Failed to create booking. Please try again.');
       }
-      
+
       alert('Slot booked successfully!');
       fetchAvailableSlots(); // Refresh the slots
     } catch (error) {
@@ -138,10 +138,10 @@ export default function StudentDashboard() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      
+
       // Get current user
       const { data: { user: currentUser } } = await supabase.auth.getUser();
-      
+
       if (!currentUser) {
         throw new Error('User not found');
       }
@@ -171,7 +171,7 @@ export default function StudentDashboard() {
 
       if (classroomStudents && classroomStudents.length > 0) {
         const classroomIds = classroomStudents.map(cs => cs.classroom_id);
-        
+
         // Get classroom details with faculty information
         const { data: classroomData, error: classroomError } = await supabase
           .from('classrooms')
@@ -182,9 +182,9 @@ export default function StudentDashboard() {
             faculty_id
           `)
           .in('id', classroomIds);
-          
+
         console.log('Raw classroom data:', classroomData);
-        
+
         // Fetch available slots
         fetchAvailableSlots();
 
@@ -195,13 +195,13 @@ export default function StudentDashboard() {
 
         // Format classroom data
         const formattedClassrooms = [];
-        
+
         for (const classroom of classroomData) {
           console.log('Processing classroom:', classroom);
-          
+
           // Get faculty name using our dedicated API endpoint
           let facultyName = null;
-          
+
           if (classroom.faculty_id) {
             try {
               // Call the API endpoint to get faculty name
@@ -214,7 +214,7 @@ export default function StudentDashboard() {
                   facultyId: classroom.faculty_id
                 }),
               });
-              
+
               if (response.ok) {
                 const data = await response.json();
                 facultyName = data.name;
@@ -228,25 +228,25 @@ export default function StudentDashboard() {
           } else {
             console.log(`No faculty_id found for classroom ${classroom.name}`);
           }
-          
+
           // Count teams in this classroom - use service client to bypass RLS
           const { data: teamsData, error: teamsError } = await supabase
             .from('teams')
             .select('id')
             .eq('classroom_id', classroom.id);
-            
+
           const teamsCount = teamsData?.length || 0;
           console.log(`Found ${teamsCount} teams for classroom ${classroom.id}`);
-            
+
           // Count students in this classroom - direct count
           const { data: studentsData, error: studentsError } = await supabase
             .from('classroom_students')
             .select('student_id')
             .eq('classroom_id', classroom.id);
-          
+
           const studentsCount = studentsData?.length || 0;
           console.log(`Found ${studentsCount} students for classroom ${classroom.id}`);
-          
+
           formattedClassrooms.push({
             id: classroom.id,
             name: classroom.name,
@@ -286,23 +286,27 @@ export default function StudentDashboard() {
 
       // Format team data
       const formattedTeams = [];
-      
+
       if (teamData && teamData.length > 0) {
         // Get unique team IDs safely
         const uniqueTeamIds = new Set<number>();
         teamData.forEach(item => {
-          if (item.team && item.team.id) {
-            uniqueTeamIds.add(item.team.id);
+          const team: any = Array.isArray(item.team) ? item.team[0] : item.team;
+          if (team && team.id) {
+            uniqueTeamIds.add(team.id);
           }
         });
         const teamIds = Array.from(uniqueTeamIds);
-        
+
         // For each team, get member count and details
         for (const teamId of teamIds) {
-          const teamItem = teamData.find(item => item.team && item.team.id === teamId);
-          
+          const teamItem = teamData.find(item => {
+            const team: any = Array.isArray(item.team) ? item.team[0] : item.team;
+            return team && team.id === teamId;
+          });
+
           if (!teamItem || !teamItem.team) continue;
-          
+
           if (teamItem) {
             try {
               // Get member count for this team - use a direct count query
@@ -310,28 +314,29 @@ export default function StudentDashboard() {
                 .from('team_members')
                 .select('*', { count: 'exact', head: true })
                 .eq('team_id', teamId);
-                
+
               if (membersCountError) {
                 console.error('Error getting member count:', membersCountError);
               }
-              
+
               // As a backup, get the actual members to count them
               const { data: teamMembers, error: teamMembersError } = await supabase
                 .from('team_members')
                 .select('*')
                 .eq('team_id', teamId);
-                
+
               // Use the count from the query or fall back to the length of the members array
               const memberCount = count !== null ? count : (teamMembers ? teamMembers.length : 0);
-              
+
               console.log(`Team ${teamId} has ${memberCount} members`);
-                
+
+              const team: any = Array.isArray(teamItem.team) ? teamItem.team[0] : teamItem.team;
               formattedTeams.push({
-                id: teamItem.team.id,
-                name: teamItem.team.name,
-                project_title: teamItem.team.project_title,
-                classroom_id: teamItem.team.classroom_id,
-                classroom_name: teamItem.team.classroom?.name,
+                id: team.id,
+                name: team.name,
+                project_title: team.project_title,
+                classroom_id: team.classroom_id,
+                classroom_name: team.classroom?.name,
                 role: teamItem.role,
                 members_count: memberCount
               });
@@ -340,9 +345,9 @@ export default function StudentDashboard() {
             }
           }
         }
-        
+
         setTeams(formattedTeams);
-        
+
         // Get upcoming reviews
         const { data: reviews, error: reviewsError } = await supabase
           .from('bookings')
@@ -361,18 +366,18 @@ export default function StudentDashboard() {
           `)
           .in('team_id', teamIds)
           .order('slot.date', { ascending: true });
-        
+
         if (reviewsError) {
           console.error('Error fetching reviews:', reviewsError);
         }
-        
+
         setUpcomingReviews(reviews || []);
-        
+
         // Update onboarding status based on data
         if (classrooms.length > 0 && !hasJoinedClassroom) {
           markClassroomJoined();
         }
-        
+
         if (formattedTeams.length > 0 && !hasJoinedTeam) {
           markTeamJoined();
         }
@@ -395,15 +400,15 @@ export default function StudentDashboard() {
       'SAT': 6,
       'SUN': 0
     };
-    
+
     const today = new Date();
     const currentDay = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
     const targetDay = days[day as keyof typeof days];
-    
+
     // Calculate days to add
     let daysToAdd = targetDay - currentDay;
     if (daysToAdd <= 0) daysToAdd += 7; // If target day is today or earlier, go to next week
-    
+
     const targetDate = new Date(today);
     targetDate.setDate(today.getDate() + daysToAdd);
     return targetDate;
@@ -446,16 +451,16 @@ export default function StudentDashboard() {
       <header className="border-b border-[#1e1e1e]">
         <div className="container mx-auto px-6 py-5 flex justify-between items-center">
           <div className="flex items-center">
-            <Image 
-              src="/images/Review Scheduler.png" 
-              alt="Review Scheduler Logo" 
-              width={100} 
-              height={60} 
+            <Image
+              src="/images/Review Scheduler.png"
+              alt="Review Scheduler Logo"
+              width={100}
+              height={60}
               className="rounded-full"
             />
           </div>
           <div className="flex items-center gap-4">
-            <button 
+            <button
               onClick={() => setShowProfileModal(true)}
               className="w-8 h-8 rounded-full bg-[#1e1e1e] hover:bg-[#252525] flex items-center justify-center transition-colors duration-200 relative group"
             >
@@ -469,10 +474,10 @@ export default function StudentDashboard() {
 
       {/* Onboarding Controller */}
       <OnboardingController />
-      
+
       {/* Main content */}
       <main className="container mx-auto px-6 py-8">
-        <motion.div 
+        <motion.div
           initial="hidden"
           animate="visible"
           variants={containerVariants}
@@ -502,13 +507,13 @@ export default function StudentDashboard() {
               </div>
               <div className="mt-3 pt-3 border-t border-[#1e1e1e]">
                 <p className="text-[#a0a0a0] text-xs">
-                  {classrooms.length > 0 ? 
-                    (classrooms.length + " active " + (classrooms.length === 1 ? 'classroom' : 'classrooms')) : 
+                  {classrooms.length > 0 ?
+                    (classrooms.length + " active " + (classrooms.length === 1 ? 'classroom' : 'classrooms')) :
                     'No classrooms joined'}
                 </p>
               </div>
             </div>
-            
+
             <div className="bg-[#141414] p-5 rounded-lg border border-[#1e1e1e] hover:border-[#252525] transition-colors duration-200">
               <div className="flex items-center justify-between">
                 <div>
@@ -521,13 +526,13 @@ export default function StudentDashboard() {
               </div>
               <div className="mt-3 pt-3 border-t border-[#1e1e1e]">
                 <p className="text-[#a0a0a0] text-xs">
-                  {teams.length > 0 ? 
-                    (teams.length + " active " + (teams.length === 1 ? 'team' : 'teams')) : 
+                  {teams.length > 0 ?
+                    (teams.length + " active " + (teams.length === 1 ? 'team' : 'teams')) :
                     'No teams joined'}
                 </p>
               </div>
             </div>
-            
+
             <div className="bg-[#141414] p-5 rounded-lg border border-[#1e1e1e] hover:border-[#252525] transition-colors duration-200">
               <div className="flex items-center justify-between">
                 <div>
@@ -540,13 +545,13 @@ export default function StudentDashboard() {
               </div>
               <div className="mt-3 pt-3 border-t border-[#1e1e1e]">
                 <p className="text-[#a0a0a0] text-xs">
-                  {upcomingReviews.length > 0 ? 
-                    (upcomingReviews.length + " upcoming " + (upcomingReviews.length === 1 ? 'review' : 'reviews')) : 
+                  {upcomingReviews.length > 0 ?
+                    (upcomingReviews.length + " upcoming " + (upcomingReviews.length === 1 ? 'review' : 'reviews')) :
                     'No upcoming reviews'}
                 </p>
               </div>
             </div>
-            
+
             <div className="bg-[#141414] p-5 rounded-lg border border-[#1e1e1e] hover:border-[#252525] transition-colors duration-200">
               <div className="flex items-center justify-between">
                 <div>
@@ -572,15 +577,15 @@ export default function StudentDashboard() {
                 <h3 className="text-lg font-medium">Available Review Slots</h3>
                 <p className="text-[#a0a0a0] text-xs mt-1">Book slots for your upcoming project reviews</p>
               </div>
-              <Link 
-                href="/student/slots" 
+              <Link
+                href="/student/slots"
                 className="text-xs text-white px-3 py-1.5 rounded-md bg-[#5c46f5] hover:bg-[#4c38e6] transition-colors duration-200 flex items-center gap-1"
               >
                 View all
                 <IoChevronForward size={12} />
               </Link>
             </div>
-            
+
             <div className="bg-gradient-to-r from-[#1a1a2e] to-[#16213e] rounded-lg border border-[#272741] p-5 shadow-lg">
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#5c46f5]/20">
@@ -591,7 +596,7 @@ export default function StudentDashboard() {
                   <p className="text-[#a0a0a0] text-xs mt-0.5">Select a time slot for your team's project review</p>
                 </div>
               </div>
-              
+
               <div className="flex flex-wrap gap-3 mb-4">
                 <span className="bg-[#5c46f5]/20 text-[#5c46f5] px-3 py-1 rounded-full text-xs flex items-center gap-1">
                   <IoTime size={12} /> Schedule Reviews
@@ -600,7 +605,7 @@ export default function StudentDashboard() {
                   <IoCalendar size={12} /> View Details
                 </span>
               </div>
-              
+
               {classrooms.length === 0 ? (
                 <div className="bg-[#1a1a1a] rounded-lg p-4 border border-[#252525] text-center">
                   <p className="text-[#a0a0a0] text-sm mb-3">You haven't joined any classrooms yet</p>
@@ -615,7 +620,7 @@ export default function StudentDashboard() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {classrooms.map((classroom) => (
-                    <Link 
+                    <Link
                       key={classroom.id}
                       href="/student/slots"
                       className="bg-[#1a1a1a] rounded-lg p-4 border border-[#252525] hover:border-[#5c46f5]/30 transition-all duration-200 group hover:shadow-md hover:shadow-[#5c46f5]/10"
@@ -648,7 +653,7 @@ export default function StudentDashboard() {
                 <p className="text-[#a0a0a0] text-xs mt-1">Create or join teams for your projects</p>
               </div>
             </div>
-            
+
             <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-[#1a1a1a] rounded-lg p-5 border border-[#252525] hover:border-blue-500/30 transition-colors duration-200">
@@ -670,7 +675,7 @@ export default function StudentDashboard() {
                     {classrooms.length === 0 ? 'Join a classroom first' : 'Create Team'}
                   </button>
                 </div>
-                
+
                 <div className="bg-[#1a1a1a] rounded-lg p-5 border border-[#252525] hover:border-indigo-500/30 transition-colors duration-200">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 rounded-full bg-indigo-500/10 flex items-center justify-center">
@@ -722,7 +727,7 @@ export default function StudentDashboard() {
                 Join Classroom
               </button>
             </div>
-            
+
             {classrooms.length === 0 ? (
               <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-8 text-center">
                 <div className="mb-4 mx-auto w-12 h-12 bg-[#1e1e1e] rounded-full flex items-center justify-center">
@@ -741,9 +746,9 @@ export default function StudentDashboard() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {classrooms.map((classroom) => (
-                  <div 
-                    key={classroom.id} 
-                    className="bg-[#141414] border border-[#1e1e1e] hover:border-[#252525] rounded-lg p-5 transition-colors duration-200 cursor-pointer group" 
+                  <div
+                    key={classroom.id}
+                    className="bg-[#141414] border border-[#1e1e1e] hover:border-[#252525] rounded-lg p-5 transition-colors duration-200 cursor-pointer group"
                     onClick={() => {
                       setSelectedClassroom(classroom);
                       setShowClassroomDetailsModal(true);
@@ -779,7 +784,7 @@ export default function StudentDashboard() {
               </div>
               {/* Join Team button removed */}
             </div>
-            
+
             {teams.length === 0 ? (
               <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-8 text-center">
                 <div className="mb-4 mx-auto w-12 h-12 bg-[#1e1e1e] rounded-full flex items-center justify-center">
@@ -792,8 +797,8 @@ export default function StudentDashboard() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {teams.map((team) => (
-                  <Link 
-                    href={`/student/team/${team.id}`} 
+                  <Link
+                    href={`/student/team/${team.id}`}
                     key={team.id}
                     className="bg-[#141414] border border-[#1e1e1e] hover:border-[#252525] rounded-lg p-5 transition-colors duration-200 group"
                   >
@@ -838,14 +843,14 @@ export default function StudentDashboard() {
                 <h3 className="text-lg font-medium">Upcoming Reviews</h3>
                 <p className="text-[#a0a0a0] text-xs mt-1">Your scheduled project review sessions</p>
               </div>
-              <Link 
-                href="/student/bookings" 
+              <Link
+                href="/student/bookings"
                 className="text-xs text-[#a0a0a0] hover:text-white px-3 py-1.5 rounded-md bg-[#1e1e1e] hover:bg-[#252525] transition-colors duration-200"
               >
                 View all
               </Link>
             </div>
-            
+
             {upcomingReviews.length === 0 ? (
               <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-8 text-center">
                 <div className="mb-4 mx-auto w-12 h-12 bg-[#1e1e1e] rounded-full flex items-center justify-center">
@@ -900,7 +905,7 @@ export default function StudentDashboard() {
 
       <AnimatePresence>
         {successMessage && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -914,14 +919,14 @@ export default function StudentDashboard() {
             </div>
           </motion.div>
         )}
-        
-        {showClassroomDetailsModal && (
-          <ClassroomDetailsModal 
-            classroom={selectedClassroom} 
-            onClose={() => setShowClassroomDetailsModal(false)} 
+
+        {showClassroomDetailsModal && selectedClassroom && (
+          <ClassroomDetailsModal
+            classroom={selectedClassroom}
+            onClose={() => setShowClassroomDetailsModal(false)}
           />
         )}
-        
+
         {showCreateTeamForm && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -930,7 +935,7 @@ export default function StudentDashboard() {
             className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             onClick={() => setShowCreateTeamForm(false)}
           >
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
@@ -941,7 +946,7 @@ export default function StudentDashboard() {
                 <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-6 mb-4">
                   <h4 className="text-base font-medium mb-3">Select a Classroom</h4>
                   <p className="text-[#a0a0a0] text-xs mb-4">Choose the classroom for which you want to create a team</p>
-                  
+
                   <div className="grid grid-cols-1 gap-2 max-h-[200px] overflow-y-auto pr-1 custom-scrollbar">
                     {classrooms.map((classroom) => (
                       <button
@@ -975,7 +980,7 @@ export default function StudentDashboard() {
             </motion.div>
           </motion.div>
         )}
-        
+
         {showCreateTeamFormWithClassroom && selectedClassroomId && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -984,15 +989,15 @@ export default function StudentDashboard() {
             className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             onClick={() => setShowCreateTeamFormWithClassroom(false)}
           >
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
               className="w-full max-w-md"
             >
-              <CreateTeamForm 
-                classroomId={selectedClassroomId} 
+              <CreateTeamForm
+                classroomId={selectedClassroomId}
                 onSuccess={(teamId) => {
                   setShowCreateTeamFormWithClassroom(false);
                   // Refresh data to show the new team
@@ -1007,7 +1012,7 @@ export default function StudentDashboard() {
             </motion.div>
           </motion.div>
         )}
-        
+
         {showJoinTeamForm && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -1016,7 +1021,7 @@ export default function StudentDashboard() {
             className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             onClick={() => setShowJoinTeamForm(false)}
           >
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
@@ -1027,7 +1032,7 @@ export default function StudentDashboard() {
                 <div className="bg-[#141414] border border-[#1e1e1e] rounded-lg p-6 mb-4">
                   <h4 className="text-base font-medium mb-3">Select a Classroom</h4>
                   <p className="text-[#a0a0a0] text-xs mb-4">Choose the classroom for which you want to join a team</p>
-                  
+
                   <div className="grid grid-cols-1 gap-2 max-h-[200px] overflow-y-auto pr-1 custom-scrollbar">
                     {classrooms.map((classroom) => (
                       <button
@@ -1061,7 +1066,7 @@ export default function StudentDashboard() {
             </motion.div>
           </motion.div>
         )}
-        
+
         {showJoinTeamFormWithClassroom && selectedClassroomId && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -1070,15 +1075,15 @@ export default function StudentDashboard() {
             className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             onClick={() => setShowJoinTeamFormWithClassroom(false)}
           >
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
               className="w-full max-w-md"
             >
-              <JoinTeamForm 
-                classroomId={selectedClassroomId} 
+              <JoinTeamForm
+                classroomId={selectedClassroomId}
                 onSuccess={(teamId) => {
                   setShowJoinTeamFormWithClassroom(false);
                   // Refresh data to show the new team
@@ -1093,7 +1098,7 @@ export default function StudentDashboard() {
             </motion.div>
           </motion.div>
         )}
-        
+
         {showProfileModal && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -1102,7 +1107,7 @@ export default function StudentDashboard() {
             className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             onClick={() => setShowProfileModal(false)}
           >
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
@@ -1112,7 +1117,7 @@ export default function StudentDashboard() {
               <div className="p-6 border-b border-[#1e1e1e]">
                 <div className="flex justify-between items-center">
                   <h3 className="text-lg font-medium">Profile</h3>
-                  <button 
+                  <button
                     onClick={() => setShowProfileModal(false)}
                     className="w-8 h-8 rounded-full bg-[#1e1e1e] hover:bg-[#252525] flex items-center justify-center transition-colors duration-200"
                   >
@@ -1120,7 +1125,7 @@ export default function StudentDashboard() {
                   </button>
                 </div>
               </div>
-              
+
               <div className="p-6">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center text-xl font-medium">
@@ -1131,7 +1136,7 @@ export default function StudentDashboard() {
                     <p className="text-[#a0a0a0] text-xs mt-1">{user?.email || 'No email available'}</p>
                   </div>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div className="bg-[#1a1a1a] rounded-lg p-4">
                     <h5 className="text-xs font-medium mb-2">Student Information</h5>
@@ -1146,7 +1151,7 @@ export default function StudentDashboard() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="bg-[#1a1a1a] rounded-lg p-4">
                     <h5 className="text-xs font-medium mb-2">Statistics</h5>
                     <div className="grid grid-cols-3 gap-3">
@@ -1165,7 +1170,7 @@ export default function StudentDashboard() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="mt-6 pt-6 border-t border-[#1e1e1e] flex justify-end">
                   <LogoutButton variant="minimal" />
                 </div>
